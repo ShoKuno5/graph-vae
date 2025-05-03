@@ -1,0 +1,7 @@
+INFO:    Converting SIF file to temporary sandbox...
+WARNING: underlay of /etc/localtime required more than 50 (75) bind mounts
+WARNING: underlay of /usr/bin/nvidia-smi required more than 50 (309) bind mounts
+Device = cuda
+Ep 00 | Loss 7.482 Re 7.014 KL 0.465 (neg_w=40.0, l1=1.0e-03, klw=1.00)
+✔ Saved to runs/graphvae_gpu_amp.pt
+INFO:    Cleaning up image...

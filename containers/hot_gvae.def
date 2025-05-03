@@ -1,0 +1,47 @@
+Bootstrap: docker
+From: pytorch/pytorch:2.2.2-cuda12.1-cudnn8-runtime   # Python 3.11 + CUDA 12.1 + Torch 2.2.2
+
+%labels
+    Author   Sho Kuno
+    Purpose  "Graph-VAE experiments on Wisteria GPU nodes"
+
+%post
+    ## — base —
+    apt-get update && \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        git ca-certificates && \
+      rm -rf /var/lib/apt/lists/*
+    python -m pip install --no-cache-dir --upgrade pip
+
+    ## — Python deps —
+    ##  * numpy / pandas はベース image に同梱
+    ##  * PyG 系は CUDA121 / Torch 2.2.2 wheel を pin
+    PYG_WHL="https://data.pyg.org/whl/torch-2.2.2+cu121.html"
+    python -m pip install --no-cache-dir \
+        networkx scipy \
+        tensorboard==2.16.* \
+        wandb==0.17.* \
+        torch_geometric torch_scatter -f ${PYG_WHL}
+
+    ## — workdir —
+    mkdir -p /workspace && chmod 777 /workspace
+
+%environment
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+    export PYTHONUNBUFFERED=1
+    cd /workspace
+
+%runscript
+    #!/bin/bash
+    # 何も渡されなければ bash
+    if [ $# -eq 0 ]; then exec bash; else exec "$@"; fi
+
+%test
+    python - << 'EOF'
+import torch, scipy, sys
+print("Python :", sys.version.split()[0])
+print("Torch  :", torch.__version__, "| CUDA", torch.version.cuda)
+print("SciPy  :", scipy.__version__)
+print("GPU OK :", torch.cuda.is_available())
+EOF
