@@ -1,0 +1,18 @@
+trainer:
+  # data / log
+  data_root:   /dataset/QM9       # already extracted dataset
+  log_dir: /workspace/graph-vae/runs
+
+  # training schedule
+  epochs:      5
+  n_graph:     3000
+  device:      cuda               # each rank uses its local GPU
+
+  # dynamic-weight settings
+  neg_w_start: 40.0
+  neg_w_end:   5.0
+  l1_start:    0.001
+  l1_end:      0.00005
+  kl_w_warmup: 30
+  amp:         true
+  anneal:      false

@@ -5,19 +5,13 @@ from torch_geometric.datasets import QM9
 from torch_geometric.loader import DataLoader
 from gvae.models.graphvae_core import GEncoder, EdgeMLP
 from scipy.optimize import linear_sum_assignment
+from gvae.utils.utils_perm import permute_adj
 
 # reproducible
 SEED = 42
 torch.manual_seed(SEED); np.random.seed(SEED); random.seed(SEED)
 torch.use_deterministic_algorithms(True)
 os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":16:8"
-
-def permute_adj(A_true, A_pred):
-    eps=1e-9
-    cost=-(A_true*torch.log(A_pred+eps)+(1-A_true)*torch.log(1-A_pred+eps))
-    r,c=linear_sum_assignment(cost.detach().cpu().numpy())
-    P=torch.zeros_like(A_true); P[r,c]=1
-    return P.T@A_true@P
 
 class GraphVAE(torch.nn.Module):
     def __init__(self, in_dim, hid=64, z=32):
