@@ -141,6 +141,14 @@ if __name__ == "__main__":
 
     if cli.config:
         with open(cli.config) as f:
-            train(yaml.safe_load(f))
+            cfg = yaml.safe_load(f)
+        # allow CLI args to override YAML values
+        tr = cfg.get("trainer", cfg)
+        tr["epochs"] = cli.epochs
+        tr["n_graph"] = cli.n_graph
+        tr["data_root"] = cli.data_root
+        tr["log_dir"] = cli.log_dir
+        cfg["trainer"] = tr
+        train(cfg)
     else:
         train(cli)
