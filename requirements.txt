@@ -1,9 +1,22 @@
-torch==2.2.2          
-numpy                 
-pandas                
-networkx
-scipy
-tensorboard==2.16.*
-wandb==0.17.*
-torch_geometric
-torch_scatter
+##############################################################################
+# requirements.txt  (Codex 用、CPU 前提)  ── “これ 1 枚” で完結させる
+##############################################################################
+# 1) まず PyTorch CPU 版 (2.2.2)         ― PyPI に公式 wheel あり
+torch==2.2.2+cpu
+
+# 2) PyG の追加インデックスを宣言（pip 23 以降はこの書式を認識）
+--extra-index-url https://data.pyg.org/whl/torch-2.2.2+cpu.html
+
+#    ↑ この 1 行より下で PyG 関連を呼ぶと、専用 wheel が解決される
+
+torch_scatter==2.1.2+pt22cpu
+torch_geometric==2.6.1
+
+# 3) そのほかの依存関係
+numpy==2.2.6
+pandas==2.2.3
+networkx==3.5
+scipy==1.15.3
+tensorboard==2.16.2
+wandb==0.17.9
+##############################################################################
