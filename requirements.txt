@@ -1,0 +1,9 @@
+torch==2.2.2          
+numpy                 
+pandas                
+networkx
+scipy
+tensorboard==2.16.*
+wandb==0.17.*
+torch_geometric
+torch_scatter
