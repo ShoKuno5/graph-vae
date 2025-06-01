@@ -1,14 +1,14 @@
-# PyG 用 wheel 倉庫を追加
+# PyG CPU wheel 倉庫
 --extra-index-url https://data.pyg.org/whl/torch-2.2.2+cpu.html
 
-# 1) まず PyTorch 本体（CPU 版は無印 2.2.2）
-torch==2.2.2
+# 1) まず PyTorch 本体
+torch==2.2.2                   
 
-# 2) PyG 拡張系は CPU ビルド済み wheel を指定
-torch_scatter==2.1.2+pt22cpu
-torch_geometric==2.6.1
+# 2) PyG 拡張 ― “ローカルタグは書かない” (wheel 側で自動解決)
+torch-scatter==2.1.2
+torch-geometric==2.6.1
 
-# 3) 残りの依存ライブラリ
+# 3) 残りの依存
 numpy==2.2.6
 pandas==2.2.3
 networkx==3.5
