@@ -35,3 +35,16 @@ singularity exec --nv \
 ```bash
 zip -r archive.zip . -x '*.sif' '*.pt'
 ```
+
+## Running Experiments
+
+以下のスクリプトで学習と評価を実行できます。`EXP` 変数に実験名を指定
+すると `runs/EXP` 以下に結果が保存されます。
+
+```bash
+# 学習
+EXP=my_exp experiments/wisteria/run_gpu_ddp.sh
+
+# 評価 (上記と同じ EXP を指定)
+EXP=my_exp experiments/wisteria/run_gpu_eval.sh
+```

@@ -15,10 +15,12 @@ ROOT=/work/01/jh210022o/q25030
 CODE=$ROOT/graph-vae
 IMG=$CODE/images/gvae_cuda.sif     
 DATA=$ROOT/datasets                
-RUNS=$ROOT/runs                    
+RUNS=$ROOT/runs
+EXP=${EXP:-ddp_exp}
+EXP_DIR=$RUNS/$EXP
 WANDB=$ROOT/wandb                  
 
-mkdir -p "$DATA" "$RUNS" "$WANDB"
+mkdir -p "$DATA" "$EXP_DIR" "$WANDB"
 
 singularity exec --nv \
   -B "$CODE":/workspace/graph-vae \
@@ -31,8 +33,6 @@ singularity exec --nv \
     export TORCH_GEOMETRIC_HOME=/dataset
     export WANDB_MODE=offline
 
-    ln -sf /workspace/runs/graphvae_ddp_amp.pt \
-           /workspace/runs/graphvae_stable.pt
 
     export QM9_ROOT=/dataset/QM9
     export PYG_DISABLE_DOWNLOAD=1
@@ -42,5 +42,7 @@ singularity exec --nv \
       ln -sf /dataset/QM9/processed/data_v3.pt \
              /dataset/QM9/processed/data_molecule.pt || true
 
-    python -m gvae.eval.eval_stable
+    python -m gvae.eval.eval_stable \
+           --ckpt /workspace/runs/"$EXP"/graphvae_ddp_amp.pt \
+           --out /workspace/runs/"$EXP"/eval.txt
   '
