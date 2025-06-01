@@ -3,7 +3,7 @@
 import argparse, torch, networkx as nx, matplotlib.pyplot as plt
 from torch_geometric.datasets import QM9
 from torch_geometric.loader import DataLoader
-import metrics as M
+from . import metrics as M
 from gvae.models.baseline_vgae import Encoder                       # VGAE 用
 
 # ==== GraphVAE 用エンコーダ & MLP デコーダ =========
