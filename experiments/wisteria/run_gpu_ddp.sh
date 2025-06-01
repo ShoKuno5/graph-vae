@@ -16,9 +16,11 @@ IMG=$CODE/images/gvae_cuda.sif
 
 DATA=$ROOT/datasets
 RUNS=$ROOT/runs
+EXP=${EXP:-ddp_exp}
+EXP_DIR=$RUNS/$EXP
 WANDB=$ROOT/wandb
 
-mkdir -p "$DATA" "$RUNS" "$WANDB"
+mkdir -p "$DATA" "$EXP_DIR" "$WANDB"
 
 export MASTER_ADDR=127.0.0.1
 export MASTER_PORT=29500
@@ -39,5 +41,6 @@ singularity exec --nv \
     torchrun --nproc_per_node 8 \
              --master_addr $MASTER_ADDR --master_port $MASTER_PORT \
              -m gvae.train.train_graphvae_ddp \
-             --config /workspace/graph-vae/experiments/configs/qm9_ddp.yaml
+             --config /workspace/graph-vae/experiments/configs/qm9_ddp.yaml \
+             --log_dir /workspace/runs/'"$EXP"'
   '
