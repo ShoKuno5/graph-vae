@@ -35,3 +35,18 @@ singularity exec --nv \
 ```bash
 zip -r archive.zip . -x '*.sif' '*.pt'
 ```
+
+## Running Experiments
+
+Wisteria 環境ではジョブスクリプトを `pjsub` で投入します。`EXP`
+変数に実験名を設定しておくと、`runs/EXP` 以下に学習ログと評価
+結果が保存されます。
+
+```bash
+# 学習
+export EXP=my_exp
+pjsub experiments/wisteria/run_gpu_ddp.sh
+
+# 評価 (同じ EXP を指定)
+pjsub experiments/wisteria/run_gpu_eval.sh
+```
