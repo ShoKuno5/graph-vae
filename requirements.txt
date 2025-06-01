@@ -1,12 +1,12 @@
-# PyG CPU wheel 倉庫
+# 追加インデックス：CPU ビルド済み wheel 倉庫
 --extra-index-url https://data.pyg.org/whl/torch-2.2.2+cpu.html
 
 # 1) まず PyTorch 本体
-torch==2.2.2                   
+torch==2.2.2            # ← CPU 版はタグ無し
 
-# 2) PyG 拡張 ― “ローカルタグは書かない” (wheel 側で自動解決)
-torch-scatter==2.1.2
-torch-geometric==2.6.1
+# 2) PyG 拡張（ローカルタグ付きで wheel を確実に取得）
+torch-scatter==2.1.2+pt22cpu
+torch-geometric==2.6.1          # ← こちらは無印で OK（内部で依存解決）
 
 # 3) 残りの依存
 numpy==2.2.6
