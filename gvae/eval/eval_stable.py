@@ -4,8 +4,9 @@ import random, torch, numpy as np
 from statistics import mean, pstdev
 from torch_geometric.datasets import QM9
 from torch_geometric.loader import DataLoader
-import metrics as M
+from . import metrics as M	
 from gvae.models.graphvae_core import GEncoder, EdgeMLP
+import os 
 
 # -------- reproducible -----------
 SEED = 42
@@ -40,12 +41,13 @@ def sample(model, loader, k, alpha=2.5):
 
 def main():
     # --------- データセット & モデル ----------
-    ds = QM9(root="data/QM9")[:3000]
+    qm9_root = os.getenv("QM9_ROOT", "data/QM9")
+    ckpt = "/workspace/runs/graphvae_ddp_amp.pt"   # ★ フルパス
+    ds = QM9(root=qm9_root)[:3000]
     loader = DataLoader(ds, batch_size=1, shuffle=False)
 
     model = GVAE(ds.num_features)
-    model.load_state_dict(torch.load("runs/graphvae_stable.pt",
-                                     map_location="cpu"))
+    model.load_state_dict(torch.load(ckpt, map_location="cpu"))
     model.eval()
     # -----------------------------------------
 

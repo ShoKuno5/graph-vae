@@ -4,7 +4,7 @@ trainer:
   log_dir: /workspace/graph-vae/runs
 
   # training schedule
-  epochs:      5
+  epochs:      50
   n_graph:     3000
   device:      cuda               # each rank uses its local GPU
 
