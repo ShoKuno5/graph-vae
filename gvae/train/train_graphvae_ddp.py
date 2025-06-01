@@ -114,7 +114,7 @@ def train(cfg):
     defaults = dict(
         epochs=80, n_graph=3000,
         data_root="/dataset/QM9",
-        log_dir="runs"
+        log_dir="runs/EXP",
     )
     for k, v in defaults.items():
         if not hasattr(cfg, k):

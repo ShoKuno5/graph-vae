@@ -1,7 +1,6 @@
 trainer:
   # data / run
   data_root: /dataset/QM9      # existing QM9 directory (raw & processed)
-  log_dir: /workspace/runs    # tensorboard / ckpt
 
   # train hyper‑params
   epochs:    1
