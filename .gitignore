@@ -4,3 +4,4 @@ images/
 data/
 __pycache__/
 *.pt
+run_gpu_ddp.sh.7126822.out
