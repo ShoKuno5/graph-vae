@@ -36,7 +36,7 @@ def is_valid(G: nx.Graph, k_max: int = 6) -> bool:
     )
 
 
-def why_invalid(G: nx.Graph, k_max: int = 2000000) -> str:
+def why_invalid(G: nx.Graph, k_max: int = 6) -> str:
     """Label the first rule that the graph violates."""
     if not nx.is_connected(G):
         return "disconnected"

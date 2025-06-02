@@ -1,0 +1,43 @@
+★ loaded: /workspace/graph-vae/gvae/models/graphvae_core.py
+=== α=3.2, p_min=0.06 ===
+Validity        : 0.400 ± 0.003
+Uniqueness (iso): 0.984 ± 0.002
+Degree-MMD      : 0.697 ± 0.003
+Invalid breakdown (aggregated over all repeats):
+  disconnected:   9007  (100.00%)
+
+=== α=3.0, p_min=0.06 ===
+Validity        : 0.334 ± 0.008
+Uniqueness (iso): 0.981 ± 0.003
+Degree-MMD      : 0.573 ± 0.010
+Invalid breakdown (aggregated over all repeats):
+  disconnected:   9993  (100.00%)
+
+=== α=3.4, p_min=0.06 ===
+Validity        : 0.473 ± 0.006
+Uniqueness (iso): 0.988 ± 0.003
+Degree-MMD      : 0.823 ± 0.008
+Invalid breakdown (aggregated over all repeats):
+  disconnected:   7902  (100.00%)
+
+=== α=3.0, p_min=0.08 ===
+Validity        : 0.638 ± 0.006
+Uniqueness (iso): 0.996 ± 0.001
+Degree-MMD      : 1.194 ± 0.007
+Invalid breakdown (aggregated over all repeats):
+  disconnected:   5432  (100.00%)
+
+=== α=3.2, p_min=0.08 ===
+Validity        : 0.706 ± 0.007
+Uniqueness (iso): 0.996 ± 0.001
+Degree-MMD      : 1.362 ± 0.007
+Invalid breakdown (aggregated over all repeats):
+  disconnected:   4409  (100.00%)
+
+=== α=3.4, p_min=0.08 ===
+Validity        : 0.763 ± 0.007
+Uniqueness (iso): 0.997 ± 0.001
+Degree-MMD      : 1.520 ± 0.012
+Invalid breakdown (aggregated over all repeats):
+  disconnected:   3553  (100.00%)
+

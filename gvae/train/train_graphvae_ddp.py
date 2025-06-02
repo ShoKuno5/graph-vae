@@ -18,10 +18,10 @@ from scipy.optimize import linear_sum_assignment
 # ─────────── stable と同じハイパーパラメータ ───────────
 SEED     = 42
 EPOCHS   = 80
-NEG_W0, NEG_W1 = 40., 1.
+NEG_W0, NEG_W1 = 40., 0.7
 L1_0,  L1_1    = 1e-3, 0.0
 KL_WARM        = 60
-MINDEG_W       = 0.25
+MINDEG_W       = 3
 # -----------------------------------------------------
 
 def _set_seed():
@@ -119,7 +119,7 @@ def _ddp_worker(rank: int, world: int, args):
                            "neg_w": neg_w, "l1": l1, "kl_w": kl_w, "epoch": ep})
 
     if rank == 0:
-        path = os.path.join(os.path.abspath(args.log_dir), "graphvae_ddp_stable.pt")
+        path = os.path.join(os.path.abspath(args.log_dir), "graphvae_ddp_amp.pt")
         torch.save(model.module.state_dict(), path)
         print("✔ Saved", path)
         tb.close()

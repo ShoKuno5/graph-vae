@@ -1,0 +1,11 @@
+★ loaded: /workspace/graph-vae/gvae/models/graphvae_core.py
+
+=== α = 3.0, p_min = 0.06 ===
+Validity        : 0.266 ± 0.006
+Uniqueness (iso): 0.979 ± 0.002
+Degree-MMD      : 0.596 ± 0.003
+Invalid breakdown (aggregated over all repeats):
+  disconnected:   9895  (89.89%)
+  deg>k       :   1113  (10.11%)
+
+★ Saved grid results to /workspace/runs/20250602_181822/eval.txt

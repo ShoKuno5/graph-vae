@@ -1,0 +1,198 @@
+[W socket.cpp:464] [c10d] The server socket cannot be initialized on [::]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+wandb: Tracking run with wandb version 0.17.9
+wandb: W&B syncing is set to `offline` in this directory.  
+wandb: Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+Epoch 00  (neg_w=40.0, l1=1e-03, kl_w=0.00)
+  Loss 5.176 | Re 3.569 | KL 0.519
+Epoch 01  (neg_w=39.5, l1=1e-03, kl_w=0.02)
+  Loss 3.341 | Re 2.112 | KL 0.492
+Epoch 02  (neg_w=39.0, l1=1e-03, kl_w=0.03)
+  Loss 3.299 | Re 2.289 | KL 0.504
+Epoch 03  (neg_w=38.5, l1=1e-03, kl_w=0.05)
+  Loss 3.270 | Re 2.457 | KL 0.443
+Epoch 04  (neg_w=38.0, l1=9e-04, kl_w=0.07)
+  Loss 3.279 | Re 2.433 | KL 0.410
+Epoch 05  (neg_w=37.5, l1=9e-04, kl_w=0.08)
+  Loss 3.244 | Re 2.542 | KL 0.357
+Epoch 06  (neg_w=37.1, l1=9e-04, kl_w=0.10)
+  Loss 3.239 | Re 2.485 | KL 0.312
+Epoch 07  (neg_w=36.6, l1=9e-04, kl_w=0.12)
+  Loss 3.214 | Re 2.540 | KL 0.255
+Epoch 08  (neg_w=36.1, l1=9e-04, kl_w=0.13)
+  Loss 3.187 | Re 2.533 | KL 0.211
+Epoch 09  (neg_w=35.6, l1=9e-04, kl_w=0.15)
+  Loss 3.165 | Re 2.538 | KL 0.174
+Epoch 10  (neg_w=35.1, l1=9e-04, kl_w=0.17)
+  Loss 3.136 | Re 2.503 | KL 0.137
+Epoch 11  (neg_w=34.6, l1=9e-04, kl_w=0.18)
+  Loss 3.077 | Re 2.519 | KL 0.105
+Epoch 12  (neg_w=34.1, l1=9e-04, kl_w=0.20)
+  Loss 3.047 | Re 2.502 | KL 0.080
+Epoch 13  (neg_w=33.6, l1=8e-04, kl_w=0.22)
+  Loss 3.003 | Re 2.445 | KL 0.052
+Epoch 14  (neg_w=33.1, l1=8e-04, kl_w=0.23)
+  Loss 2.964 | Re 2.448 | KL 0.040
+Epoch 15  (neg_w=32.6, l1=8e-04, kl_w=0.25)
+  Loss 2.922 | Re 2.421 | KL 0.042
+Epoch 16  (neg_w=32.1, l1=8e-04, kl_w=0.27)
+  Loss 2.886 | Re 2.405 | KL 0.045
+Epoch 17  (neg_w=31.6, l1=8e-04, kl_w=0.28)
+  Loss 2.852 | Re 2.376 | KL 0.045
+Epoch 18  (neg_w=31.2, l1=8e-04, kl_w=0.30)
+  Loss 2.820 | Re 2.350 | KL 0.048
+Epoch 19  (neg_w=30.7, l1=8e-04, kl_w=0.32)
+  Loss 2.783 | Re 2.348 | KL 0.048
+Epoch 20  (neg_w=30.2, l1=8e-04, kl_w=0.33)
+  Loss 2.761 | Re 2.313 | KL 0.047
+Epoch 21  (neg_w=29.7, l1=7e-04, kl_w=0.35)
+  Loss 2.718 | Re 2.307 | KL 0.045
+Epoch 22  (neg_w=29.2, l1=7e-04, kl_w=0.37)
+  Loss 2.684 | Re 2.278 | KL 0.043
+Epoch 23  (neg_w=28.7, l1=7e-04, kl_w=0.38)
+  Loss 2.643 | Re 2.253 | KL 0.041
+Epoch 24  (neg_w=28.2, l1=7e-04, kl_w=0.40)
+  Loss 2.613 | Re 2.231 | KL 0.038
+Epoch 25  (neg_w=27.7, l1=7e-04, kl_w=0.42)
+  Loss 2.585 | Re 2.208 | KL 0.039
+Epoch 26  (neg_w=27.2, l1=7e-04, kl_w=0.43)
+  Loss 2.546 | Re 2.184 | KL 0.038
+Epoch 27  (neg_w=26.7, l1=7e-04, kl_w=0.45)
+  Loss 2.525 | Re 2.147 | KL 0.036
+Epoch 28  (neg_w=26.2, l1=6e-04, kl_w=0.47)
+  Loss 2.482 | Re 2.141 | KL 0.038
+Epoch 29  (neg_w=25.8, l1=6e-04, kl_w=0.48)
+  Loss 2.460 | Re 2.112 | KL 0.037
+Epoch 30  (neg_w=25.3, l1=6e-04, kl_w=0.50)
+  Loss 2.411 | Re 2.099 | KL 0.037
+Epoch 31  (neg_w=24.8, l1=6e-04, kl_w=0.52)
+  Loss 2.397 | Re 2.063 | KL 0.038
+Epoch 32  (neg_w=24.3, l1=6e-04, kl_w=0.53)
+  Loss 2.348 | Re 2.038 | KL 0.037
+Epoch 33  (neg_w=23.8, l1=6e-04, kl_w=0.55)
+  Loss 2.316 | Re 2.010 | KL 0.037
+Epoch 34  (neg_w=23.3, l1=6e-04, kl_w=0.57)
+  Loss 2.283 | Re 1.978 | KL 0.034
+Epoch 35  (neg_w=22.8, l1=6e-04, kl_w=0.58)
+  Loss 2.254 | Re 1.956 | KL 0.033
+Epoch 36  (neg_w=22.3, l1=5e-04, kl_w=0.60)
+  Loss 2.202 | Re 1.924 | KL 0.034
+Epoch 37  (neg_w=21.8, l1=5e-04, kl_w=0.62)
+  Loss 2.177 | Re 1.891 | KL 0.034
+Epoch 38  (neg_w=21.3, l1=5e-04, kl_w=0.63)
+  Loss 2.131 | Re 1.873 | KL 0.035
+Epoch 39  (neg_w=20.8, l1=5e-04, kl_w=0.65)
+  Loss 2.113 | Re 1.843 | KL 0.035
+Epoch 40  (neg_w=20.4, l1=5e-04, kl_w=0.67)
+  Loss 2.072 | Re 1.825 | KL 0.035
+Epoch 41  (neg_w=19.9, l1=5e-04, kl_w=0.68)
+  Loss 2.049 | Re 1.792 | KL 0.037
+Epoch 42  (neg_w=19.4, l1=5e-04, kl_w=0.70)
+  Loss 1.996 | Re 1.753 | KL 0.035
+Epoch 43  (neg_w=18.9, l1=5e-04, kl_w=0.72)
+  Loss 1.971 | Re 1.731 | KL 0.034
+Epoch 44  (neg_w=18.4, l1=5e-04, kl_w=0.73)
+  Loss 1.935 | Re 1.694 | KL 0.034
+Epoch 45  (neg_w=17.9, l1=4e-04, kl_w=0.75)
+  Loss 1.908 | Re 1.679 | KL 0.033
+Epoch 46  (neg_w=17.4, l1=4e-04, kl_w=0.77)
+  Loss 1.858 | Re 1.637 | KL 0.033
+Epoch 47  (neg_w=16.9, l1=4e-04, kl_w=0.78)
+  Loss 1.827 | Re 1.612 | KL 0.033
+Epoch 48  (neg_w=16.4, l1=4e-04, kl_w=0.80)
+  Loss 1.799 | Re 1.586 | KL 0.033
+Epoch 49  (neg_w=15.9, l1=4e-04, kl_w=0.82)
+  Loss 1.761 | Re 1.561 | KL 0.033
+Epoch 50  (neg_w=15.4, l1=4e-04, kl_w=0.83)
+  Loss 1.719 | Re 1.523 | KL 0.030
+Epoch 51  (neg_w=14.9, l1=4e-04, kl_w=0.85)
+  Loss 1.676 | Re 1.493 | KL 0.032
+Epoch 52  (neg_w=14.5, l1=3e-04, kl_w=0.87)
+  Loss 1.647 | Re 1.461 | KL 0.029
+Epoch 53  (neg_w=14.0, l1=3e-04, kl_w=0.88)
+  Loss 1.616 | Re 1.436 | KL 0.029
+Epoch 54  (neg_w=13.5, l1=3e-04, kl_w=0.90)
+  Loss 1.597 | Re 1.413 | KL 0.029
+Epoch 55  (neg_w=13.0, l1=3e-04, kl_w=0.92)
+  Loss 1.537 | Re 1.367 | KL 0.028
+Epoch 56  (neg_w=12.5, l1=3e-04, kl_w=0.93)
+  Loss 1.503 | Re 1.344 | KL 0.027
+Epoch 57  (neg_w=12.0, l1=3e-04, kl_w=0.95)
+  Loss 1.464 | Re 1.303 | KL 0.027
+Epoch 58  (neg_w=11.5, l1=3e-04, kl_w=0.97)
+  Loss 1.431 | Re 1.278 | KL 0.026
+Epoch 59  (neg_w=11.0, l1=3e-04, kl_w=0.98)
+  Loss 1.386 | Re 1.243 | KL 0.026
+Epoch 60  (neg_w=10.5, l1=3e-04, kl_w=1.00)
+  Loss 1.345 | Re 1.205 | KL 0.024
+Epoch 61  (neg_w=10.0, l1=2e-04, kl_w=1.00)
+  Loss 1.321 | Re 1.177 | KL 0.023
+Epoch 62  (neg_w=9.5, l1=2e-04, kl_w=1.00)
+  Loss 1.268 | Re 1.146 | KL 0.024
+Epoch 63  (neg_w=9.1, l1=2e-04, kl_w=1.00)
+  Loss 1.228 | Re 1.103 | KL 0.023
+Epoch 64  (neg_w=8.6, l1=2e-04, kl_w=1.00)
+  Loss 1.193 | Re 1.079 | KL 0.023
+Epoch 65  (neg_w=8.1, l1=2e-04, kl_w=1.00)
+  Loss 1.148 | Re 1.041 | KL 0.023
+Epoch 66  (neg_w=7.6, l1=2e-04, kl_w=1.00)
+  Loss 1.114 | Re 1.007 | KL 0.021
+Epoch 67  (neg_w=7.1, l1=2e-04, kl_w=1.00)
+  Loss 1.072 | Re 0.972 | KL 0.021
+Epoch 68  (neg_w=6.6, l1=1e-04, kl_w=1.00)
+  Loss 1.027 | Re 0.930 | KL 0.020
+Epoch 69  (neg_w=6.1, l1=1e-04, kl_w=1.00)
+  Loss 0.994 | Re 0.904 | KL 0.019
+Epoch 70  (neg_w=5.6, l1=1e-04, kl_w=1.00)
+  Loss 0.946 | Re 0.864 | KL 0.020
+Epoch 71  (neg_w=5.1, l1=1e-04, kl_w=1.00)
+  Loss 0.898 | Re 0.821 | KL 0.017
+Epoch 72  (neg_w=4.6, l1=1e-04, kl_w=1.00)
+  Loss 0.857 | Re 0.785 | KL 0.018
+Epoch 73  (neg_w=4.1, l1=9e-05, kl_w=1.00)
+  Loss 0.816 | Re 0.750 | KL 0.016
+Epoch 74  (neg_w=3.6, l1=8e-05, kl_w=1.00)
+  Loss 0.757 | Re 0.702 | KL 0.015
+Epoch 75  (neg_w=3.2, l1=6e-05, kl_w=1.00)
+  Loss 0.712 | Re 0.661 | KL 0.014
+Epoch 76  (neg_w=2.7, l1=5e-05, kl_w=1.00)
+  Loss 0.663 | Re 0.619 | KL 0.013
+Epoch 77  (neg_w=2.2, l1=4e-05, kl_w=1.00)
+  Loss 0.612 | Re 0.574 | KL 0.012
+Epoch 78  (neg_w=1.7, l1=3e-05, kl_w=1.00)
+  Loss 0.552 | Re 0.520 | KL 0.012
+Epoch 79  (neg_w=1.2, l1=1e-05, kl_w=1.00)
+  Loss 0.484 | Re 0.461 | KL 0.010
+✔ Saved /workspace/runs/20250602_181822/graphvae_ddp_amp.pt
+wandb: WARNING Saving files without folders. If you want to preserve subdirectories pass base_path to wandb.save, i.e. wandb.save("/mnt/folder/file.h5", base_path="/mnt")
+wandb: 
+wandb: Run history:
+wandb:      epoch ▁▁▁▂▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▆▇▇▇▇▇███
+wandb:       kl_w ▁▁▁▂▂▂▂▃▃▃▃▄▄▄▄▅▅▅▅▅▆▆▆▆▇▇▇▇████████████
+wandb:         l1 ███▇▇▇▇▇▇▆▆▆▆▆▆▅▅▅▅▅▄▄▄▄▄▄▃▃▃▃▃▃▂▂▂▂▂▁▁▁
+wandb:    loss/kl ██▇▅▄▃▂▁▁▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: loss/recon █▅▅▆▆▆▆▅▅▅▅▅▅▅▅▅▅▄▄▄▄▄▄▄▄▃▃▃▃▃▃▃▂▂▂▂▂▂▁▁
+wandb: loss/total █▅▅▅▅▅▅▅▅▄▄▄▄▄▄▄▄▄▄▃▃▃▃▃▃▃▃▃▃▂▂▂▂▂▂▂▂▁▁▁
+wandb:      neg_w ███▇▇▇▇▇▇▆▆▆▆▆▆▅▅▅▅▅▄▄▄▄▄▄▃▃▃▃▃▃▂▂▂▂▂▁▁▁
+wandb: 
+wandb: Run summary:
+wandb:      epoch 79
+wandb:       kl_w 1.0
+wandb:         l1 1e-05
+wandb:    loss/kl 0.01023
+wandb: loss/recon 0.46149
+wandb: loss/total 0.48436
+wandb:      neg_w 1.19125
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /workspace/runs/20250602_181822/wandb/offline-run-20250602_181842-4gbgkwmc
+wandb: Find logs at: /workspace/runs/20250602_181822/wandb/offline-run-20250602_181842-4gbgkwmc/logs
+wandb: WARNING The new W&B backend becomes opt-out in version 0.18.0; try it out with `wandb.require("core")`! See https://wandb.me/wandb-core for more information.

@@ -1,0 +1,6 @@
+★ loaded: /workspace/graph-vae/gvae/models/graphvae_core.py
+usage: eval_stable.py [-h] --ckpt CKPT --alpha ALPHA --p_min P_MIN [--out OUT]
+                      [--max_workers MAX_WORKERS] [--ds_size DS_SIZE]
+                      [--n_samples N_SAMPLES] [--repeats REPEATS]
+                      [--k_max K_MAX]
+eval_stable.py: error: the following arguments are required: --alpha, --p_min

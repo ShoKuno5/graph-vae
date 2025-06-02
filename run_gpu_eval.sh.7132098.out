@@ -1,0 +1,19 @@
+★ loaded: /workspace/graph-vae/gvae/models/graphvae_core.py
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/opt/conda/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/workspace/graph-vae/gvae/eval/eval_stable.py", line 140, in <module>
+    main()
+  File "/workspace/graph-vae/gvae/eval/eval_stable.py", line 133, in main
+    txt = evaluate(args.ckpt)
+  File "/workspace/graph-vae/gvae/eval/eval_stable.py", line 93, in evaluate
+    model.load_state_dict(torch.load(ckpt, map_location="cpu"))
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 998, in load
+    with _open_file_like(f, 'rb') as opened_file:
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 445, in _open_file_like
+    return _open_file(name_or_buffer, mode)
+  File "/opt/conda/lib/python3.10/site-packages/torch/serialization.py", line 426, in __init__
+    super().__init__(open(name, mode))
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/runs/20250602_180710/graphvae_ddp_amp.pt'
