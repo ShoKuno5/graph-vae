@@ -6,7 +6,7 @@ trainer:
 
   # ----- schedule -----
   epochs:      50
-  n_graph:     3000
+  n_graph:     120000
   device:      cuda                # each rank uses its local GPU
 
   # ----- dynamic-weight settings -----

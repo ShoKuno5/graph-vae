@@ -12,7 +12,7 @@ from torch_geometric.nn import GCNConv
 # ---------------- Encoder -----------------
 class GEncoder(nn.Module):
     """GCN 2-layer -> mean / logvar"""
-    def __init__(self, in_dim, hid=64, z_dim=32):
+    def __init__(self, in_dim, hid=40, z_dim=20):
         super().__init__()
         self.gcn1 = GCNConv(in_dim, hid)
         self.gcn2 = GCNConv(hid,  z_dim)
