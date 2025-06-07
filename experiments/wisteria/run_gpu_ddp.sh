@@ -16,7 +16,7 @@ CODE=$ROOT/graph-vae
 IMG=$CODE/images/gvae_cuda.sif
 
 DATA=$ROOT/datasets
-RUNS=$CODE/runs                     # ★ repo 内 runs/ に統一
+RUNS=$CODE/runs                     
 WANDB=$CODE/wandb
 
 # -------- experiment tag ---------

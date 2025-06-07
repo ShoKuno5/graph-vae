@@ -120,3 +120,50 @@ singularity exec -B ${RUNS}:/workspace/runs ${IMG} bash -c "\
 * `gvae/train/train_graphvae_ddp.py` に学習ロジック、`gvae/eval/eval_stable.py` に評価ロジックが実装されています。
 
 Happy Graph‑VAE hacking! 🚀
+
+###　interactiveなジョブ投入例
+
+### model　 
+
+pjsub --interact -g jh210022a -L rscgrp=interactive-a,jobenv=singularity
+
+module load singularity/3.7.3 cuda/12.0 
+
+ROOT=/work/01/jh210022o/q25030 \
+CODE=$ROOT/graph-vae \
+IMG=$CODE/images/gvae_cuda.sif \
+DATA=$ROOT/datasets \
+RUNS=$CODE/runs
+
+
+singularity exec --nv \
+  -B "$CODE":/workspace/graph-vae \
+  -B "$DATA":/dataset \
+  -B "$RUNS":/workspace/runs \
+  "$IMG" \
+  python /workspace/graph-vae/graphvae/models/model.py
+
+### train
+
+pjsub --interact -g jh210022a -L rscgrp=interactive-a,jobenv=singularity
+
+module load singularity/3.7.3 cuda/12.0 
+
+ROOT=/work/01/jh210022o/q25030 \
+CODE=$ROOT/graph-vae \
+IMG=$CODE/images/gvae_cuda.sif \
+DATA=$ROOT/datasets \
+RUNS=$CODE/runs
+
+### GPU で実行
+singularity exec --nv \
+  -B "$CODE":/workspace/graph-vae \
+  -B "$DATA":/dataset \
+  -B "$RUNS":/workspace/runs \
+  "$IMG" \
+  bash -c 'export PYTHONPATH=/workspace/graph-vae:$PYTHONPATH && \
+           torchrun --nproc_per_node=4 \
+                    -m graphvae.train.train_ddp \
+                    --dataset enzymes \
+                    --epochs 300 \
+                    --feature_type deg'

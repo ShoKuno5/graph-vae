@@ -27,7 +27,7 @@ from torch_geometric.datasets import QM9
 from torch_geometric.loader import DataLoader
 
 from . import metrics as M
-import gvae.models.graphvae_core as core
+import graphvae.models.model as core
 print("★ loaded:", inspect.getfile(core))
 
 ###############################################################################
@@ -52,7 +52,7 @@ class GVAE(torch.nn.Module):
     def __init__(self, in_dim: int, hid: int = 64, z: int = 32):
         super().__init__()
         # local import to keep picklable
-        from gvae.models.graphvae_core import GEncoder, EdgeMLP
+        from graphvae.models.model import GEncoder, EdgeMLP
         self.enc = GEncoder(in_dim, hid, z)
         self.dec = EdgeMLP(z)
 

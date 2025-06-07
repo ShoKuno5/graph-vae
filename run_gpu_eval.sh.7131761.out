@@ -1,7 +1,0 @@
-★ loaded: /workspace/graph-vae/gvae/models/graphvae_core.py
-Validity        : 0.145 ± 0.006
-Uniqueness (iso): 0.952 ± 0.004
-Degree-MMD      : 0.435 ± 0.002
-Invalid breakdown (aggregated over all repeats):
-  disconnected:  12466  (97.15%)
-  deg>k       :    366  (2.85%)
