@@ -212,25 +212,26 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
 
     tb = SummaryWriter(Path(args.log_dir, "tb")) if rank == 0 else None
 
-    # --- Debug setup ----------------------------------------------------
-    beta0, beta_final = 0.1, 1.0          # KL weight annealing
-    warmup_steps = 100                    # LR warm-up
-    clip_max = 5.0                        # grad clip
-    
-    dbg = (DebugState(tb, wb_run)                 # ← ここを wb_run に
-       if (rank == 0 and args.debug) else _NoDbg())
+    # ------------------------------------------------------------------------
+    #  KL & LR アニーリング設定（β は 0→0.2 を 40 epoch かけて線形立ち上げ）
+    # ------------------------------------------------------------------------
+    beta0, beta_final   = 0.0, 0.2
+    warmup_epochs       = 40                       # β, LR ともに同じスケジュール
+    anneal_steps        = warmup_epochs * len(dl)  # 総ステップ (= epoch×バッチ数)
+    clip_max            = 5.0                      # grad-clip max-norm
 
+    dbg = (DebugState(tb, wb_run)                  # rank0 のみデバッグ出力
+        if (rank == 0 and args.debug) else _NoDbg())
+
+    global_step = 0                                # ★ バッチごとにインクリメント
 
     for ep in range(args.epochs):
         sampler.set_epoch(ep)
         model.train()
-        loss_acc = 0.0
-        n_batches = 0
+        loss_acc, n_batches = 0.0, 0
 
         if rank == 0:
-            print(f"\n[rank0] === Epoch {ep+1}/{args.epochs} ===", flush=True)        
-
-        if rank == 0:
+            print(f"\n[rank0] === Epoch {ep+1}/{args.epochs} ===", flush=True)
             t_fetch = time.perf_counter()
 
         for batch_idx, data in enumerate(dl):
@@ -238,82 +239,73 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
                 print(f"[rank0]   first batch fetched "
                     f"({time.perf_counter()-t_fetch:.2f}s)", flush=True)
 
-            # ---- forward ----
+            # ---------- forward ----------
             if rank == 0:
-                torch.cuda.synchronize(rank)
-                t_fwd = time.perf_counter()
+                torch.cuda.synchronize(rank); t_fwd = time.perf_counter()
 
             data = data.to(rank, non_blocking=True)
-            # loss, _logs = model(data)
-            # ---- forward ----
-            loss, logs = model(data)      # logs = {"rec":.., "kl":..}
-            
-            # β-KL annealing
-            beta = beta0 + (beta_final-beta0) * min(1.0, dbg.step / (len(dl)*5))
-            loss = logs["rec"] + beta * logs["kl"]
-            
-            # finite check
-            if rank == 0:
-                finite_or_raise(loss, "loss")
-                finite_or_raise(logs["rec"], "reconstruction loss")
-                finite_or_raise(logs["kl"], "KL divergence")
+            logs = model(data)                 # {"rec": ..., "kl": ..., "logvar_max": ...}
 
-            # LR warm-up
-            lr_scale = min(1.0, (dbg.step+1) / warmup_steps)
+            # β-KL annealing
+            beta = beta0 + (beta_final - beta0) * min(1.0, global_step / anneal_steps)
+            loss = logs["rec"] + beta * logs["kl"]
+
+            # ---------- sanity checks ----------
+            if rank == 0:
+                finite_or_raise(loss,      "loss")
+                finite_or_raise(logs["rec"], "reconstruction loss")
+                finite_or_raise(logs["kl"],  "KL divergence")
+
+            # LR warm-up（β と同じスケジュール）
+            lr_scale = min(1.0, global_step / anneal_steps)
             for pg in opt.param_groups:
                 pg["lr"] = args.lr * lr_scale
-            
-            if rank == 0:
-                torch.cuda.synchronize(rank)
-                print(f"[rank0]   forward  {time.perf_counter()-t_fwd:.2f}s",
-                    flush=True)
 
-            # ---- backward ----
             if rank == 0:
                 torch.cuda.synchronize(rank)
-                t_bwd = time.perf_counter()
+                print(f"[rank0]   forward  {time.perf_counter()-t_fwd:.2f}s", flush=True)
+
+            # ---------- backward ----------
+            if rank == 0:
+                torch.cuda.synchronize(rank); t_bwd = time.perf_counter()
 
             opt.zero_grad(set_to_none=True)
             loss.backward()
-            # grad clip
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip_max)
             opt.step()
-            
-            # ---- debug stats (rank0 only) ------------------------------
+
+            # ---------- debug (rank0) ----------
             if rank == 0:
-                # max|logit| は Decoder 出力の爆跳検知
-                max_logit = logs.get("max_logit", torch.tensor(0.)).item()
-                grad_norm = torch.sqrt(sum(
-                    (p.grad.detach().norm() ** 2)
-                    for p in model.parameters() if p.grad is not None)).item()
-                param_norm = torch.sqrt(sum(
-                    (p.detach().norm() ** 2)
-                    for p in model.parameters())).item()
+                max_logit  = logs.get("max_logit", torch.tensor(0.)).item()
+                grad_norm  = torch.sqrt(sum((p.grad.detach().norm() ** 2)
+                                    for p in model.parameters() if p.grad is not None)).item()
+                param_norm = torch.sqrt(sum((p.detach().norm() ** 2)
+                                    for p in model.parameters())).item()
 
                 dbg.log("train/rec",  logs["rec"].item())
                 dbg.log("train/kl",   logs["kl"].item())
                 dbg.log("train/loss", loss.item())
-                dbg.log("debug/max_logit", max_logit)
-                dbg.log("debug/grad_norm", grad_norm)
+                dbg.log("debug/max_logit",  max_logit)
+                dbg.log("debug/grad_norm",  grad_norm)
                 dbg.log("debug/param_norm", param_norm)
-                dbg.next()                
+                dbg.log("debug/logvar_max", logs["logvar_max"].item())
+                dbg.next()
 
-            if rank == 0:
                 torch.cuda.synchronize(rank)
-                print(f"[rank0]   backward {time.perf_counter()-t_bwd:.2f}s",
-                    flush=True)
+                print(f"[rank0]   backward {time.perf_counter()-t_bwd:.2f}s", flush=True)
 
-            loss_acc += loss.item()
+            loss_acc  += loss.item()
             n_batches += 1
+            global_step += 1                    # ★ バッチ終了時に必ず +1
 
+        # ---------- epoch 終了 ----------
         if rank == 0:
             avg_loss = loss_acc / n_batches
             print(f"[rank0] epoch {ep+1} done  avg_loss={avg_loss:.4f}", flush=True)
             if tb:
                 tb.add_scalar("loss/rec+kl", avg_loss, ep)
             if use_wandb:
-                wandb.log({"loss": avg_loss, "epoch": ep})    
-
+                wandb.log({"loss": avg_loss, "epoch": ep})
 
     # save ckpt once training is done
     if rank == 0:

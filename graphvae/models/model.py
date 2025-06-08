@@ -15,7 +15,7 @@ import scipy.optimize
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch_geometric.nn import GCNConv, global_add_pool
+from torch_geometric.nn import GCNConv, global_add_pool, global_mean_pool
 from torch_geometric.data import Batch
 
 # -----------------------------------------------------------------------------
@@ -68,7 +68,8 @@ class GraphVAE(nn.Module):
         off_diag = max_nodes * (max_nodes - 1) // 2
         self.dec = nn.Sequential(
             nn.Linear(z_dim, hid_dim), nn.ReLU(),
-            nn.Linear(hid_dim, off_diag)
+            nn.Linear(hid_dim, off_diag),
+            #nn.Tanh()  
         )
 
         self._init_weights()
@@ -94,10 +95,17 @@ class GraphVAE(nn.Module):
         std = torch.exp(0.5 * logvar)
         return mu + torch.randn_like(std) * std
 
-    def _pool(self, h, batch):
+    def _pool_add(self, h, batch):
         if self.pool == "sum":
             return global_add_pool(h, batch)
         return global_add_pool(h, batch) / torch.bincount(batch, minlength=batch.max() + 1).unsqueeze(-1).type_as(h)
+    
+    def _pool(self, h, batch):
+        """Graph-level readout.
+        h : (num_nodes, hidden_dim)
+        batch : (num_nodes,) -- each node’s graph-index
+        """
+        return global_mean_pool(h, batch)   # ← ここだけで OK
 
     # ---------- permutation‑matching utilities ----------
     def edge_sim_tensor_loop(self, A, B, degA, degB):
@@ -244,6 +252,10 @@ class GraphVAE(nn.Module):
             h = F.relu(self.bn2(self.conv2(h, edge_index)))
             g_ = self._pool(h, batch)
             mu, logvar = self.mu(g_), self.logvar(g_)
+            logvar = logvar.clamp(min=-6.0, max=2.0)
+            # ↓ ここを追加 -------------------------------------------------------
+            self._latest_stats = (mu.detach(), logvar.detach())  # ★
+            # -------------------------------------------------------------------
             z = self._reparam(mu, logvar)
 
             # ---------- decoder -----------------------------------------------------
@@ -307,7 +319,7 @@ class GraphVAE(nn.Module):
         max_logit   = torch.stack(max_logit_all).max()       # ★ 追加
         loss     = loss_rec + loss_kl
 
-        return loss, {"rec": loss_rec, "kl": loss_kl, "max_logit": max_logit}
+        return {"rec": loss_rec, "kl": loss_kl, "max_logit": max_logit, "logvar_max": logvar.max()}
 
     # ---------------------------------------------------------------------
     # Toy forward_test (replicates the snippet you posted)
