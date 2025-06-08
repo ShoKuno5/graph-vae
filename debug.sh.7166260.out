@@ -3376,3 +3376,13 @@ wandb: 🚀 View run at https://wandb.ai/shokuno-the-university-of-tokyo/graphva
 [rank0]   backward 0.13s
 [rank0]   forward  0.57s
 [rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 187 done  avg_loss=0.7300
+
+[rank0] === Epoch 188/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
