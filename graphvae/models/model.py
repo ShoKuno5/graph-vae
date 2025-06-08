@@ -37,7 +37,10 @@ def vec_to_adj(vec: torch.Tensor, N: int) -> torch.Tensor:
     adj = vec.new_zeros(N, N)
     idx = torch.triu_indices(N, N, offset=1)       # ← 対角を飛ばす
     adj[idx[0], idx[1]] = vec
-    adj = adj + adj.T                              # 対称にする
+    # adj = adj + adj.T                              # 対称にする
+    adj = adj + adj.T
+    idx = torch.arange(N, device=adj.device)
+    adj[idx, idx] = 1.0                     # ★ 生成側も対角=1
     return adj
 
 def deg_sim(d1, d2):
@@ -252,7 +255,8 @@ class GraphVAE(nn.Module):
             h = F.relu(self.bn2(self.conv2(h, edge_index)))
             g_ = self._pool(h, batch)
             mu, logvar = self.mu(g_), self.logvar(g_)
-            logvar = logvar.clamp(min=-6.0, max=2.0)
+            logvar = logvar.clamp(min=-4.0, max=4.0)  # より広い範囲に変更
+
             # ↓ ここを追加 -------------------------------------------------------
             self._latest_stats = (mu.detach(), logvar.detach())  # ★
             # -------------------------------------------------------------------
@@ -287,7 +291,8 @@ class GraphVAE(nn.Module):
 
             # ---------- permute both GT and prediction ------------------------------
             A_gt_perm        = A_gt[perm][:, perm]
-            A_hat_perm_logits = A_hat_logits[perm][:, perm]
+            # A_hat_perm_logits = A_hat_logits[perm][:, perm]
+            A_hat_perm_logits = A_hat_logits          # ← そのまま使う
 
             #idx = torch.triu_indices(self.max_n,
             #                        self.max_n,
@@ -306,9 +311,24 @@ class GraphVAE(nn.Module):
             tri_pred  = A_hat_perm_logits[idx[0][valid], idx[1][valid]]
 
             # ---------- loss --------------------------------------------------------
-            loss_rec_i = F.binary_cross_entropy_with_logits(tri_pred, tri_truth)
-            loss_kl_i  = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
+            # loss_rec_i = F.binary_cross_entropy_with_logits(tri_pred, tri_truth)
+            # ① rho を「実ノードだけ」の上三角から計算 -----------------------★
+            num_pos = tri_truth.sum()                          # 正例 (=1) 本数
+            R = int(g.num_real_nodes)
+            total_possible = R * (R - 1) / 2                   # 完全グラフの上三角
+            rho = num_pos / (total_possible + 1e-8)            # 0 除けの ε
+            
+            # ② pos_weight = (1-ρ)/ρ でクラス不均衡を補正 --------------------★
+            pos_weight = (1 - rho) / (rho + 1e-8)              # Tensor 型
+            
+            # ③ BCEWithLogits に渡す -----------------------------------------★
+            loss_rec_i = F.binary_cross_entropy_with_logits(
+                tri_pred, tri_truth,
+                pos_weight=pos_weight
+            )
 
+            # （KL はそのまま）
+            loss_kl_i = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
             loss_rec_all.append(loss_rec_i)
             loss_kl_all.append(loss_kl_i)
             max_logit_all.append(max_logit_i)                # ★ 追加

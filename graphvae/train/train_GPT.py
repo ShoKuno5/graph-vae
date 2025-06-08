@@ -34,6 +34,7 @@ from torch_geometric.utils import from_networkx, to_undirected
 from torch_geometric.datasets import TUDataset
 
 from model import GraphVAE  # ← your modernised implementation
+from utils import compute_dataset_rho
 
 # ---------------------------------------------------------------------------
 # Utilities
@@ -94,6 +95,7 @@ class GraphDataset(torch.utils.data.Dataset):
         adj[ei[0], ei[1]] = 1
         adj = torch.maximum(adj, adj.T)  # undirected
         data.adj_dense = adj
+        data.num_real_nodes = g.number_of_nodes()   # ★ ここを追加
         return data
 
 # ---------------------------------------------------------------------------
@@ -126,11 +128,53 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
     torch.cuda.set_device(rank)
 
     graphs, max_nodes = build_graph_list(args.dataset, args.max_nodes)
-    ds = GraphDataset(graphs, max_nodes, args.feature_type)
-    sampler = DistributedSampler(ds, num_replicas=world, rank=rank, shuffle=True)
-    dl = DataLoader(ds, batch_size=1, sampler=sampler, pin_memory=True)
+    # ds = GraphDataset(graphs, max_nodes, args.feature_type)
+    # sampler = DistributedSampler(ds, num_replicas=world, rank=rank, shuffle=True)
+    # dl = DataLoader(ds, batch_size=1, sampler=sampler, pin_memory=True)
+    
+      
+    # 例: 90 % / 10 % ランダム split
+    if rank == 0:   
+        random.shuffle(graphs)
+    obj = [graphs]                      # ★ リストで包む
+    dist.broadcast_object_list(obj, src=0)
+    graphs = obj[0]                     # ★ 取り出す
+    split = int(0.9 * len(graphs))
+    g_train, g_val = graphs[:split], graphs[split:]
 
-    model = GraphVAE(in_dim=ds[0].x.size(-1), hid_dim=64, z_dim=32, max_nodes=max_nodes).to(rank)
+    ds_train = GraphDataset(g_train, max_nodes, args.feature_type)
+    ds_val   = GraphDataset(g_val,   max_nodes, args.feature_type)
+    
+    sampler_tr = DistributedSampler(ds_train, world, rank, shuffle=True)
+    sampler_va = DistributedSampler(ds_val,   world, rank, shuffle=False)
+
+    dl_tr = DataLoader(ds_train, batch_size=1, sampler=sampler_tr, pin_memory=True)
+    dl_va = DataLoader(ds_val,   batch_size=1, sampler=sampler_va, pin_memory=True)
+    
+    if rank == 0:
+        rho = compute_dataset_rho(ds_train)
+        rho_tensor = torch.tensor([rho], dtype=torch.float32, device="cuda")
+    else:
+        rho_tensor = torch.zeros(1, dtype=torch.float32, device="cuda")
+
+    dist.broadcast(rho_tensor, src=0)
+    rho = float(rho_tensor.item())        # Python float
+
+    if rank == 0:
+        print(f"[INFO] dataset rho = {rho:.4f} (pos_weight={(1-rho)/rho:.2f})")
+        
+    # ------------------------------------------------------------------
+    # 3. GraphVAE を作成 ― ここで ρ を渡す
+    # ------------------------------------------------------------------        
+
+    model = GraphVAE(
+        in_dim = ds_train[0].x.size(-1),
+        hid_dim = 64,
+        z_dim = 32,
+        max_nodes = max_nodes,
+        pool = "sum",
+        rho_dataset = rho,                # ★ 固定 pos_weight
+    ).to(rank)
     model = DDP(model, device_ids=[rank], find_unused_parameters=False)
     opt = torch.optim.Adam(model.parameters(), lr=args.lr)
 
@@ -142,27 +186,54 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
                    dir=args.log_dir, config=vars(args))
 
     for ep in range(args.epochs):
-        sampler.set_epoch(ep)
+        # sampler.set_epoch(ep)
+        sampler_tr.set_epoch(ep)
         model.train()
-        loss_acc = 0.0
-        for data in dl:
+        # loss_acc = 0.0
+        loss_tr = 0.0     
+        
+        for data in dl_tr:
             data = data.to(rank)
             loss, logs = model(data)
             opt.zero_grad(set_to_none=True)
             loss.backward()
             opt.step()
-            loss_acc += loss.item()
+            loss_tr += loss.item()
+            
+        # ---- validation ----
+        model.eval(); loss_va = 0.0
+        with torch.no_grad():
+            for data in dl_va:
+                data = data.to(rank)
+                loss, logs = model(data)
+                loss_va += loss.item()  
 
         # ---- distributed reduce + logging ----
-        tot = torch.tensor([loss_acc], device=rank)
-        dist.all_reduce(tot, op=dist.ReduceOp.SUM)
+        #tot = torch.tensor([loss_acc], device=rank)
+        #dist.all_reduce(tot, op=dist.ReduceOp.SUM)
+        
+        tot_tr = torch.tensor([loss_tr], device=rank)
+        
+        tot_va = torch.tensor([loss_va], device=rank)
+        dist.all_reduce(tot_va, op=dist.ReduceOp.SUM)      
+        dist.all_reduce(tot_tr, op=dist.ReduceOp.SUM)
+        #if rank == 0:
+        #    mean_loss = tot.item() / len(dl) / world
+        #    print(f"Epoch {ep:03d}: loss {mean_loss:.4f}")
+        #    if tb:
+        #        tb.add_scalar("loss/train", mean_loss, ep)
+        #    if use_wandb:
+        #        wandb.log({"loss/train": mean_loss, "epoch": ep})
         if rank == 0:
-            mean_loss = tot.item() / len(dl) / world
-            print(f"Epoch {ep:03d}: loss {mean_loss:.4f}")
+            mean_tr = tot_tr.item()   / len(dl_tr) / world
+            mean_va = tot_va.item()/ len(dl_va) / world
+            print(f"Ep {ep:03d} | train {mean_tr:.4f} | val {mean_va:.4f}")
+
             if tb:
-                tb.add_scalar("loss/train", mean_loss, ep)
+                tb.add_scalar("loss/train", mean_tr, ep)
+                tb.add_scalar("loss/val",   mean_va, ep)
             if use_wandb:
-                wandb.log({"loss/train": mean_loss, "epoch": ep})
+                wandb.log({"loss/train":mean_tr, "loss/val":mean_va, "epoch":ep})
 
     # save ckpt once training is done
     if rank == 0:

@@ -92,7 +92,12 @@ class GraphDataset(torch.utils.data.Dataset):
         adj = torch.zeros(self.max_nodes, self.max_nodes)
         ei = data.edge_index
         adj[ei[0], ei[1]] = 1
-        adj = torch.maximum(adj, adj.T)  # undirected
+        #adj = torch.maximum(adj, adj.T)  # undirected
+        adj = torch.maximum(adj, adj.T)
+        N = g.number_of_nodes()                 # 実ノードだけ自己ループ=1
+        idx = torch.arange(N)
+        adj[idx, idx] = 1.0                     # ★ ここを追加
+        
         data.adj_dense = adj
         
         # 追加 : 実ノード数を保存（損失マスク用）
@@ -188,11 +193,12 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
     t0 = time.perf_counter()
     ds = GraphDataset(graphs, max_nodes, args.feature_type)
     sampler = DistributedSampler(ds, num_replicas=world, rank=rank, shuffle=True)
-    dl = DataLoader(ds, batch_size=1, sampler=sampler, pin_memory=True)
+    dl = DataLoader(ds, batch_size=64, sampler=sampler, pin_memory=True)
     if rank == 0:
         print(f"[rank0] DataLoader ready ({time.perf_counter()-t0:.2f}s)", flush=True)
 
-    model = GraphVAE(in_dim=ds[0].x.size(-1), hid_dim=64, z_dim=32, max_nodes=max_nodes).to(rank)
+    #model = GraphVAE(in_dim=ds[0].x.size(-1), hid_dim=64, z_dim=32, max_nodes=max_nodes).to(rank)
+    model = GraphVAE(in_dim=ds[0].x.size(-1), hid_dim=128, z_dim=64, max_nodes=max_nodes).to(rank)
     model = DDP(model, device_ids=[rank], find_unused_parameters=False)
     # opt = torch.optim.Adam(model.parameters(), lr=args.lr)
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
@@ -215,7 +221,7 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
     # ------------------------------------------------------------------------
     #  KL & LR アニーリング設定（β は 0→0.2 を 40 epoch かけて線形立ち上げ）
     # ------------------------------------------------------------------------
-    beta0, beta_final   = 0.0, 0.2
+    beta0, beta_final   = 0.0, 0.5
     warmup_epochs       = 40                       # β, LR ともに同じスケジュール
     anneal_steps        = warmup_epochs * len(dl)  # 総ステップ (= epoch×バッチ数)
     clip_max            = 5.0                      # grad-clip max-norm
@@ -332,7 +338,7 @@ def train(cfg):
     defaults = dict(
         dataset="grid",
         feature_type="id",
-        lr=1e-3,
+        lr=1e-4,
         epochs=200,
         max_nodes=None,  # autodetect
         log_dir="runs",
@@ -356,7 +362,7 @@ if __name__ == "__main__":
     pa = argparse.ArgumentParser()
     pa.add_argument("--dataset", choices=["grid", "enzymes"], default="grid")
     pa.add_argument("--feature_type", choices=["id", "deg"], default="id")
-    pa.add_argument("--lr", type=float, default=1e-3)
+    pa.add_argument("--lr", type=float, default=1e-4)
     pa.add_argument("--epochs", type=int, default=200)
     pa.add_argument("--max_nodes", type=int, default=None)
     pa.add_argument("--log_dir", default="runs")

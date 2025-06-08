@@ -1,0 +1,3378 @@
+[W socket.cpp:464] [c10d] The server socket cannot be initialized on [::]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[rank0] init_process_group (0.11s)
+Downloading https://www.chrsmrrs.com/graphkerneldatasets/ENZYMES.zip
+Processing...
+Done!
+[rank0] graph list ready (4.45s)
+[rank0] DataLoader ready (0.00s)
+wandb: Currently logged in as: shokuno (shokuno-the-university-of-tokyo). Use `wandb login --relogin` to force relogin
+wandb: WARNING Path runs/wandb/ wasn't writable, using system temp directory.
+wandb: WARNING Path runs/wandb/ wasn't writable, using system temp directory
+wandb: Tracking run with wandb version 0.17.9
+wandb: Run data is saved locally in /tmp/wandb/run-20250608_215244-mx1ku4xi
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enzymes-ddp
+wandb: ⭐️ View project at https://wandb.ai/shokuno-the-university-of-tokyo/graphvae
+wandb: 🚀 View run at https://wandb.ai/shokuno-the-university-of-tokyo/graphvae/runs/mx1ku4xi
+
+[rank0] === Epoch 1/200 ===
+[rank0]   first batch fetched (0.17s)
+[rank0]   forward  2.95s
+[rank0]   backward 0.66s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 1 done  avg_loss=1.5846
+
+[rank0] === Epoch 2/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 2 done  avg_loss=1.5955
+
+[rank0] === Epoch 3/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 3 done  avg_loss=1.6134
+
+[rank0] === Epoch 4/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 4 done  avg_loss=1.6036
+
+[rank0] === Epoch 5/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 5 done  avg_loss=1.6235
+
+[rank0] === Epoch 6/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.50s
+[rank0]   backward 0.12s
+[rank0] epoch 6 done  avg_loss=1.6027
+
+[rank0] === Epoch 7/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.49s
+[rank0]   backward 0.12s
+[rank0] epoch 7 done  avg_loss=1.6177
+
+[rank0] === Epoch 8/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.51s
+[rank0]   backward 0.12s
+[rank0] epoch 8 done  avg_loss=1.6092
+
+[rank0] === Epoch 9/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.56s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.68s
+[rank0]   backward 0.11s
+[rank0] epoch 9 done  avg_loss=1.5985
+
+[rank0] === Epoch 10/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.49s
+[rank0]   backward 0.12s
+[rank0] epoch 10 done  avg_loss=1.6036
+
+[rank0] === Epoch 11/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.52s
+[rank0]   backward 0.12s
+[rank0] epoch 11 done  avg_loss=1.6244
+
+[rank0] === Epoch 12/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.49s
+[rank0]   backward 0.12s
+[rank0] epoch 12 done  avg_loss=1.5798
+
+[rank0] === Epoch 13/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.63s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.11s
+[rank0] epoch 13 done  avg_loss=1.5959
+
+[rank0] === Epoch 14/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 14 done  avg_loss=1.5819
+
+[rank0] === Epoch 15/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.63s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 15 done  avg_loss=1.5881
+
+[rank0] === Epoch 16/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.73s
+[rank0]   backward 0.14s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 16 done  avg_loss=1.5799
+
+[rank0] === Epoch 17/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 17 done  avg_loss=1.5720
+
+[rank0] === Epoch 18/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.63s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 18 done  avg_loss=1.5798
+
+[rank0] === Epoch 19/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.63s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.52s
+[rank0]   backward 0.12s
+[rank0] epoch 19 done  avg_loss=1.5769
+
+[rank0] === Epoch 20/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.49s
+[rank0]   backward 0.12s
+[rank0] epoch 20 done  avg_loss=1.5773
+
+[rank0] === Epoch 21/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.52s
+[rank0]   backward 0.12s
+[rank0] epoch 21 done  avg_loss=1.5649
+
+[rank0] === Epoch 22/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.56s
+[rank0]   backward 0.14s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.52s
+[rank0]   backward 0.12s
+[rank0] epoch 22 done  avg_loss=1.5640
+
+[rank0] === Epoch 23/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.52s
+[rank0]   backward 0.12s
+[rank0] epoch 23 done  avg_loss=1.5367
+
+[rank0] === Epoch 24/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.62s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.48s
+[rank0]   backward 0.12s
+[rank0] epoch 24 done  avg_loss=1.5439
+
+[rank0] === Epoch 25/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.63s
+[rank0]   backward 0.14s
+[rank0]   forward  0.48s
+[rank0]   backward 0.12s
+[rank0] epoch 25 done  avg_loss=1.5459
+
+[rank0] === Epoch 26/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.49s
+[rank0]   backward 0.12s
+[rank0] epoch 26 done  avg_loss=1.5344
+
+[rank0] === Epoch 27/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 27 done  avg_loss=1.5385
+
+[rank0] === Epoch 28/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 28 done  avg_loss=1.5337
+
+[rank0] === Epoch 29/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.50s
+[rank0]   backward 0.12s
+[rank0] epoch 29 done  avg_loss=1.5141
+
+[rank0] === Epoch 30/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.53s
+[rank0]   backward 0.11s
+[rank0] epoch 30 done  avg_loss=1.4972
+
+[rank0] === Epoch 31/200 ===
+[rank0]   first batch fetched (0.09s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 31 done  avg_loss=1.4962
+
+[rank0] === Epoch 32/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 32 done  avg_loss=1.4907
+
+[rank0] === Epoch 33/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 33 done  avg_loss=1.4932
+
+[rank0] === Epoch 34/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 34 done  avg_loss=1.4715
+
+[rank0] === Epoch 35/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 35 done  avg_loss=1.4690
+
+[rank0] === Epoch 36/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 36 done  avg_loss=1.4613
+
+[rank0] === Epoch 37/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 37 done  avg_loss=1.4444
+
+[rank0] === Epoch 38/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 38 done  avg_loss=1.4183
+
+[rank0] === Epoch 39/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 39 done  avg_loss=1.4178
+
+[rank0] === Epoch 40/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 40 done  avg_loss=1.3995
+
+[rank0] === Epoch 41/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 41 done  avg_loss=1.3715
+
+[rank0] === Epoch 42/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 42 done  avg_loss=1.3545
+
+[rank0] === Epoch 43/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 43 done  avg_loss=1.3308
+
+[rank0] === Epoch 44/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.63s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 44 done  avg_loss=1.3128
+
+[rank0] === Epoch 45/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 45 done  avg_loss=1.2809
+
+[rank0] === Epoch 46/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.53s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 46 done  avg_loss=1.2759
+
+[rank0] === Epoch 47/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 47 done  avg_loss=1.2543
+
+[rank0] === Epoch 48/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 48 done  avg_loss=1.2361
+
+[rank0] === Epoch 49/200 ===
+[rank0]   first batch fetched (0.09s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 49 done  avg_loss=1.2066
+
+[rank0] === Epoch 50/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.46s
+[rank0]   backward 0.11s
+[rank0] epoch 50 done  avg_loss=1.1823
+
+[rank0] === Epoch 51/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 51 done  avg_loss=1.1723
+
+[rank0] === Epoch 52/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 52 done  avg_loss=1.1540
+
+[rank0] === Epoch 53/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 53 done  avg_loss=1.1355
+
+[rank0] === Epoch 54/200 ===
+[rank0]   first batch fetched (0.09s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.67s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 54 done  avg_loss=1.1265
+
+[rank0] === Epoch 55/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 55 done  avg_loss=1.1072
+
+[rank0] === Epoch 56/200 ===
+[rank0]   first batch fetched (0.09s)
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 56 done  avg_loss=1.1058
+
+[rank0] === Epoch 57/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 57 done  avg_loss=1.0766
+
+[rank0] === Epoch 58/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 58 done  avg_loss=1.0661
+
+[rank0] === Epoch 59/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 59 done  avg_loss=1.0506
+
+[rank0] === Epoch 60/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 60 done  avg_loss=1.0406
+
+[rank0] === Epoch 61/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 61 done  avg_loss=1.0405
+
+[rank0] === Epoch 62/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.45s
+[rank0]   backward 0.11s
+[rank0] epoch 62 done  avg_loss=1.0162
+
+[rank0] === Epoch 63/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 63 done  avg_loss=1.0150
+
+[rank0] === Epoch 64/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 64 done  avg_loss=0.9946
+
+[rank0] === Epoch 65/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 65 done  avg_loss=0.9920
+
+[rank0] === Epoch 66/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 66 done  avg_loss=0.9793
+
+[rank0] === Epoch 67/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 67 done  avg_loss=0.9658
+
+[rank0] === Epoch 68/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 68 done  avg_loss=0.9696
+
+[rank0] === Epoch 69/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 69 done  avg_loss=0.9475
+
+[rank0] === Epoch 70/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.46s
+[rank0]   backward 0.11s
+[rank0] epoch 70 done  avg_loss=0.9454
+
+[rank0] === Epoch 71/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.53s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 71 done  avg_loss=0.9371
+
+[rank0] === Epoch 72/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 72 done  avg_loss=0.9308
+
+[rank0] === Epoch 73/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 73 done  avg_loss=0.9262
+
+[rank0] === Epoch 74/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 74 done  avg_loss=0.9043
+
+[rank0] === Epoch 75/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.66s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 75 done  avg_loss=0.9018
+
+[rank0] === Epoch 76/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 76 done  avg_loss=0.8965
+
+[rank0] === Epoch 77/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 77 done  avg_loss=0.8883
+
+[rank0] === Epoch 78/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 78 done  avg_loss=0.8724
+
+[rank0] === Epoch 79/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 79 done  avg_loss=0.8649
+
+[rank0] === Epoch 80/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.53s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 80 done  avg_loss=0.8659
+
+[rank0] === Epoch 81/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 81 done  avg_loss=0.8587
+
+[rank0] === Epoch 82/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.68s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 82 done  avg_loss=0.8511
+
+[rank0] === Epoch 83/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 83 done  avg_loss=0.8535
+
+[rank0] === Epoch 84/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 84 done  avg_loss=0.8417
+
+[rank0] === Epoch 85/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 85 done  avg_loss=0.8381
+
+[rank0] === Epoch 86/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 86 done  avg_loss=0.8329
+
+[rank0] === Epoch 87/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 87 done  avg_loss=0.8183
+
+[rank0] === Epoch 88/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 88 done  avg_loss=0.8194
+
+[rank0] === Epoch 89/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 89 done  avg_loss=0.8149
+
+[rank0] === Epoch 90/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 90 done  avg_loss=0.8105
+
+[rank0] === Epoch 91/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.14s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 91 done  avg_loss=0.8159
+
+[rank0] === Epoch 92/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 92 done  avg_loss=0.8095
+
+[rank0] === Epoch 93/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.46s
+[rank0]   backward 0.11s
+[rank0] epoch 93 done  avg_loss=0.8007
+
+[rank0] === Epoch 94/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 94 done  avg_loss=0.7896
+
+[rank0] === Epoch 95/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 95 done  avg_loss=0.7939
+
+[rank0] === Epoch 96/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 96 done  avg_loss=0.8089
+
+[rank0] === Epoch 97/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 97 done  avg_loss=0.7862
+
+[rank0] === Epoch 98/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 98 done  avg_loss=0.7792
+
+[rank0] === Epoch 99/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 99 done  avg_loss=0.7728
+
+[rank0] === Epoch 100/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.45s
+[rank0]   backward 0.11s
+[rank0] epoch 100 done  avg_loss=0.7779
+
+[rank0] === Epoch 101/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 101 done  avg_loss=0.7762
+
+[rank0] === Epoch 102/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 102 done  avg_loss=0.7608
+
+[rank0] === Epoch 103/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 103 done  avg_loss=0.7849
+
+[rank0] === Epoch 104/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 104 done  avg_loss=0.7687
+
+[rank0] === Epoch 105/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 105 done  avg_loss=0.7673
+
+[rank0] === Epoch 106/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 106 done  avg_loss=0.7602
+
+[rank0] === Epoch 107/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 107 done  avg_loss=0.7659
+
+[rank0] === Epoch 108/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.12s
+[rank0] epoch 108 done  avg_loss=0.7590
+
+[rank0] === Epoch 109/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 109 done  avg_loss=0.7610
+
+[rank0] === Epoch 110/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 110 done  avg_loss=0.7622
+
+[rank0] === Epoch 111/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 111 done  avg_loss=0.7658
+
+[rank0] === Epoch 112/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 112 done  avg_loss=0.7544
+
+[rank0] === Epoch 113/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 113 done  avg_loss=0.7536
+
+[rank0] === Epoch 114/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 114 done  avg_loss=0.7588
+
+[rank0] === Epoch 115/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.46s
+[rank0]   backward 0.11s
+[rank0] epoch 115 done  avg_loss=0.7926
+
+[rank0] === Epoch 116/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 116 done  avg_loss=0.7515
+
+[rank0] === Epoch 117/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 117 done  avg_loss=0.7592
+
+[rank0] === Epoch 118/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 118 done  avg_loss=0.7525
+
+[rank0] === Epoch 119/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 119 done  avg_loss=0.7507
+
+[rank0] === Epoch 120/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 120 done  avg_loss=0.7593
+
+[rank0] === Epoch 121/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 121 done  avg_loss=0.7645
+
+[rank0] === Epoch 122/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 122 done  avg_loss=0.7687
+
+[rank0] === Epoch 123/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 123 done  avg_loss=0.7478
+
+[rank0] === Epoch 124/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 124 done  avg_loss=0.7472
+
+[rank0] === Epoch 125/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 125 done  avg_loss=0.7631
+
+[rank0] === Epoch 126/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 126 done  avg_loss=0.7635
+
+[rank0] === Epoch 127/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 127 done  avg_loss=0.7604
+
+[rank0] === Epoch 128/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 128 done  avg_loss=0.7498
+
+[rank0] === Epoch 129/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 129 done  avg_loss=0.7852
+
+[rank0] === Epoch 130/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 130 done  avg_loss=0.7584
+
+[rank0] === Epoch 131/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.12s
+[rank0] epoch 131 done  avg_loss=0.7508
+
+[rank0] === Epoch 132/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.66s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 132 done  avg_loss=0.7592
+
+[rank0] === Epoch 133/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.64s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 133 done  avg_loss=0.7856
+
+[rank0] === Epoch 134/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 134 done  avg_loss=0.7592
+
+[rank0] === Epoch 135/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 135 done  avg_loss=0.7520
+
+[rank0] === Epoch 136/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 136 done  avg_loss=0.7611
+
+[rank0] === Epoch 137/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 137 done  avg_loss=0.7472
+
+[rank0] === Epoch 138/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 138 done  avg_loss=0.7658
+
+[rank0] === Epoch 139/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.70s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 139 done  avg_loss=0.7743
+
+[rank0] === Epoch 140/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 140 done  avg_loss=0.7568
+
+[rank0] === Epoch 141/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 141 done  avg_loss=0.7579
+
+[rank0] === Epoch 142/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 142 done  avg_loss=0.7637
+
+[rank0] === Epoch 143/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 143 done  avg_loss=0.7624
+
+[rank0] === Epoch 144/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 144 done  avg_loss=0.7422
+
+[rank0] === Epoch 145/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 145 done  avg_loss=0.7341
+
+[rank0] === Epoch 146/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 146 done  avg_loss=0.7354
+
+[rank0] === Epoch 147/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 147 done  avg_loss=0.7751
+
+[rank0] === Epoch 148/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 148 done  avg_loss=0.7537
+
+[rank0] === Epoch 149/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 149 done  avg_loss=0.7635
+
+[rank0] === Epoch 150/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 150 done  avg_loss=0.7496
+
+[rank0] === Epoch 151/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 151 done  avg_loss=0.7357
+
+[rank0] === Epoch 152/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 152 done  avg_loss=0.7589
+
+[rank0] === Epoch 153/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 153 done  avg_loss=0.7521
+
+[rank0] === Epoch 154/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 154 done  avg_loss=0.7606
+
+[rank0] === Epoch 155/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 155 done  avg_loss=0.7450
+
+[rank0] === Epoch 156/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.46s
+[rank0]   backward 0.11s
+[rank0] epoch 156 done  avg_loss=0.7878
+
+[rank0] === Epoch 157/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 157 done  avg_loss=0.7380
+
+[rank0] === Epoch 158/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 158 done  avg_loss=0.7418
+
+[rank0] === Epoch 159/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 159 done  avg_loss=0.7555
+
+[rank0] === Epoch 160/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.11s
+[rank0] epoch 160 done  avg_loss=0.7556
+
+[rank0] === Epoch 161/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 161 done  avg_loss=0.7514
+
+[rank0] === Epoch 162/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 162 done  avg_loss=0.7469
+
+[rank0] === Epoch 163/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 163 done  avg_loss=0.7574
+
+[rank0] === Epoch 164/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 164 done  avg_loss=0.7337
+
+[rank0] === Epoch 165/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 165 done  avg_loss=0.7425
+
+[rank0] === Epoch 166/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.46s
+[rank0]   backward 0.11s
+[rank0] epoch 166 done  avg_loss=0.7352
+
+[rank0] === Epoch 167/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 167 done  avg_loss=0.7377
+
+[rank0] === Epoch 168/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 168 done  avg_loss=0.7531
+
+[rank0] === Epoch 169/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 169 done  avg_loss=0.7472
+
+[rank0] === Epoch 170/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 170 done  avg_loss=0.7142
+
+[rank0] === Epoch 171/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.54s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 171 done  avg_loss=0.7546
+
+[rank0] === Epoch 172/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 172 done  avg_loss=0.7373
+
+[rank0] === Epoch 173/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 173 done  avg_loss=0.7527
+
+[rank0] === Epoch 174/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.67s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 174 done  avg_loss=0.7534
+
+[rank0] === Epoch 175/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 175 done  avg_loss=0.7379
+
+[rank0] === Epoch 176/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 176 done  avg_loss=0.7310
+
+[rank0] === Epoch 177/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 177 done  avg_loss=0.7531
+
+[rank0] === Epoch 178/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.48s
+[rank0]   backward 0.11s
+[rank0] epoch 178 done  avg_loss=0.7454
+
+[rank0] === Epoch 179/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 179 done  avg_loss=0.7427
+
+[rank0] === Epoch 180/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 180 done  avg_loss=0.7460
+
+[rank0] === Epoch 181/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.68s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 181 done  avg_loss=0.7342
+
+[rank0] === Epoch 182/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 182 done  avg_loss=0.7405
+
+[rank0] === Epoch 183/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 183 done  avg_loss=0.7455
+
+[rank0] === Epoch 184/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 184 done  avg_loss=0.7474
+
+[rank0] === Epoch 185/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 185 done  avg_loss=0.7428
+
+[rank0] === Epoch 186/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 186 done  avg_loss=0.7443
+
+[rank0] === Epoch 187/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
