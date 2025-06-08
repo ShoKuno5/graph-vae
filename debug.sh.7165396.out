@@ -1,0 +1,632 @@
+[W socket.cpp:464] [c10d] The server socket cannot be initialized on [::]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[rank0] init_process_group (0.11s)
+[rank0] graph list ready (0.00s)
+[rank0] DataLoader ready (0.00s)
+wandb: Currently logged in as: shokuno (shokuno-the-university-of-tokyo). Use `wandb login --relogin` to force relogin
+wandb: WARNING Path runs/wandb/ wasn't writable, using system temp directory.
+wandb: WARNING Path runs/wandb/ wasn't writable, using system temp directory
+wandb: Tracking run with wandb version 0.17.9
+wandb: Run data is saved locally in /tmp/wandb/run-20250608_175157-bh6t9sbd
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run grid-ddp
+wandb: ⭐️ View project at https://wandb.ai/shokuno-the-university-of-tokyo/graphvae
+wandb: 🚀 View run at https://wandb.ai/shokuno-the-university-of-tokyo/graphvae/runs/bh6t9sbd
+
+[rank0] === Epoch 1/50 ===
+[rank0]   first batch fetched (0.01s)
+[rank0]   forward  1.03s
+[rank0]   backward 0.33s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 1 done  avg_loss=333345079388191564813565952.0000
+
+[rank0] === Epoch 2/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 2 done  avg_loss=567558204316307761779441664.0000
+
+[rank0] === Epoch 3/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 3 done  avg_loss=945687067011749292946751488.0000
+
+[rank0] === Epoch 4/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 4 done  avg_loss=1161312681237685282151596032.0000
+
+[rank0] === Epoch 5/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 5 done  avg_loss=1494266500956856016294641664.0000
+
+[rank0] === Epoch 6/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 6 done  avg_loss=1616266266372386388132757504.0000
+
+[rank0] === Epoch 7/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 7 done  avg_loss=1523472491480423250589122560.0000
+
+[rank0] === Epoch 8/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 8 done  avg_loss=1487415628482163316342390784.0000
+
+[rank0] === Epoch 9/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 9 done  avg_loss=1407764400091764682901159936.0000
+
+[rank0] === Epoch 10/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 10 done  avg_loss=1243309579877540064131022848.0000
+
+[rank0] === Epoch 11/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 11 done  avg_loss=1134530326751071663124643840.0000
+
+[rank0] === Epoch 12/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 12 done  avg_loss=1017054948215900612501438464.0000
+
+[rank0] === Epoch 13/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 13 done  avg_loss=996067111993998689917992960.0000
+
+[rank0] === Epoch 14/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 14 done  avg_loss=832870526736241095876804608.0000
+
+[rank0] === Epoch 15/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 15 done  avg_loss=807444481614799270404161536.0000
+
+[rank0] === Epoch 16/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 16 done  avg_loss=716935764412499147605671936.0000
+
+[rank0] === Epoch 17/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 17 done  avg_loss=699687863241830468646076416.0000
+
+[rank0] === Epoch 18/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 18 done  avg_loss=666114947734452437671477248.0000
+
+[rank0] === Epoch 19/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 19 done  avg_loss=562273405260192392968929280.0000
+
+[rank0] === Epoch 20/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 20 done  avg_loss=518209890055169428424753152.0000
+
+[rank0] === Epoch 21/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 21 done  avg_loss=494441556110380690699190272.0000
+
+[rank0] === Epoch 22/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 22 done  avg_loss=400642600889224994463154176.0000
+
+[rank0] === Epoch 23/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 23 done  avg_loss=344899061273208315604631552.0000
+
+[rank0] === Epoch 24/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 24 done  avg_loss=331099236628327041190592512.0000
+
+[rank0] === Epoch 25/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 25 done  avg_loss=263633125052455377854005248.0000
+
+[rank0] === Epoch 26/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 26 done  avg_loss=211942899296984439833231360.0000
+
+[rank0] === Epoch 27/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 27 done  avg_loss=163210178273671018889347072.0000
+
+[rank0] === Epoch 28/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 28 done  avg_loss=128638028990008964245618688.0000
+
+[rank0] === Epoch 29/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 29 done  avg_loss=86112176543672454141181952.0000
+
+[rank0] === Epoch 30/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 30 done  avg_loss=50753516633423517681975296.0000
+
+[rank0] === Epoch 31/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 31 done  avg_loss=21965843485495859200655360.0000
+
+[rank0] === Epoch 32/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.02s
+[rank0]   backward 0.01s
+[rank0] epoch 32 done  avg_loss=13959122053929894626197504.0000
+
+[rank0] === Epoch 33/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 33 done  avg_loss=15855230740923848924856320.0000
+
+[rank0] === Epoch 34/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 34 done  avg_loss=23831881300969411563225088.0000
+
+[rank0] === Epoch 35/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 35 done  avg_loss=23216747114623508468989952.0000
+
+[rank0] === Epoch 36/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 36 done  avg_loss=26709681318129343431442432.0000
+
+[rank0] === Epoch 37/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 37 done  avg_loss=28824019347047000020353024.0000
+
+[rank0] === Epoch 38/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 38 done  avg_loss=29054784069345679394209792.0000
+
+[rank0] === Epoch 39/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 39 done  avg_loss=28759919105341586705219584.0000
+
+[rank0] === Epoch 40/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 40 done  avg_loss=27893376273107523941171200.0000
+
+[rank0] === Epoch 41/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 41 done  avg_loss=26349896796223935008997376.0000
+
+[rank0] === Epoch 42/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 42 done  avg_loss=24578327058933743557279744.0000
+
+[rank0] === Epoch 43/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 43 done  avg_loss=22727440179754625870594048.0000
+
+[rank0] === Epoch 44/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 44 done  avg_loss=20438641349120292408000512.0000
+
+[rank0] === Epoch 45/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 45 done  avg_loss=19117875701834735341797376.0000
+
+[rank0] === Epoch 46/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 46 done  avg_loss=17851931814146662685736960.0000
+
+[rank0] === Epoch 47/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 47 done  avg_loss=15142520224072558698299392.0000
+
+[rank0] === Epoch 48/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 48 done  avg_loss=14783991635961134528331776.0000
+
+[rank0] === Epoch 49/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 49 done  avg_loss=12789051937365423827189760.0000
+
+[rank0] === Epoch 50/50 ===
+[rank0]   first batch fetched (0.00s)
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0]   forward  0.01s
+[rank0]   backward 0.00s
+[rank0] epoch 50 done  avg_loss=11886927415295602572918784.0000
+✔ saved runs/graphvae_ddp.pt
+wandb: - 0.009 MB of 0.009 MB uploadedwandb: \ 0.009 MB of 0.009 MB uploadedwandb: | 0.034 MB of 0.034 MB uploadedwandb:                                                                                
+wandb: 
+wandb: Run history:
+wandb: epoch ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▆▇▇▇▇▇███
+wandb:  loss ▂▃▅▆██▇▇▆▅▅▅▄▄▄▃▃▃▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: 
+wandb: Run summary:
+wandb: epoch 49
+wandb:  loss 1.1886927415295603e+25
+wandb: 
+wandb: 🚀 View run grid-ddp at: https://wandb.ai/shokuno-the-university-of-tokyo/graphvae/runs/bh6t9sbd
+wandb: ⭐️ View project at: https://wandb.ai/shokuno-the-university-of-tokyo/graphvae
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: runs/wandb/run-20250608_175157-bh6t9sbd/logs
+wandb: WARNING wandb version 0.20.1 is available!  To upgrade, please run:
+wandb: WARNING  $ pip install wandb --upgrade
+wandb: WARNING The new W&B backend becomes opt-out in version 0.18.0; try it out with `wandb.require("core")`! See https://wandb.me/wandb-core for more information.

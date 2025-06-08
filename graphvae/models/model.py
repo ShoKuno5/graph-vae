@@ -68,7 +68,7 @@ class GraphVAE(nn.Module):
         off_diag = max_nodes * (max_nodes - 1) // 2
         self.dec = nn.Sequential(
             nn.Linear(z_dim, hid_dim), nn.ReLU(),
-            nn.Linear(hid_dim, off_diag),
+            nn.Linear(hid_dim, off_diag)
         )
 
         self._init_weights()
@@ -100,7 +100,8 @@ class GraphVAE(nn.Module):
         return global_add_pool(h, batch) / torch.bincount(batch, minlength=batch.max() + 1).unsqueeze(-1).type_as(h)
 
     # ---------- permutation‑matching utilities ----------
-    def _edge_sim_tensor(self, A, B, degA, degB):
+    def edge_sim_tensor_loop(self, A, B, degA, degB):
+        A = A.float();  B = B.float()
         N = self.max_n
         S = A.new_zeros(N, N, N, N)
         for i in range(N):
@@ -117,8 +118,52 @@ class GraphVAE(nn.Module):
                                 A[i, j] * A[i, i] * A[j, j] * B[a, b] * B[a, a] * B[b, b]
                             )
         return S
+    
+    def _edge_sim_tensor(self, A, B, degA, degB):
+        # ---- 型を float に統一 ---------------------------------------------
+        A = A.float()
+        B = B.float()
+        N = self.max_n
 
-    def _mpm(self, X0, S, iters: int = 50):
+        # ---- ノード類似度 ---------------------------------------------------
+        node_sim = deg_sim(degA.view(-1, 1), degB.view(1, -1))   # (N,N)
+
+        # ---- エッジ類似度（ブロードキャストで N⁴ 要素を一気に計算） ----------
+        #AA = A.unsqueeze(1).unsqueeze(3)     # (N,1,N,1)
+        #BB = B.unsqueeze(0).unsqueeze(2)     # (1,N,1,N)
+        #S  = (AA * BB)                       # (N,N,N,N)  float32
+        
+        # ---- エッジ類似度（正しい i-j, a-b 対応 & 対角係数込み） ---------------
+        A_pair = A.unsqueeze(2).unsqueeze(3)      # (N,N,1,1) → A[i,j]
+        B_pair = B.unsqueeze(0).unsqueeze(1)      # (1,1,N,N) → B[a,b]
+
+        Ai = A.diag().view(N, 1, 1, 1)            # A[i,i]
+        Aj = A.diag().view(1, N, 1, 1)            # A[j,j]
+        Ba = B.diag().view(1, 1, N, 1)            # B[a,a]
+        Bb = B.diag().view(1, 1, 1, N)            # B[b,b]
+
+        S = A_pair * Aj * Ai * B_pair * Ba * Bb   # (N,N,N,N)        
+
+        # ---- “片側だけ対角” の項目を 0 にする (i==j XOR a==b) ---------------
+        eye = torch.eye(N, dtype=torch.bool, device=A.device)
+        i_eq_j = eye.unsqueeze(2).unsqueeze(3)   # (N,N,1,1)
+        a_eq_b = eye.unsqueeze(0).unsqueeze(1)   # (1,1,N,N)
+        S[i_eq_j ^ a_eq_b] = 0                  # xor マスクで一括 0 埋め
+
+        # ---- 対角ブロック S[i,i,a,a] ← A[i,i]·B[a,a]·deg_sim --------------
+        Ai_diag = A.diag().view(N, 1)          # (N,1)
+        Ba_diag = B.diag().view(1, N)          # (1,N)
+        node_block = Ai_diag * Ba_diag * node_sim   # (N,N)
+
+        idx = torch.arange(N, device=A.device)
+        ii  = idx[:, None]                     # broadcast → dims (i,i)
+        aa  = idx[None, :]                     # broadcast → dims (a,a)
+        S[ii, ii, aa, aa] = node_block        # S[i,i,a,a] に一括代入
+     
+        return S
+
+
+    def _mpm_loop(self, X0, S, iters: int = 50):
         """Max-pool-matching (MPM) producing an (N, N) assignment matrix."""
         X = X0.clone()                            # (N, N)
         N = self.max_n
@@ -147,6 +192,33 @@ class GraphVAE(nn.Module):
 
         return X                                  # (N, N)
 
+    def _mpm(self, X0: torch.Tensor, S: torch.Tensor, iters: int = 50, tol: float = 1e-4, early_stop: bool = True):
+        X  = X0.clone()                    # (N,N)
+        N  = X.size(0)
+        idx = torch.arange(N, device=X.device)
+
+        # S[i,i,a,a] → (N,N)
+        node_sim = S[idx[:, None], idx[:, None], idx[None, :], idx[None, :]]
+
+        mask = (~torch.eye(N, dtype=torch.bool, device=X.device)).unsqueeze(-1)  # (N,N,1)
+
+        for _ in range(iters):
+            X_prev  = X
+            node_term = X * node_sim                               # (N,N)
+
+            XS_max = (S * X.unsqueeze(0).unsqueeze(2)).amax(-1)    # (N,N,N)
+            edge_term = (XS_max * mask).sum(dim=1)                 # (N,N)
+
+            X = (node_term + edge_term)
+            X = X / X.norm(p=2)                                    # ℓ2 正規化
+
+            # if (X - X_prev).abs().max() < 1e-4:                    # 早期収束
+            if early_stop and (X - X_prev).abs().max() < tol:      # 早期収束
+                break
+
+        return X
+
+
 
     # ---------- canonical forward (training) ----------
     
@@ -154,7 +226,7 @@ class GraphVAE(nn.Module):
         # ❶ Data / Batch をリスト化 -------------------------------------------------
         graphs = data.to_data_list() if isinstance(data, Batch) else [data]
 
-        loss_rec_all, loss_kl_all = [], []
+        loss_rec_all, loss_kl_all, max_logit_all = [], [], []  # ❸ loss のリスト
 
         # ❷ 1 グラフずつ処理 --------------------------------------------------------
         for g in graphs:
@@ -176,6 +248,7 @@ class GraphVAE(nn.Module):
 
             # ---------- decoder -----------------------------------------------------
             vec_logits   = self.dec(z)                    # (U,)
+            max_logit_i  = vec_logits.detach().abs().max()   # ★ 追加
             A_hat_logits = vec_to_adj(vec_logits, self.max_n)
 
             # ---------- MPM + Hungarian --------------------------------------------
@@ -204,12 +277,21 @@ class GraphVAE(nn.Module):
             A_gt_perm        = A_gt[perm][:, perm]
             A_hat_perm_logits = A_hat_logits[perm][:, perm]
 
+            #idx = torch.triu_indices(self.max_n,
+            #                        self.max_n,
+            #                        offset=1,
+            #                        device=x.device)
+            #tri_truth = A_gt_perm[idx[0], idx[1]]              # (U,)
+            #tri_pred  = A_hat_perm_logits[idx[0], idx[1]]      # (U,)
+            
+            R = int(g.num_real_nodes) 
             idx = torch.triu_indices(self.max_n,
-                                    self.max_n,
-                                    offset=1,
-                                    device=x.device)
-            tri_truth = A_gt_perm[idx[0], idx[1]]              # (U,)
-            tri_pred  = A_hat_perm_logits[idx[0], idx[1]]      # (U,)
+                             self.max_n,
+                             offset=1,
+                             device=x.device)
+            valid = (idx[0] < R) & (idx[1] < R)            # 👈 マスク
+            tri_truth = A_gt_perm[idx[0][valid], idx[1][valid]]
+            tri_pred  = A_hat_perm_logits[idx[0][valid], idx[1][valid]]
 
             # ---------- loss --------------------------------------------------------
             loss_rec_i = F.binary_cross_entropy_with_logits(tri_pred, tri_truth)
@@ -217,14 +299,15 @@ class GraphVAE(nn.Module):
 
             loss_rec_all.append(loss_rec_i)
             loss_kl_all.append(loss_kl_i)
+            max_logit_all.append(max_logit_i)                # ★ 追加
 
         # ❸ 勾配をまとめる ----------------------------------------------------------
         loss_rec = torch.stack(loss_rec_all).mean()
         loss_kl  = torch.stack(loss_kl_all).mean()
+        max_logit   = torch.stack(max_logit_all).max()       # ★ 追加
         loss     = loss_rec + loss_kl
 
-        return loss, {"rec": loss_rec.detach(), "kl": loss_kl.detach()}
-
+        return loss, {"rec": loss_rec, "kl": loss_kl, "max_logit": max_logit}
 
     # ---------------------------------------------------------------------
     # Toy forward_test (replicates the snippet you posted)
@@ -254,6 +337,106 @@ class GraphVAE(nn.Module):
         print("permuted adjacency:\n", A_perm)
         print("bce diff:", diff.item())
 
+# -----------------------------------------------------------------------------
+# Test edge similarity tensor functions
+# -----------------------------------------------------------------------------
+
+def test_edge_sim_equivalence(N: int = 8):
+    """
+    Test equivalence of edge_sim_tensor_loop and _edge_sim_tensor.
+    """
+    # グラフ行列生成
+    A = torch.randint(0, 2, (N, N), dtype=torch.float32).triu(1)
+    A = A + A.T; A.fill_diagonal_(1)
+    B = torch.randint(0, 2, (N, N), dtype=torch.float32).triu(1)
+    B = B + B.T; B.fill_diagonal_(1)
+    dA, dB = A.sum(1), B.sum(1)
+
+    # メソッド呼び出しにはダミーモデルを利用
+    model = GraphVAE(in_dim=1, hid_dim=1, z_dim=1, max_nodes=N)
+    S_loop = model.edge_sim_tensor_loop(A, B, dA, dB)
+    S_fast = model._edge_sim_tensor(A, B, dA, dB)
+    assert torch.allclose(S_loop, S_fast)
+
+    eq = torch.allclose(S_loop, S_fast)
+    print(f"edge sim equivalence (N={N}): {eq}")
+    return eq
+
+
+# ---------------------------------------------------------------------
+# MPM-specific unit tests
+# ---------------------------------------------------------------------
+def _rand_sym_adj(N, p=0.3):
+    """Random symmetric (0/1) adjacency with self-loops (=1)."""
+    A = (torch.rand(N, N) < p).float().triu(1)
+    A = A + A.T
+    A.fill_diagonal_(1.0)
+    return A
+
+
+def test_mpm_equivalence(N: int = 8, iters: int = 20, tol: float = 1e-4):
+    """
+    _mpm_loop と _mpm が (ほぼ) 同じ出力になるか判定。
+    """
+    torch.manual_seed(0)
+    model = GraphVAE(in_dim=1, hid_dim=1, z_dim=1, max_nodes=N)
+
+    # ランダム A/B で S を作る
+    A, B = _rand_sym_adj(N), _rand_sym_adj(N)
+    dA, dB = A.sum(1), B.sum(1)
+    S  = model._edge_sim_tensor(A, B, dA, dB)
+
+    X0 = torch.rand(N, N)
+    X0 /= X0.norm()
+
+    out_loop = model._mpm_loop(X0, S, iters=iters)
+    # out_fast = model._mpm(X0, S, iters=iters)
+    out_fast = model._mpm(X0, S, iters=iters, early_stop=False)
+
+    assert torch.allclose(out_loop, out_fast, atol=tol), \
+        f"MPM mismatch: {torch.max((out_loop-out_fast).abs())}"
+    print(f"[✓] MPM equivalence   N={N}, iters={iters}, max |Δ|={torch.max((out_loop-out_fast).abs()):.2e}")
+
+
+def test_mpm_gradients(N: int = 8, iters: int = 10):
+    """
+    _mpm が autograd に対応しているかチェック。
+    (_mpm_loop はテスト対象外：速度的に不要)
+    """
+    torch.manual_seed(1)
+    model = GraphVAE(in_dim=1, hid_dim=1, z_dim=1, max_nodes=N)
+
+    S  = torch.rand(N, N, N, N, requires_grad=False)
+    X0 = torch.rand(N, N, requires_grad=True)
+    loss = model._mpm(X0, S, iters=iters).sum()
+    loss.backward()
+
+    assert torch.isfinite(X0.grad).all(), "Gradient contains inf / nan"
+    print(f"[✓] MPM gradients     N={N}, iters={iters}")
+
+
+def test_mpm_speed(N: int = 16, iters: int = 50):
+    """
+    粗いベンチ：_mpm が _mpm_loop より速いことだけ確認。
+    """
+    import time
+    torch.manual_seed(2)
+    model = GraphVAE(in_dim=1, hid_dim=1, z_dim=1, max_nodes=N)
+    S  = torch.rand(N, N, N, N)
+    X0 = torch.rand(N, N)
+    X0 /= X0.norm()
+
+    t0 = time.perf_counter()
+    model._mpm_loop(X0, S, iters=iters)
+    t_loop = time.perf_counter() - t0
+
+    t0 = time.perf_counter()
+    model._mpm(X0, S, iters=iters)
+    t_fast = time.perf_counter() - t0
+
+    speedup = t_loop / t_fast
+    assert speedup > 5, f"_mpm speedup too small: {speedup:.1f}×"
+    print(f"[✓] MPM speed         N={N}, iters={iters}, {speedup:.1f}× faster")
 
 # -----------------------------------------------------------------------------
 # Minimal smoke test
@@ -262,3 +445,11 @@ if __name__ == "__main__":
     print("--- smoke test (toy forward_test) ---")
     model = GraphVAE(in_dim=8, hid_dim=16, z_dim=8, max_nodes=4)
     model.forward_test()
+    # 追加：edge similarity テスト関数の呼び出し
+    test_edge_sim_equivalence()
+    
+    print("\n--- MPM unit-tests ---")
+    test_mpm_equivalence()
+    test_mpm_gradients()
+    test_mpm_speed()
+    print("----------------------\n")
