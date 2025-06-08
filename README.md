@@ -162,7 +162,7 @@ singularity exec --nv \
   -B "$RUNS":/workspace/runs \
   "$IMG" \
   bash -c 'export PYTHONPATH=/workspace/graph-vae:$PYTHONPATH && \
-           torchrun --nproc_per_node=4 \
+           torchrun --nproc_per_node=4 --tee 3\
                     -m graphvae.train.train_ddp \
                     --dataset enzymes \
                     --epochs 300 \

@@ -16,19 +16,29 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv, global_add_pool
+from torch_geometric.data import Batch
 
 # -----------------------------------------------------------------------------
 # Helper functions
 # -----------------------------------------------------------------------------
 
-def vec_to_adj(vec: torch.Tensor, N: int) -> torch.Tensor:
-    """Upper‑triangular vector → dense symmetric adjacency."""
+"""def vec_to_adj(vec: torch.Tensor, N: int) -> torch.Tensor:
+    # Upper‑triangular vector → dense symmetric adjacency.
     adj = vec.new_zeros(N, N)
     idx = torch.triu_indices(N, N)
     adj[idx[0], idx[1]] = vec
     adj = adj + adj.T - torch.diag(adj.diag())
-    return adj
+    return adj"""
 
+def vec_to_adj(vec: torch.Tensor, N: int) -> torch.Tensor:
+    """
+    上三角（対角なし）ベクトル → 対称隣接行列 (N,N)
+    """
+    adj = vec.new_zeros(N, N)
+    idx = torch.triu_indices(N, N, offset=1)       # ← 対角を飛ばす
+    adj[idx[0], idx[1]] = vec
+    adj = adj + adj.T                              # 対称にする
+    return adj
 
 def deg_sim(d1, d2):
     """Degree similarity (same as original implementation)."""
@@ -54,10 +64,11 @@ class GraphVAE(nn.Module):
         self.logvar = nn.Linear(hid_dim, z_dim)
 
         # ----- decoder -----
-        tri = max_nodes * (max_nodes + 1) // 2
+        #tri = max_nodes * (max_nodes + 1) // 2
+        off_diag = max_nodes * (max_nodes - 1) // 2
         self.dec = nn.Sequential(
             nn.Linear(z_dim, hid_dim), nn.ReLU(),
-            nn.Linear(hid_dim, tri),
+            nn.Linear(hid_dim, off_diag),
         )
 
         self._init_weights()
@@ -138,57 +149,82 @@ class GraphVAE(nn.Module):
 
 
     # ---------- canonical forward (training) ----------
+    
     def forward(self, data):
-        if data.batch.numel() == 0:
-            raise RuntimeError("Data batch is empty")
-        x, edge_index, batch = data.x, data.edge_index, data.batch
-        A_gt = data.adj_dense  # (B, N, N)
-        if A_gt.size(0) != 1:
-            raise NotImplementedError("Current matching impl supports batch=1 only")
+        # ❶ Data / Batch をリスト化 -------------------------------------------------
+        graphs = data.to_data_list() if isinstance(data, Batch) else [data]
 
-        # encoder
-        h = F.relu(self.bn1(self.conv1(x, edge_index)))
-        h = F.relu(self.bn2(self.conv2(h, edge_index)))
-        g = self._pool(h, batch)
-        mu, logvar = self.mu(g), self.logvar(g)
-        z = self._reparam(mu, logvar)
+        loss_rec_all, loss_kl_all = [], []
 
-        # decoder → logits vec & dense
-        vec_logits = self.dec(z)
-        A_hat_logits = vec_to_adj(vec_logits[0], self.max_n)
+        # ❷ 1 グラフずつ処理 --------------------------------------------------------
+        for g in graphs:
+            # --- Batch が無い単一グラフにも対応 -------------------------------------
+            if getattr(g, "batch", None) is None:
+                g.batch = torch.zeros(g.num_nodes,
+                                    dtype=torch.long,
+                                    device=g.x.device)
 
-        # MPM + Hungarian
-        degA = A_gt[0].sum(1)
-        degB = A_hat_logits.sigmoid().detach().sum(1)
-        S = self._edge_sim_tensor(A_gt[0], A_hat_logits.sigmoid(), degA, degB)
-        init = torch.full((self.max_n, self.max_n), 1 / self.max_n, device=x.device)
-        X = self._mpm(init, S)
-        row_np, col_np = scipy.optimize.linear_sum_assignment(-X.cpu().numpy())
-        row = torch.as_tensor(row_np, device=x.device)   # gt 側
-        col = torch.as_tensor(col_np, device=x.device)   # hat 側
-        
-        perm = torch.empty_like(col)
-        perm[col] = row         
-        
-        A_hat_prob = A_hat_logits.sigmoid()
-        A_hat_perm  = A_hat_prob[perm][:, perm]
+            x, edge_index, batch = g.x, g.edge_index, g.batch
+            A_gt = g.adj_dense.squeeze(0)                # (N,N)
 
-        # ---- GT を生成ノード順に permute --------------------------
-        A_gt_perm = A_gt[0][perm][:, perm]          # (N,N) 生成ノード順
-        
-        # デコーダと同じ順序の上三角 (対角除く) をベクトル化
-        idx = torch.triu_indices(self.max_n, self.max_n, offset=1,
-                                 device=x.device)   # (2, U)
-        tri_truth = A_gt_perm[idx[0], idx[1]]       # (U,)
-        
-        # 評価用 (optional)
-        tri_pred = A_hat_perm[idx[0], idx[1]]       # (U,)
+            # ---------- encoder -----------------------------------------------------
+            h = F.relu(self.bn1(self.conv1(x, edge_index)))
+            h = F.relu(self.bn2(self.conv2(h, edge_index)))
+            g_ = self._pool(h, batch)
+            mu, logvar = self.mu(g_), self.logvar(g_)
+            z = self._reparam(mu, logvar)
 
-        # ---- 再構成損失 -------------------------------------------
-        loss_rec = F.binary_cross_entropy_with_logits(vec_logits[0], tri_truth)
-        loss_kl = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
-        loss = loss_rec + loss_kl
+            # ---------- decoder -----------------------------------------------------
+            vec_logits   = self.dec(z)                    # (U,)
+            A_hat_logits = vec_to_adj(vec_logits, self.max_n)
+
+            # ---------- MPM + Hungarian --------------------------------------------
+            degA = A_gt.sum(1)
+            degB = A_hat_logits.sigmoid().detach().sum(1)
+            S    = self._edge_sim_tensor(A_gt,
+                                        A_hat_logits.sigmoid(),
+                                        degA, degB)
+
+            init = torch.full((self.max_n, self.max_n),
+                            1 / self.max_n,
+                            device=x.device)
+            X = self._mpm(init, S)
+
+            with torch.no_grad():
+                cost_np = (-X.detach().cpu()).numpy()
+                cost_np = np.nan_to_num(cost_np, nan=1e6,
+                                        posinf=1e6, neginf=-1e6)
+                row_np, col_np = scipy.optimize.linear_sum_assignment(cost_np)
+
+            row = torch.as_tensor(row_np, device=X.device)
+            col = torch.as_tensor(col_np, device=X.device)
+            perm = torch.empty_like(col); perm[col] = row
+
+            # ---------- permute both GT and prediction ------------------------------
+            A_gt_perm        = A_gt[perm][:, perm]
+            A_hat_perm_logits = A_hat_logits[perm][:, perm]
+
+            idx = torch.triu_indices(self.max_n,
+                                    self.max_n,
+                                    offset=1,
+                                    device=x.device)
+            tri_truth = A_gt_perm[idx[0], idx[1]]              # (U,)
+            tri_pred  = A_hat_perm_logits[idx[0], idx[1]]      # (U,)
+
+            # ---------- loss --------------------------------------------------------
+            loss_rec_i = F.binary_cross_entropy_with_logits(tri_pred, tri_truth)
+            loss_kl_i  = -0.5 * torch.mean(1 + logvar - mu.pow(2) - logvar.exp())
+
+            loss_rec_all.append(loss_rec_i)
+            loss_kl_all.append(loss_kl_i)
+
+        # ❸ 勾配をまとめる ----------------------------------------------------------
+        loss_rec = torch.stack(loss_rec_all).mean()
+        loss_kl  = torch.stack(loss_kl_all).mean()
+        loss     = loss_rec + loss_kl
+
         return loss, {"rec": loss_rec.detach(), "kl": loss_kl.detach()}
+
 
     # ---------------------------------------------------------------------
     # Toy forward_test (replicates the snippet you posted)

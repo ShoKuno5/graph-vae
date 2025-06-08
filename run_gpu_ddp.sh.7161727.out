@@ -1,0 +1,12 @@
+[W socket.cpp:464] [c10d] The server socket cannot be initialized on [::]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[default0]:[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[default2]:[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[default1]:[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[default3]:[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+[default0]:Downloading https://www.chrsmrrs.com/graphkerneldatasets/ENZYMES.zip
+[default0]:Processing...
+[default0]:Done!
+[default0]:wandb: Tracking run with wandb version 0.17.9
+[default0]:wandb: W&B syncing is set to `offline` in this directory.  
+[default0]:wandb: Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.

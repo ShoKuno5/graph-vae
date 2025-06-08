@@ -100,22 +100,37 @@ class GraphDataset(torch.utils.data.Dataset):
 # Graph generators matching the original baseline choices
 # ---------------------------------------------------------------------------
 
+def load_tu_dataset(name: str, root: str = "/tmp"):
+    """DDP 環境でも安全に TUDataset をロードするユーティリティ."""
+    rank = int(os.environ.get("RANK", 0))
+
+    if rank == 0:
+        td = TUDataset(root=root, name=name)   # ↓ rank0 だけ DL
+        if dist.is_initialized():
+            dist.barrier()                     # rank1+ を解放
+    else:
+        if dist.is_initialized():
+            dist.barrier()                     # rank0 が終わるまで待機
+        td = TUDataset(root=root, name=name)   # すでに raw があるので即ロード
+    return td
 
 def build_graph_list(dataset: str, max_nodes: int | None):
     if dataset == "grid":
-        graphs = [nx.grid_2d_graph(i, j) for i, j in itertools.product(range(2, 4), repeat=2)]
+        graphs = [nx.grid_2d_graph(i, j) 
+                  for i, j in itertools.product(range(2, 4), repeat=2)]
+
     elif dataset == "enzymes":
-        td = TUDataset(root="/tmp", name="ENZYMES")
-        #graphs = [g.to_networkx() for g in td]
+        td = load_tu_dataset("ENZYMES", root="/tmp/TUD")   # ← ここだけ変更
         from torch_geometric.utils import to_networkx
         graphs = [to_networkx(g, to_undirected=True) for g in td]
     else:
         raise ValueError("dataset must be 'grid' or 'enzymes'")
 
+    # 最大ノード数を超えるグラフは除外
     if max_nodes is None:
         max_nodes = max(g.number_of_nodes() for g in graphs)
-    # remove too‑large graphs like original script
     graphs = [g for g in graphs if g.number_of_nodes() <= max_nodes]
+
     return graphs, max_nodes
 
 # ---------------------------------------------------------------------------
