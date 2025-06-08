@@ -1,0 +1,234 @@
+[W socket.cpp:464] [c10d] The server socket cannot be initialized on [::]:29500 (errno: 97 - Address family not supported by protocol).
+[W socket.cpp:697] [c10d] The client socket cannot be initialized to connect to [::ffff:127.0.0.1]:29500 (errno: 97 - Address family not supported by protocol).
+Downloading https://www.chrsmrrs.com/graphkerneldatasets/ENZYMES.zip
+Processing...
+Done!
+wandb: Currently logged in as: shokuno (shokuno-the-university-of-tokyo). Use `wandb login --relogin` to force relogin
+wandb: WARNING Path runs/wandb/ wasn't writable, using system temp directory.
+wandb: WARNING Path runs/wandb/ wasn't writable, using system temp directory
+wandb: Tracking run with wandb version 0.17.9
+wandb: Run data is saved locally in /tmp/wandb/run-20250608_223817-7196mc0w
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run enzymes-ddp
+wandb: ⭐️ View project at https://wandb.ai/shokuno-the-university-of-tokyo/graphvae
+wandb: 🚀 View run at https://wandb.ai/shokuno-the-university-of-tokyo/graphvae/runs/7196mc0w
+Ep 000 | train 1.2842 | val 1.6535
+Ep 001 | train 1.3055 | val 1.6294
+Ep 002 | train 1.2847 | val 1.5828
+Ep 003 | train 1.3073 | val 1.5925
+Ep 004 | train 1.3258 | val 1.6335
+Ep 005 | train 1.3102 | val 1.5992
+Ep 006 | train 1.3039 | val 1.6943
+Ep 007 | train 1.3226 | val 1.6443
+Ep 008 | train 1.2993 | val 1.6161
+Ep 009 | train 1.3213 | val 1.6496
+Ep 010 | train 1.3285 | val 1.5236
+Ep 011 | train 1.3180 | val 1.5555
+Ep 012 | train 1.3029 | val 1.6600
+Ep 013 | train 1.3022 | val 1.9031
+Ep 014 | train 1.3128 | val 1.6810
+Ep 015 | train 1.3064 | val 1.5765
+Ep 016 | train 1.3064 | val 1.4866
+Ep 017 | train 1.2887 | val 1.5203
+Ep 018 | train 1.2956 | val 1.5249
+Ep 019 | train 1.3071 | val 1.4674
+Ep 020 | train 1.2866 | val 1.4921
+Ep 021 | train 1.2680 | val 1.4796
+Ep 022 | train 1.2770 | val 1.4539
+Ep 023 | train 1.2917 | val 1.4232
+Ep 024 | train 1.2764 | val 1.4080
+Ep 025 | train 1.2704 | val 1.3783
+Ep 026 | train 1.2531 | val 1.4422
+Ep 027 | train 1.2537 | val 1.4190
+Ep 028 | train 1.2637 | val 1.3691
+Ep 029 | train 1.2603 | val 1.4071
+Ep 030 | train 1.2305 | val 1.3598
+Ep 031 | train 1.2509 | val 1.3649
+Ep 032 | train 1.2441 | val 1.4127
+Ep 033 | train 1.2300 | val 1.3423
+Ep 034 | train 1.2266 | val 1.3277
+Ep 035 | train 1.2208 | val 1.3229
+Ep 036 | train 1.2038 | val 1.2642
+Ep 037 | train 1.2084 | val 1.2948
+Ep 038 | train 1.1974 | val 1.2926
+Ep 039 | train 1.1629 | val 1.2950
+Ep 040 | train 1.1775 | val 1.2556
+Ep 041 | train 1.1682 | val 1.2374
+Ep 042 | train 1.1609 | val 1.2400
+Ep 043 | train 1.1269 | val 1.1869
+Ep 044 | train 1.1207 | val 1.2354
+Ep 045 | train 1.1102 | val 1.1590
+Ep 046 | train 1.1096 | val 1.1453
+Ep 047 | train 1.0856 | val 1.1384
+Ep 048 | train 1.0716 | val 1.1303
+Ep 049 | train 1.0568 | val 1.1178
+Ep 050 | train 1.0231 | val 1.1233
+Ep 051 | train 1.0491 | val 1.0942
+Ep 052 | train 1.0271 | val 1.0819
+Ep 053 | train 0.9961 | val 1.0965
+Ep 054 | train 0.9731 | val 1.0441
+Ep 055 | train 0.9887 | val 1.0482
+Ep 056 | train 0.9562 | val 1.0184
+Ep 057 | train 0.9529 | val 1.0131
+Ep 058 | train 0.9303 | val 1.0059
+Ep 059 | train 0.9255 | val 0.9809
+Ep 060 | train 0.9041 | val 0.9744
+Ep 061 | train 0.9019 | val 1.0499
+Ep 062 | train 0.8865 | val 0.9993
+Ep 063 | train 0.8810 | val 0.9633
+Ep 064 | train 0.8709 | val 0.9383
+Ep 065 | train 0.8417 | val 0.9754
+Ep 066 | train 0.8287 | val 0.9485
+Ep 067 | train 0.8415 | val 0.9679
+Ep 068 | train 0.8248 | val 0.8990
+Ep 069 | train 0.8047 | val 0.9417
+Ep 070 | train 0.8090 | val 0.8930
+Ep 071 | train 0.7933 | val 0.8954
+Ep 072 | train 0.7891 | val 0.8842
+Ep 073 | train 0.7719 | val 0.8858
+Ep 074 | train 0.7839 | val 0.8883
+Ep 075 | train 0.7774 | val 0.9079
+Ep 076 | train 0.7491 | val 0.8622
+Ep 077 | train 0.7563 | val 0.8316
+Ep 078 | train 0.7497 | val 0.8649
+Ep 079 | train 0.7590 | val 0.8460
+Ep 080 | train 0.7324 | val 0.8569
+Ep 081 | train 0.7185 | val 0.8272
+Ep 082 | train 0.7007 | val 0.8260
+Ep 083 | train 0.7273 | val 0.7921
+Ep 084 | train 0.7197 | val 0.7994
+Ep 085 | train 0.7273 | val 0.9119
+Ep 086 | train 0.7132 | val 0.8164
+Ep 087 | train 0.6926 | val 0.8693
+Ep 088 | train 0.6919 | val 0.8058
+Ep 089 | train 0.6835 | val 0.8085
+Ep 090 | train 0.7135 | val 0.9772
+Ep 091 | train 0.6785 | val 0.7890
+Ep 092 | train 0.6913 | val 0.8018
+Ep 093 | train 0.6640 | val 0.7775
+Ep 094 | train 0.6636 | val 0.7593
+Ep 095 | train 0.6923 | val 0.9939
+Ep 096 | train 0.6410 | val 0.7676
+Ep 097 | train 0.6587 | val 0.7451
+Ep 098 | train 0.6481 | val 0.7841
+Ep 099 | train 0.6385 | val 0.7609
+Ep 100 | train 0.6561 | val 0.7901
+Ep 101 | train 0.6122 | val 0.7841
+Ep 102 | train 0.6569 | val 0.7542
+Ep 103 | train 0.6456 | val 0.8167
+Ep 104 | train 0.6279 | val 0.7448
+Ep 105 | train 0.6571 | val 0.8347
+Ep 106 | train 0.6347 | val 0.7405
+Ep 107 | train 0.6254 | val 0.7714
+Ep 108 | train 0.6273 | val 0.7569
+Ep 109 | train 0.6341 | val 0.7985
+Ep 110 | train 0.6564 | val 0.9320
+Ep 111 | train 0.6295 | val 0.8990
+Ep 112 | train 0.6649 | val 1.4023
+Ep 113 | train 0.6311 | val 0.8091
+Ep 114 | train 0.6241 | val 0.7288
+Ep 115 | train 0.6224 | val 0.8584
+Ep 116 | train 0.6236 | val 0.7772
+Ep 117 | train 0.6311 | val 0.9881
+Ep 118 | train 0.6324 | val 1.1602
+Ep 119 | train 0.6041 | val 0.8208
+Ep 120 | train 0.6183 | val 0.7128
+Ep 121 | train 0.6264 | val 1.1055
+Ep 122 | train 0.6268 | val 1.1280
+Ep 123 | train 0.6034 | val 0.8023
+Ep 124 | train 0.6019 | val 0.7463
+Ep 125 | train 0.6045 | val 0.9616
+Ep 126 | train 0.6608 | val 1.6135
+Ep 127 | train 0.6248 | val 0.9694
+Ep 128 | train 0.6627 | val 1.0065
+Ep 129 | train 0.6451 | val 0.7523
+Ep 130 | train 0.6281 | val 1.0257
+Ep 131 | train 0.6053 | val 0.7955
+Ep 132 | train 0.6230 | val 1.0033
+Ep 133 | train 0.6309 | val 1.1506
+Ep 134 | train 0.6271 | val 0.8602
+Ep 135 | train 0.6429 | val 1.0634
+Ep 136 | train 0.6283 | val 1.1252
+Ep 137 | train 0.6510 | val 1.6029
+Ep 138 | train 0.5998 | val 0.9139
+Ep 139 | train 0.6496 | val 1.0493
+Ep 140 | train 0.6384 | val 0.9088
+Ep 141 | train 0.6207 | val 0.7800
+Ep 142 | train 0.6029 | val 0.7818
+Ep 143 | train 0.6615 | val 0.8783
+Ep 144 | train 0.6301 | val 0.7328
+Ep 145 | train 0.6278 | val 0.8835
+Ep 146 | train 0.6220 | val 0.9000
+Ep 147 | train 0.6325 | val 0.9672
+Ep 148 | train 0.6129 | val 0.7377
+Ep 149 | train 0.6457 | val 0.8448
+Ep 150 | train 0.6544 | val 1.0169
+Ep 151 | train 0.6246 | val 1.0418
+Ep 152 | train 0.6385 | val 1.1063
+Ep 153 | train 0.6262 | val 0.8716
+Ep 154 | train 0.6116 | val 1.0892
+Ep 155 | train 0.6540 | val 1.0498
+Ep 156 | train 0.6771 | val 0.7398
+Ep 157 | train 0.6041 | val 0.8152
+Ep 158 | train 0.6120 | val 0.7127
+Ep 159 | train 0.6162 | val 1.0591
+Ep 160 | train 0.6205 | val 0.9781
+Ep 161 | train 0.6371 | val 0.9217
+Ep 162 | train 0.6153 | val 0.8700
+Ep 163 | train 0.6215 | val 0.7694
+Ep 164 | train 0.6093 | val 0.7985
+Ep 165 | train 0.6168 | val 0.8976
+Ep 166 | train 0.6275 | val 0.7691
+Ep 167 | train 0.6866 | val 0.8961
+Ep 168 | train 0.6223 | val 1.1174
+Ep 169 | train 0.6205 | val 1.0460
+Ep 170 | train 0.6084 | val 0.8122
+Ep 171 | train 0.6351 | val 0.9183
+Ep 172 | train 0.6400 | val 1.0860
+Ep 173 | train 0.6486 | val 0.9087
+Ep 174 | train 0.5789 | val 0.7739
+Ep 175 | train 0.5957 | val 0.8746
+Ep 176 | train 0.5855 | val 0.7488
+Ep 177 | train 0.6241 | val 0.9177
+Ep 178 | train 0.6318 | val 0.9597
+Ep 179 | train 0.6403 | val 1.0439
+Ep 180 | train 0.6302 | val 0.9924
+Ep 181 | train 0.6265 | val 0.8532
+Ep 182 | train 0.6232 | val 0.9779
+Ep 183 | train 0.5995 | val 0.7842
+Ep 184 | train 0.6269 | val 1.2830
+Ep 185 | train 0.5950 | val 0.7145
+Ep 186 | train 0.5944 | val 0.7501
+Ep 187 | train 0.6062 | val 0.7280
+Ep 188 | train 0.6117 | val 0.7672
+Ep 189 | train 0.6011 | val 0.8631
+Ep 190 | train 0.6225 | val 0.7547
+Ep 191 | train 0.6172 | val 0.7774
+Ep 192 | train 0.6029 | val 0.7962
+Ep 193 | train 0.6395 | val 0.9248
+Ep 194 | train 0.6248 | val 0.8239
+Ep 195 | train 0.5972 | val 1.1098
+Ep 196 | train 0.6025 | val 0.7703
+Ep 197 | train 0.6193 | val 1.1033
+Ep 198 | train 0.6340 | val 0.9938
+Ep 199 | train 0.6111 | val 0.9834
+✔ saved runs/graphvae_ddp.pt
+wandb: - 0.009 MB of 0.025 MB uploadedwandb: \ 0.009 MB of 0.025 MB uploadedwandb: | 0.025 MB of 0.025 MB uploadedwandb:                                                                                
+wandb: 
+wandb: Run history:
+wandb:      epoch ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb: loss/train ██████▇▇▇▆▅▅▄▃▃▃▂▂▂▂▁▁▁▁▁▁▁▂▂▁▁▁▁▂▁▁▁▁▁▁
+wandb:   loss/val ██▇█▇▆▆▆▅▄▄▃▃▃▂▂▂▂▁▁▁▁▂▃▄▃▄█▂▃▂▂▁▂▂▂▁▁▃▃
+wandb: 
+wandb: Run summary:
+wandb:      epoch 199
+wandb: loss/train 0.61113
+wandb:   loss/val 0.98342
+wandb: 
+wandb: 🚀 View run enzymes-ddp at: https://wandb.ai/shokuno-the-university-of-tokyo/graphvae/runs/7196mc0w
+wandb: ⭐️ View project at: https://wandb.ai/shokuno-the-university-of-tokyo/graphvae
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: runs/wandb/run-20250608_223817-7196mc0w/logs
+wandb: WARNING wandb version 0.20.1 is available!  To upgrade, please run:
+wandb: WARNING  $ pip install wandb --upgrade
+wandb: WARNING The new W&B backend becomes opt-out in version 0.18.0; try it out with `wandb.require("core")`! See https://wandb.me/wandb-core for more information.

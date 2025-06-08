@@ -177,154 +177,161 @@ class _NoDbg:
 # DDP worker
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# DDP worker with train / val split
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# DDP worker – per-graph ρ 計算バージョン
+# ---------------------------------------------------------------------------
 def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
     _set_seed()
-    t0 = time.perf_counter()
     dist.init_process_group("nccl", rank=rank, world_size=world)
     torch.cuda.set_device(rank)
-    if rank == 0:
-        print(f"[rank0] init_process_group ({time.perf_counter()-t0:.2f}s)", flush=True)
 
-    t0 = time.perf_counter()
+    # 1. グラフ読み込み → rank-0 で 90/10 split を決めて broadcast
     graphs, max_nodes = build_graph_list(args.dataset, args.max_nodes)
     if rank == 0:
-        print(f"[rank0] graph list ready ({time.perf_counter()-t0:.2f}s)", flush=True)
-        
-    t0 = time.perf_counter()
-    ds = GraphDataset(graphs, max_nodes, args.feature_type)
-    sampler = DistributedSampler(ds, num_replicas=world, rank=rank, shuffle=True)
-    dl = DataLoader(ds, batch_size=64, sampler=sampler, pin_memory=True)
-    if rank == 0:
-        print(f"[rank0] DataLoader ready ({time.perf_counter()-t0:.2f}s)", flush=True)
+        random.shuffle(graphs)
+    obj = [graphs]
+    dist.broadcast_object_list(obj, src=0)
+    graphs = obj[0]
 
-    #model = GraphVAE(in_dim=ds[0].x.size(-1), hid_dim=64, z_dim=32, max_nodes=max_nodes).to(rank)
-    model = GraphVAE(in_dim=ds[0].x.size(-1), hid_dim=128, z_dim=64, max_nodes=max_nodes).to(rank)
+    split = int(0.9 * len(graphs))
+    g_train, g_val = graphs[:split], graphs[split:]
+
+    ds_tr = GraphDataset(g_train, max_nodes, args.feature_type)
+    ds_va = GraphDataset(g_val,   max_nodes, args.feature_type)
+
+    smp_tr = DistributedSampler(ds_tr, world, rank, shuffle=True)
+    smp_va = DistributedSampler(ds_va, world, rank, shuffle=False)
+
+    dl_tr  = DataLoader(ds_tr, batch_size=64, sampler=smp_tr, pin_memory=True)
+    dl_va  = DataLoader(ds_va, batch_size=64, sampler=smp_va, pin_memory=True)
+
+    # 2. モデル（ρ固定引数なし）
+    model = GraphVAE(
+        in_dim    = ds_tr[0].x.size(-1),
+        hid_dim   = 128,
+        z_dim     = 64,
+        max_nodes = max_nodes,
+        pool      = "sum",          # ρ は forward 内で都度算出
+    ).to(rank)
     model = DDP(model, device_ids=[rank], find_unused_parameters=False)
-    # opt = torch.optim.Adam(model.parameters(), lr=args.lr)
-    opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
-   
-    
-    # --- logger setup ----------------------------------------------------
-    if rank == 0 and args.use_wandb and os.getenv("WANDB_DISABLED", "false").lower() not in ("true", "1"):
-        import wandb
-        use_wandb = True
-        wb_run = wandb.init(project="graphvae",
-                            name=args.run_name or f"{args.dataset}-ddp",
-                            dir=args.log_dir,
-                            config=vars(args))
-    else:
-        use_wandb = False
-        wb_run = None
+    opt   = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
 
+    # 3. ロガー
+    use_wandb = rank == 0 and args.use_wandb and os.getenv("WANDB_DISABLED","0") not in ("true","1")
+    if use_wandb:
+        import wandb
+        wb = wandb.init(project="graphvae",
+                        name=args.run_name or f"{args.dataset}-ddp",
+                        dir=args.log_dir, config=vars(args))
     tb = SummaryWriter(Path(args.log_dir, "tb")) if rank == 0 else None
 
-    # ------------------------------------------------------------------------
-    #  KL & LR アニーリング設定（β は 0→0.2 を 40 epoch かけて線形立ち上げ）
-    # ------------------------------------------------------------------------
-    beta0, beta_final   = 0.0, 0.5
-    warmup_epochs       = 40                       # β, LR ともに同じスケジュール
-    anneal_steps        = warmup_epochs * len(dl)  # 総ステップ (= epoch×バッチ数)
-    clip_max            = 5.0                      # grad-clip max-norm
+    # 4. β–KL & LR warm-up 設定
+    beta0, beta_final = 0.0, 0.5
+    warm_epochs       = 40
+    steps_per_epoch   = len(dl_tr)
+    anneal_steps      = warm_epochs * steps_per_epoch
+    clip_max          = 5.0
+    global_step       = 0
 
-    dbg = (DebugState(tb, wb_run)                  # rank0 のみデバッグ出力
-        if (rank == 0 and args.debug) else _NoDbg())
-
-    global_step = 0                                # ★ バッチごとにインクリメント
-
+    # ループ外で一度だけ
+    if rank == 0:
+        dbg = DebugState(tb, wb) if args.debug else _NoDbg()
+    else:
+        dbg = _NoDbg()
+        
+    # --------------------------- Training loop ----------------------------
     for ep in range(args.epochs):
-        sampler.set_epoch(ep)
+
+        
+        # ---- TRAIN ------------------------------------------------------
+        smp_tr.set_epoch(ep)
         model.train()
-        loss_acc, n_batches = 0.0, 0
-
-        if rank == 0:
-            print(f"\n[rank0] === Epoch {ep+1}/{args.epochs} ===", flush=True)
-            t_fetch = time.perf_counter()
-
-        for batch_idx, data in enumerate(dl):
-            if batch_idx == 0 and rank == 0:
-                print(f"[rank0]   first batch fetched "
-                    f"({time.perf_counter()-t_fetch:.2f}s)", flush=True)
-
-            # ---------- forward ----------
-            if rank == 0:
-                torch.cuda.synchronize(rank); t_fwd = time.perf_counter()
-
+        sum_loss_tr = 0.0
+        for data in dl_tr:
             data = data.to(rank, non_blocking=True)
-            logs = model(data)                 # {"rec": ..., "kl": ..., "logvar_max": ...}
+            logs = model(data)                     # rec, kl は内部で ρ 計算済み
 
-            # β-KL annealing
+            # ─── 以前と同じ β-VAE 損失計算 ─────
             beta = beta0 + (beta_final - beta0) * min(1.0, global_step / anneal_steps)
             loss = logs["rec"] + beta * logs["kl"]
-
-            # ---------- sanity checks ----------
-            if rank == 0:
-                finite_or_raise(loss,      "loss")
-                finite_or_raise(logs["rec"], "reconstruction loss")
-                finite_or_raise(logs["kl"],  "KL divergence")
-
-            # LR warm-up（β と同じスケジュール）
+            
+            # LR warm-up
             lr_scale = min(1.0, global_step / anneal_steps)
             for pg in opt.param_groups:
                 pg["lr"] = args.lr * lr_scale
 
-            if rank == 0:
-                torch.cuda.synchronize(rank)
-                print(f"[rank0]   forward  {time.perf_counter()-t_fwd:.2f}s", flush=True)
-
-            # ---------- backward ----------
-            if rank == 0:
-                torch.cuda.synchronize(rank); t_bwd = time.perf_counter()
-
             opt.zero_grad(set_to_none=True)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip_max)
+            
+            # 10 step ごとにだけノルムを測定
+            if args.debug and rank == 0 and dbg.step % 10 == 0:
+                with torch.no_grad():
+                    param_norm = torch.nn.utils.parameters_to_vector(
+                                    model.parameters()
+                                ).norm().item()
+                    grad_norm  = torch.nn.utils.parameters_to_vector(
+                                    [p.grad for p in model.parameters() if p.grad is not None]
+                                ).norm().item()
+
+                dbg.log("debug/param_norm", param_norm)
+                dbg.log("debug/grad_norm",  grad_norm)
+
+            # 残りの指標は毎ステップでも軽いのでそのまま
+            dbg.log("train/rec",  logs["rec"].item())
+            dbg.log("train/kl",   logs["kl"].item())
+            dbg.log("train/loss", loss.item())
+            dbg.log("debug/max_logit",  logs.get("max_logit", 0.).item())
+            dbg.log("debug/logvar_max", logs.get("logvar_max", 0.).item())
+
+            dbg.next()          # ← 最後に step++ する
+            
             opt.step()
 
-            # ---------- debug (rank0) ----------
-            if rank == 0:
-                max_logit  = logs.get("max_logit", torch.tensor(0.)).item()
-                grad_norm  = torch.sqrt(sum((p.grad.detach().norm() ** 2)
-                                    for p in model.parameters() if p.grad is not None)).item()
-                param_norm = torch.sqrt(sum((p.detach().norm() ** 2)
-                                    for p in model.parameters())).item()
+            sum_loss_tr += loss.item()
+            global_step += 1
 
-                dbg.log("train/rec",  logs["rec"].item())
-                dbg.log("train/kl",   logs["kl"].item())
-                dbg.log("train/loss", loss.item())
-                dbg.log("debug/max_logit",  max_logit)
-                dbg.log("debug/grad_norm",  grad_norm)
-                dbg.log("debug/param_norm", param_norm)
-                dbg.log("debug/logvar_max", logs["logvar_max"].item())
-                dbg.next()
+        # all-reduce train loss
+        tot_tr = torch.tensor([sum_loss_tr], device=rank)
+        dist.all_reduce(tot_tr, op=dist.ReduceOp.SUM)
+        mean_tr = tot_tr.item() / len(dl_tr) / world
 
-                torch.cuda.synchronize(rank)
-                print(f"[rank0]   backward {time.perf_counter()-t_bwd:.2f}s", flush=True)
+        # ---- VALIDATION -------------------------------------------------
+        model.eval(); sum_loss_va = 0.0
+        with torch.no_grad():
+            for data in dl_va:
+                data = data.to(rank, non_blocking=True)
+                logs = model(data)
+                beta = beta_final
+                sum_loss_va += (logs["rec"] + beta * logs["kl"]).item()
 
-            loss_acc  += loss.item()
-            n_batches += 1
-            global_step += 1                    # ★ バッチ終了時に必ず +1
+        tot_va = torch.tensor([sum_loss_va], device=rank)
+        dist.all_reduce(tot_va, op=dist.ReduceOp.SUM)
+        mean_va = tot_va.item() / len(dl_va) / world
 
-        # ---------- epoch 終了 ----------
+        # ---- LOG (rank-0) ----------------------------------------------
         if rank == 0:
-            avg_loss = loss_acc / n_batches
-            print(f"[rank0] epoch {ep+1} done  avg_loss={avg_loss:.4f}", flush=True)
+            print(f"Ep {ep:03d} | train {mean_tr:.4f} | val {mean_va:.4f}")
             if tb:
-                tb.add_scalar("loss/rec+kl", avg_loss, ep)
+                tb.add_scalars("loss", {"train": mean_tr, "val": mean_va}, ep)
             if use_wandb:
-                wandb.log({"loss": avg_loss, "epoch": ep})
+                wandb.log({"loss/train": mean_tr, "loss/val": mean_va, "epoch": ep})
 
-    # save ckpt once training is done
+    # save
     if rank == 0:
         ckpt = Path(args.log_dir, "graphvae_ddp.pt")
         torch.save(model.module.state_dict(), ckpt)
         print("✔ saved", ckpt)
         if use_wandb:
-            wandb.save(str(ckpt))
-            wandb.finish()
+            wandb.save(str(ckpt)); wandb.finish()
         if tb:
             tb.close()
 
     dist.destroy_process_group()
+
 
 # ---------------------------------------------------------------------------
 # Public train() – convenient entry point for both CLI and YAML configs

@@ -320,6 +320,7 @@ class GraphVAE(nn.Module):
             
             # ② pos_weight = (1-ρ)/ρ でクラス不均衡を補正 --------------------★
             pos_weight = (1 - rho) / (rho + 1e-8)              # Tensor 型
+            pos_weight = pos_weight.clamp(max = 20)
             
             # ③ BCEWithLogits に渡す -----------------------------------------★
             loss_rec_i = F.binary_cross_entropy_with_logits(
