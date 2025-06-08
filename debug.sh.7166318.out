@@ -233,3 +233,300 @@ wandb: 🚀 View run at https://wandb.ai/shokuno-the-university-of-tokyo/graphva
 [rank0] epoch 12 done  avg_loss=1.3480
 
 [rank0] === Epoch 13/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.53s
+[rank0]   backward 0.11s
+[rank0] epoch 13 done  avg_loss=1.3488
+
+[rank0] === Epoch 14/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 14 done  avg_loss=1.3651
+
+[rank0] === Epoch 15/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 15 done  avg_loss=1.3580
+
+[rank0] === Epoch 16/200 ===
+[rank0]   first batch fetched (0.20s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 16 done  avg_loss=1.3605
+
+[rank0] === Epoch 17/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 17 done  avg_loss=1.3439
+
+[rank0] === Epoch 18/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 18 done  avg_loss=1.3555
+
+[rank0] === Epoch 19/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 19 done  avg_loss=1.3389
+
+[rank0] === Epoch 20/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.47s
+[rank0]   backward 0.11s
+[rank0] epoch 20 done  avg_loss=1.3385
+
+[rank0] === Epoch 21/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.51s
+[rank0]   backward 0.11s
+[rank0] epoch 21 done  avg_loss=1.3410
+
+[rank0] === Epoch 22/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.67s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 22 done  avg_loss=1.3251
+
+[rank0] === Epoch 23/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 23 done  avg_loss=1.3086
+
+[rank0] === Epoch 24/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.56s
+[rank0]   backward 0.13s
+[rank0]   forward  0.63s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 24 done  avg_loss=1.3148
+
+[rank0] === Epoch 25/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.55s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.65s
+[rank0]   backward 0.13s
+[rank0]   forward  0.49s
+[rank0]   backward 0.11s
+[rank0] epoch 25 done  avg_loss=1.3110
+
+[rank0] === Epoch 26/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.57s
+[rank0]   backward 0.13s
+[rank0]   forward  0.50s
+[rank0]   backward 0.11s
+[rank0] epoch 26 done  avg_loss=1.3117
+
+[rank0] === Epoch 27/200 ===
+[rank0]   first batch fetched (0.11s)
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.60s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 27 done  avg_loss=1.3111
+
+[rank0] === Epoch 28/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.59s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+[rank0]   forward  0.58s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.60s
+[rank0]   backward 0.14s
+[rank0]   forward  0.61s
+[rank0]   backward 0.14s
+[rank0]   forward  0.52s
+[rank0]   backward 0.11s
+[rank0] epoch 28 done  avg_loss=1.2983
+
+[rank0] === Epoch 29/200 ===
+[rank0]   first batch fetched (0.10s)
+[rank0]   forward  0.58s
+[rank0]   backward 0.13s
+[rank0]   forward  0.62s
+[rank0]   backward 0.13s
+[rank0]   forward  0.61s
+[rank0]   backward 0.13s
+/opt/conda/lib/python3.10/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 2 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
