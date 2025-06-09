@@ -19,10 +19,10 @@ RUNS=$CODE/runs
 
 
 # -------- experiment tag ---------
-EXP=$(date +%Y%m%d_%H%M%S)          # ex.) 20250607_231045
-EXP_DIR=$RUNS/$EXP
-mkdir -p "$DATA" "$EXP_DIR"
-echo "Directory created: $EXP_DIR $DATA"
+#EXP=$(date +%Y%m%d_%H%M%S)          # ex.) 20250607_231045
+#EXP_DIR=$RUNS/$EXP
+#mkdir -p "$DATA" "$EXP_DIR"
+#echo "Directory created: $EXP_DIR $DATA"
 
 # -------- env / NCCL / PyTorch --------
 export MASTER_ADDR=127.0.0.1
@@ -38,15 +38,19 @@ export WANDB_NAME="enzymes_${EXP}"
 export TORCH_GEOMETRIC_HOME=/dataset  # TUDataset キャッシュ先
 
 # -------- singularity + torchrun --------
-# -------- singularity + torchrun --------
-singularity exec --nv -B "$CODE":/w -B "$RUNS":/workspace/runs "$IMG" bash -c "
-  export PYTHONPATH=/w:$PYTHONPATH
-  export MASTER_ADDR=127.0.0.1
-  export MASTER_PORT=29500
-  export PYTHONUNBUFFERED=1
-
-  # 親ディレクトリを作成
-  mkdir -p /workspace/runs/$EXP
-
-  CUDA_VISIBLE_DEVICES=0 python -u -m graphvae.train.train_ddp --dataset enzymes --config /w/configs/enzymes_deg.yaml --debug --log_dir /workspace/runs/$EXP
-"
+singularity exec --nv \
+  -B "$CODE":/w \
+  -B "$RUNS":/workspace/runs \
+  -B "$DATA":/dataset \
+  "$IMG" \
+  bash -c "
+    export PYTHONPATH=/w:\$PYTHONPATH;
+    export MASTER_ADDR=127.0.0.1;
+    export MASTER_PORT=29500;
+    export PYTHONUNBUFFERED=1;
+    # Create experiment directory
+    mkdir -p /workspace/runs/$EXP;
+    
+    # Run sampling (adjusted path from /workspace/graph-vae to /w)
+    python /w/experiments/sample.py /workspace/runs/20250609_214248 --num 8 --th 0.5
+  "

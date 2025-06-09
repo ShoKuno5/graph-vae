@@ -30,18 +30,26 @@ from torch_geometric.data import Batch
     adj = adj + adj.T - torch.diag(adj.diag())
     return adj"""
 
-def vec_to_adj(vec: torch.Tensor, N: int) -> torch.Tensor:
+def vec_to_adj(vec: torch.Tensor, N: int, *, diag: bool = False) -> torch.Tensor:
     """
-    上三角（対角なし）ベクトル → 対称隣接行列 (N,N)
+    上三角（対角なし）ベクトル → 対称隣接行列 (N, N)
+
+    Parameters
+    ----------
+    diag : bool
+        True なら対角成分を 1 にする（Permutation Loss 用など）。
+        False なら 0 のまま（通常の無向単純グラフ）。
     """
     adj = vec.new_zeros(N, N)
-    idx = torch.triu_indices(N, N, offset=1)       # ← 対角を飛ばす
+    idx = torch.triu_indices(N, N, offset=1)  # 対角は飛ばす
     adj[idx[0], idx[1]] = vec
-    # adj = adj + adj.T                              # 対称にする
-    adj = adj + adj.T
-    idx = torch.arange(N, device=adj.device)
-    adj[idx, idx] = 1.0                     # ★ 生成側も対角=1
+    adj = adj + adj.T                         # 対称化
+
+    if diag:
+        d = torch.arange(N, device=adj.device)
+        adj[d, d] = 1.0
     return adj
+
 
 def deg_sim(d1, d2):
     """Degree similarity (same as original implementation)."""
@@ -130,7 +138,15 @@ class GraphVAE(nn.Module):
                             )
         return S
     
-    def _edge_sim_tensor(self, A, B, degA, degB):
+    def _edge_sim_tensor(self, A, B):
+        # --- “MPM 用” は自己ループを 1 に補正 --------------------------
+        A = A.clone(); B = B.clone()
+        torch.diagonal(A).fill_(1.0)
+        torch.diagonal(B).fill_(1.0)
+        
+        degA = A.sum(1)
+        degB = B.sum(1)
+        
         # ---- 型を float に統一 ---------------------------------------------
         A = A.float()
         B = B.float()
@@ -270,14 +286,13 @@ class GraphVAE(nn.Module):
             # ---------- decoder -----------------------------------------------------
             vec_logits   = self.dec(z)                    # (U,)
             max_logit_i  = vec_logits.detach().abs().max()   # ★ 追加
-            A_hat_logits = vec_to_adj(vec_logits, self.max_nodes)
-
+            A_hat_logits = vec_to_adj(vec_logits, self.max_nodes, diag=False)  # (N,N)
+            #A_hat_logits.fill_diagonal_(0)
+            A_hat_logits.fill_diagonal_(-10.0) 
+            
             # ---------- MPM + Hungarian --------------------------------------------
-            degA = A_gt.sum(1)
-            degB = A_hat_logits.sigmoid().detach().sum(1)
             S    = self._edge_sim_tensor(A_gt,
-                                        A_hat_logits.sigmoid(),
-                                        degA, degB)
+                                        A_hat_logits.sigmoid())
 
             init = torch.full((self.max_nodes, self.max_nodes),
                             1 / self.max_nodes,
@@ -325,7 +340,7 @@ class GraphVAE(nn.Module):
             
             # ② pos_weight = (1-ρ)/ρ でクラス不均衡を補正 --------------------★
             pos_weight = (1 - rho) / (rho + 1e-8)              # Tensor 型
-            pos_weight = pos_weight.clamp(max = 20)
+            pos_weight = pos_weight.clamp(min=1.0, max = 20)
             
             # ③ BCEWithLogits に渡す -----------------------------------------★
             loss_rec_i = F.binary_cross_entropy_with_logits(
@@ -359,7 +374,7 @@ class GraphVAE(nn.Module):
         A1 = torch.tensor([[1, 1, 1, 0], [1, 1, 0, 1], [1, 0, 1, 0], [0, 1, 0, 1]], dtype=torch.float32)
         d, d1 = A.sum(1), A1.sum(1)
 
-        S = self._edge_sim_tensor(A, A1, d, d1)
+        S = self._edge_sim_tensor(A, A1)
         X0 = torch.full((N, N), 1 / N)
         X = self._mpm(X0, S)
         r, c = scipy.optimize.linear_sum_assignment(-X.numpy())
@@ -393,7 +408,7 @@ def test_edge_sim_equivalence(N: int = 8):
     # メソッド呼び出しにはダミーモデルを利用
     model = GraphVAE(in_dim=1, hid_dim=1, z_dim=1, max_nodes=N)
     S_loop = model.edge_sim_tensor_loop(A, B, dA, dB)
-    S_fast = model._edge_sim_tensor(A, B, dA, dB)
+    S_fast = model._edge_sim_tensor(A, B)
     assert torch.allclose(S_loop, S_fast)
 
     eq = torch.allclose(S_loop, S_fast)
@@ -422,7 +437,7 @@ def test_mpm_equivalence(N: int = 8, iters: int = 20, tol: float = 1e-4):
     # ランダム A/B で S を作る
     A, B = _rand_sym_adj(N), _rand_sym_adj(N)
     dA, dB = A.sum(1), B.sum(1)
-    S  = model._edge_sim_tensor(A, B, dA, dB)
+    S  = model._edge_sim_tensor(A, B)
 
     X0 = torch.rand(N, N)
     X0 /= X0.norm()

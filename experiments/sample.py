@@ -63,8 +63,11 @@ def main(run_dir: Path, num: int, th: float, device: str, seed: int):
         vec = model.dec(z)                    # (B, U)
 
     for i in range(num):
-        adj_prob = vec_to_adj(vec[i], model.max_nodes).sigmoid()
-        adj_bin  = (adj_prob > th).float()
+        # training と同じく自己ループの logit を極端に小さくする
+        adj_logits = vec_to_adj(vec[i], model.max_nodes, diag=False)
+        adj_logits.fill_diagonal_(-10.0)
+        adj_prob = adj_logits.sigmoid()
+        adj_bin = (adj_prob > th).float()
 
         G = nx.from_numpy_array(adj_bin.cpu().numpy())
         save_graph(G, out_dir / f"sample_{i}")
@@ -89,3 +92,28 @@ if __name__ == "__main__":
 
     device = "cpu" if args.cpu or not torch.cuda.is_available() else "cuda:0"
     main(args.run_dir, args.num, args.th, device, args.seed)
+
+"""
+  ### sample
+pjsub --interact -g jh210022a -L rscgrp=interactive-a,jobenv=singularity
+
+module load singularity/3.7.3 cuda/12.0 
+
+ROOT=/work/jh210022o/q25030 \
+CODE=$ROOT/graph-vae \
+IMG=$CODE/images/gvae_cuda.sif \
+DATA=$ROOT/datasets \
+RUNS=$CODE/runs  
+
+export PYTHONPATH=/workspace/graph-vae:$PYTHONPATH
+
+  ### GPU で実行
+singularity exec --nv \
+  -B "$CODE":/workspace/graph-vae \
+  -B "$DATA":/dataset \
+  -B "$RUNS":/workspace/runs \
+  "$IMG" \
+  bash -c "
+    python /workspace/graph-vae/experiments/sample.py /workspace/runs/20250609_211249 --num 8 --th 0.45
+  "
+"""

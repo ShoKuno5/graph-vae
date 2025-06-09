@@ -98,9 +98,9 @@ class GraphDataset(torch.utils.data.Dataset):
         adj[ei[0], ei[1]] = 1
         #adj = torch.maximum(adj, adj.T)  # undirected
         adj = torch.maximum(adj, adj.T)
-        N = g.number_of_nodes()                 # 実ノードだけ自己ループ=1
-        idx = torch.arange(N)
-        adj[idx, idx] = 1.0                     # ★ ここを追加
+        # N = g.number_of_nodes()                 # 実ノードだけ自己ループ=1
+        # idx = torch.arange(N)
+        # adj[idx, idx] = 1.0                     # ★ ここを追加
         
         data.adj_dense = adj
         

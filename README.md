@@ -188,5 +188,5 @@ singularity exec --nv \
   -B "$RUNS":/workspace/runs \
   "$IMG" \
   bash -c "
-    python /workspace/graph-vae/experiments/sample.py /workspace/runs/20250609_190136 --num 8 --th 0.45
+    python /workspace/graph-vae/experiments/sample.py /workspace/runs/20250609_211249 --num 8 --th 0.45
   "
