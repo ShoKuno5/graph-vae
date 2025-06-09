@@ -33,6 +33,10 @@ from torch_geometric.loader import DataLoader
 from torch_geometric.utils import from_networkx, to_undirected
 from torch_geometric.datasets import TUDataset
 
+from datetime import datetime
+from pathlib import Path
+import yaml
+
 from graphvae.models.model import GraphVAE  # ← your modernised implementation
 
 # ---------------------------------------------------------------------------
@@ -86,7 +90,7 @@ class GraphDataset(torch.utils.data.Dataset):
         data = from_networkx(g)
         data.edge_index = to_undirected(data.edge_index, num_nodes=g.number_of_nodes())
         data.x = x
-        data.num_nodes = self.max_nodes  # pad virtual nodes implicitly
+        data.num_nodes = x.size(0)  # pad virtual nodes implicitly
 
         # dense adjacency for loss
         adj = torch.zeros(self.max_nodes, self.max_nodes)
@@ -183,7 +187,8 @@ class _NoDbg:
 # ---------------------------------------------------------------------------
 # DDP worker – per-graph ρ 計算バージョン
 # ---------------------------------------------------------------------------
-def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
+def _ddp_worker(rank: int, world: int, args):
+    print("DEBUG rank", rank, type(args.lr), args.lr, flush=True)
     _set_seed()
     dist.init_process_group("nccl", rank=rank, world_size=world)
     torch.cuda.set_device(rank)
@@ -199,25 +204,25 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
     split = int(0.9 * len(graphs))
     g_train, g_val = graphs[:split], graphs[split:]
 
-    ds_tr = GraphDataset(g_train, max_nodes, args.feature_type)
-    ds_va = GraphDataset(g_val,   max_nodes, args.feature_type)
+    ds_tr = GraphDataset(g_train, max_nodes=max_nodes, feature_type=args.feature_type)
+    ds_va = GraphDataset(g_val,   max_nodes=max_nodes, feature_type=args.feature_type)
 
     smp_tr = DistributedSampler(ds_tr, world, rank, shuffle=True)
     smp_va = DistributedSampler(ds_va, world, rank, shuffle=False)
 
-    dl_tr  = DataLoader(ds_tr, batch_size=64, sampler=smp_tr, pin_memory=True)
-    dl_va  = DataLoader(ds_va, batch_size=64, sampler=smp_va, pin_memory=True)
+    dl_tr  = DataLoader(ds_tr, batch_size=args.batch_size, sampler=smp_tr, pin_memory=True)
+    dl_va  = DataLoader(ds_va, batch_size=args.batch_size, sampler=smp_va, pin_memory=True)
 
     # 2. モデル（ρ固定引数なし）
     model = GraphVAE(
-        in_dim    = ds_tr[0].x.size(-1),
-        hid_dim   = 128,
-        z_dim     = 64,
+        in_dim    = args.in_dim,  # ← YAML で指定した in_dim
+        hid_dim   = args.hid_dim,
+        z_dim     = args.z_dim,
         max_nodes = max_nodes,
-        pool      = "sum",          # ρ は forward 内で都度算出
+        pool      = args.pool,          # ρ は forward 内で都度算出
     ).to(rank)
     model = DDP(model, device_ids=[rank], find_unused_parameters=False)
-    opt   = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
+    opt   = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
     # 3. ロガー
     use_wandb = rank == 0 and args.use_wandb and os.getenv("WANDB_DISABLED","0") not in ("true","1")
@@ -229,11 +234,13 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
     tb = SummaryWriter(Path(args.log_dir, "tb")) if rank == 0 else None
 
     # 4. β–KL & LR warm-up 設定
-    beta0, beta_final = 0.0, 0.5
+    """beta0, beta_final = 0.0, 0.5
     warm_epochs       = 40
-    steps_per_epoch   = len(dl_tr)
-    anneal_steps      = warm_epochs * steps_per_epoch
     clip_max          = 5.0
+    """
+    
+    steps_per_epoch   = len(dl_tr)
+    anneal_steps      = args.warm_epochs * steps_per_epoch
     global_step       = 0
 
     # ループ外で一度だけ
@@ -245,7 +252,6 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
     # --------------------------- Training loop ----------------------------
     for ep in range(args.epochs):
 
-        
         # ---- TRAIN ------------------------------------------------------
         smp_tr.set_epoch(ep)
         model.train()
@@ -255,7 +261,7 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
             logs = model(data)                     # rec, kl は内部で ρ 計算済み
 
             # ─── 以前と同じ β-VAE 損失計算 ─────
-            beta = beta0 + (beta_final - beta0) * min(1.0, global_step / anneal_steps)
+            beta = args.beta0 + (args.beta_final -args.beta0) * min(1.0, global_step / anneal_steps)
             loss = logs["rec"] + beta * logs["kl"]
             
             # LR warm-up
@@ -265,7 +271,7 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
 
             opt.zero_grad(set_to_none=True)
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), clip_max)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip_max)
             
             # 10 step ごとにだけノルムを測定
             if args.debug and rank == 0 and dbg.step % 10 == 0:
@@ -305,7 +311,7 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
             for data in dl_va:
                 data = data.to(rank, non_blocking=True)
                 logs = model(data)
-                beta = beta_final
+                beta = args.beta_final
                 sum_loss_va += (logs["rec"] + beta * logs["kl"]).item()
 
         tot_va = torch.tensor([sum_loss_va], device=rank)
@@ -337,25 +343,59 @@ def _ddp_worker(rank: int, world: int, args: argparse.Namespace):
 # Public train() – convenient entry point for both CLI and YAML configs
 # ---------------------------------------------------------------------------
 
-def train(cfg):
-    if isinstance(cfg, dict):  # allow YAML dict
-        cfg = cfg.get("trainer", cfg)
-        cfg = SimpleNamespace(**cfg)
+import os, yaml
+from pathlib import Path
+from types import SimpleNamespace
 
+def train(cfg):
+    # -------- 1. dict → SimpleNamespace --------
+    if isinstance(cfg, dict):
+        cfg = SimpleNamespace(**cfg.get("trainer", cfg))
+
+    # -------- 2. defaults を穴埋め --------
     defaults = dict(
-        dataset="grid",
-        feature_type="id",
-        lr=1e-4,
-        epochs=200,
-        max_nodes=None,  # autodetect
-        log_dir="runs",
-        use_wandb=True,
-        run_name=None,
+        dataset="grid", feature_type="id",
+        lr=1e-4, epochs=200, max_nodes=None,
+        log_dir="runs", use_wandb=True, run_name=None,
+        batch_size=64, weight_decay=1e-4,
+        beta0=0.0, beta_final=0.5, warm_epochs=40, clip_max=5.0,
+        hid_dim=128, z_dim=64, pool="sum",
     )
     for k, v in defaults.items():
         if not hasattr(cfg, k):
             setattr(cfg, k, v)
 
+    # -------- 3. 数値フィールドを float 化 --------
+    for key in ("lr", "weight_decay", "beta0", "beta_final", "clip_max"):
+        val = getattr(cfg, key)
+        if isinstance(val, str):
+            try:
+                setattr(cfg, key, float(val))
+            except ValueError:
+                raise ValueError(f"{key} should be numeric, got {val!r}")
+
+    if cfg.log_dir in ("runs", "./runs"):
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        cfg.log_dir = str(Path("runs") / ts)
+    Path(cfg.log_dir).mkdir(parents=True, exist_ok=True)
+    
+    # --- 3. データセットを 1 グラフだけ読み込んで in_dim を決める ---
+    graphs, max_nodes_auto = build_graph_list(cfg.dataset, cfg.max_nodes)
+
+    ds_tmp = GraphDataset([graphs[0]],
+                        feature_type=cfg.feature_type,
+                        max_nodes=cfg.max_nodes or max_nodes_auto)   # ★ 追加
+
+    cfg.in_dim = ds_tmp[0].x.size(-1)
+
+    # -------- 4. params.yaml を rank0 だけ保存 --------
+    is_rank0 = os.environ.get("RANK", "0") == "0"
+    if is_rank0:
+        with open(Path(cfg.log_dir) / "params.yaml", "w") as f:
+            yaml.safe_dump(vars(cfg), f, sort_keys=False)
+            print("✔ saved params to", f.name)
+
+    # -------- 5. DDP 起動 --------
     if "RANK" in os.environ and "WORLD_SIZE" in os.environ:
         _ddp_worker(int(os.environ["RANK"]), int(os.environ["WORLD_SIZE"]), cfg)
     else:
@@ -369,8 +409,8 @@ if __name__ == "__main__":
     pa = argparse.ArgumentParser()
     pa.add_argument("--dataset", choices=["grid", "enzymes"], default="grid")
     pa.add_argument("--feature_type", choices=["id", "deg"], default="id")
-    pa.add_argument("--lr", type=float, default=1e-4)
-    pa.add_argument("--epochs", type=int, default=200)
+    #pa.add_argument("--lr", type=float, default=1e-4)
+    #pa.add_argument("--epochs", type=int, default=200)
     pa.add_argument("--max_nodes", type=int, default=None)
     pa.add_argument("--log_dir", default="runs")
     pa.add_argument("--config", help="YAML config with a 'trainer:' section")
@@ -382,8 +422,12 @@ if __name__ == "__main__":
 
     if args.config:
         with open(args.config) as f:
-            cfg = yaml.safe_load(f)
-        train(cfg)
+            ycfg = yaml.safe_load(f).get("trainer", {})
+        # CLI → dict（None は除外）
+        cli = {k: v for k, v in vars(args).items()
+            if k not in ("config", "no_wandb") and v is not None}
+        # CLI が YAML を上書き
+        merged = {**ycfg, **cli}
+        train(SimpleNamespace(**merged))
     else:
         train(args)
-

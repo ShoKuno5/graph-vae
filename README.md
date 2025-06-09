@@ -167,3 +167,26 @@ singularity exec --nv \
                     --dataset enzymes \
                     --epochs 300 \
                     --feature_type deg'
+
+  ### sample
+pjsub --interact -g jh210022a -L rscgrp=interactive-a,jobenv=singularity
+
+module load singularity/3.7.3 cuda/12.0 
+
+ROOT=/work/jh210022o/q25030 \
+CODE=$ROOT/graph-vae \
+IMG=$CODE/images/gvae_cuda.sif \
+DATA=$ROOT/datasets \
+RUNS=$CODE/runs  
+
+export PYTHONPATH=/workspace/graph-vae:$PYTHONPATH
+
+  ### GPU で実行
+singularity exec --nv \
+  -B "$CODE":/workspace/graph-vae \
+  -B "$DATA":/dataset \
+  -B "$RUNS":/workspace/runs \
+  "$IMG" \
+  bash -c "
+    python /workspace/graph-vae/experiments/sample.py /workspace/runs/20250609_190136 --num 8 --th 0.45
+  "

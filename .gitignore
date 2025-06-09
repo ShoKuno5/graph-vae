@@ -1,7 +1,15 @@
-runs/
-wandb/
-images/
-data/
+# build
 __pycache__/
+*.py[cod]
+*.so
+
+# data / runs
+runs/
+datasets/
+wandb/
 *.pt
-run_gpu_ddp.sh.7126822.out
+*.sif
+
+# logs
+*.out
+logs/

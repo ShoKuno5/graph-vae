@@ -55,7 +55,7 @@ def deg_sim(d1, d2):
 class GraphVAE(nn.Module):
     def __init__(self, in_dim: int, hid_dim: int, z_dim: int, max_nodes: int, *, pool: str = "sum") -> None:
         super().__init__()
-        self.max_n = max_nodes
+        self.max_nodes = max_nodes
         self.pool = pool
 
         # ----- encoder -----
@@ -113,7 +113,7 @@ class GraphVAE(nn.Module):
     # ---------- permutation‑matching utilities ----------
     def edge_sim_tensor_loop(self, A, B, degA, degB):
         A = A.float();  B = B.float()
-        N = self.max_n
+        N = self.max_nodes
         S = A.new_zeros(N, N, N, N)
         for i in range(N):
             for j in range(N):
@@ -134,7 +134,7 @@ class GraphVAE(nn.Module):
         # ---- 型を float に統一 ---------------------------------------------
         A = A.float()
         B = B.float()
-        N = self.max_n
+        N = self.max_nodes
 
         # ---- ノード類似度 ---------------------------------------------------
         node_sim = deg_sim(degA.view(-1, 1), degB.view(1, -1))   # (N,N)
@@ -177,7 +177,7 @@ class GraphVAE(nn.Module):
     def _mpm_loop(self, X0, S, iters: int = 50):
         """Max-pool-matching (MPM) producing an (N, N) assignment matrix."""
         X = X0.clone()                            # (N, N)
-        N = self.max_n
+        N = self.max_nodes
         for _ in range(iters):
             X_new = torch.zeros_like(X)
 
@@ -204,6 +204,11 @@ class GraphVAE(nn.Module):
         return X                                  # (N, N)
 
     def _mpm(self, X0: torch.Tensor, S: torch.Tensor, iters: int = 50, tol: float = 1e-4, early_stop: bool = True):
+        """
+        ！！！改修予定！！！
+        edge_term は 行列積 + reshape で書き換えられる（Kronecker 補助行列 or einsum で amax を回避）
+        """
+        
         X  = X0.clone()                    # (N,N)
         N  = X.size(0)
         idx = torch.arange(N, device=X.device)
@@ -265,7 +270,7 @@ class GraphVAE(nn.Module):
             # ---------- decoder -----------------------------------------------------
             vec_logits   = self.dec(z)                    # (U,)
             max_logit_i  = vec_logits.detach().abs().max()   # ★ 追加
-            A_hat_logits = vec_to_adj(vec_logits, self.max_n)
+            A_hat_logits = vec_to_adj(vec_logits, self.max_nodes)
 
             # ---------- MPM + Hungarian --------------------------------------------
             degA = A_gt.sum(1)
@@ -274,8 +279,8 @@ class GraphVAE(nn.Module):
                                         A_hat_logits.sigmoid(),
                                         degA, degB)
 
-            init = torch.full((self.max_n, self.max_n),
-                            1 / self.max_n,
+            init = torch.full((self.max_nodes, self.max_nodes),
+                            1 / self.max_nodes,
                             device=x.device)
             X = self._mpm(init, S)
 
@@ -294,16 +299,16 @@ class GraphVAE(nn.Module):
             # A_hat_perm_logits = A_hat_logits[perm][:, perm]
             A_hat_perm_logits = A_hat_logits          # ← そのまま使う
 
-            #idx = torch.triu_indices(self.max_n,
-            #                        self.max_n,
+            #idx = torch.triu_indices(self.max_nodes,
+            #                        self.max_nodes,
             #                        offset=1,
             #                        device=x.device)
             #tri_truth = A_gt_perm[idx[0], idx[1]]              # (U,)
             #tri_pred  = A_hat_perm_logits[idx[0], idx[1]]      # (U,)
             
             R = int(g.num_real_nodes) 
-            idx = torch.triu_indices(self.max_n,
-                             self.max_n,
+            idx = torch.triu_indices(self.max_nodes,
+                             self.max_nodes,
                              offset=1,
                              device=x.device)
             valid = (idx[0] < R) & (idx[1] < R)            # 👈 マスク
@@ -349,7 +354,7 @@ class GraphVAE(nn.Module):
         """Run the 4‑node toy example from the user snippet to sanity‑check the
         MPM + Hungarian + permute logic. Prints intermediate results to stdout.
         """
-        N = self.max_n = 4  # ensure consistency
+        N = self.max_nodes = 4  # ensure consistency
         A = torch.tensor([[1, 1, 0, 0], [1, 1, 1, 0], [0, 1, 1, 1], [0, 0, 1, 1]], dtype=torch.float32)
         A1 = torch.tensor([[1, 1, 1, 0], [1, 1, 0, 1], [1, 0, 1, 0], [0, 1, 0, 1]], dtype=torch.float32)
         d, d1 = A.sum(1), A1.sum(1)

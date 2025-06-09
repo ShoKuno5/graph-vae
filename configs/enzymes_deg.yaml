@@ -1,0 +1,18 @@
+# config.yaml
+trainer:
+  dataset: enzymes        # ← grid / enzymes
+  feature_type: deg        # ← id / deg
+  max_nodes: 40       # 自動判定なら書かなくてOK
+  epochs: 200
+  batch_size: 64          # ここはモデル側でも使うなら残す
+  hid_dim: 128
+  z_dim: 64
+  pool: sum               # クォート不要
+  lr: 1e-4
+  weight_decay: 1e-4
+  beta0: 0.0
+  beta_final: 0.5
+  warm_epochs: 40
+  clip_max: 5.0
+  debug: true
+  use_wandb: true         

@@ -11,17 +11,18 @@ module load singularity/3.7.3
 module load cuda/12.0
 
 # -------- host-side paths --------
-ROOT=/work/01/jh210022o/q25030
+ROOT=/work/jh210022o/q25030
 CODE=$ROOT/graph-vae
 IMG=$CODE/images/gvae_cuda.sif
-DATA=$ROOT/datasets
+DATA=$CODE/datasets
 RUNS=$CODE/runs
-WANDB=$CODE/wandb        
+
 
 # -------- experiment tag ---------
 EXP=$(date +%Y%m%d_%H%M%S)          # ex.) 20250607_231045
 EXP_DIR=$RUNS/$EXP
-mkdir -p "$DATA" "$EXP_DIR" "$WANDB"
+mkdir -p "$DATA" "$EXP_DIR"
+echo "Directory created: $EXP_DIR $DATA"
 
 # -------- env / NCCL / PyTorch --------
 export MASTER_ADDR=127.0.0.1
@@ -37,11 +38,15 @@ export WANDB_NAME="enzymes_${EXP}"
 export TORCH_GEOMETRIC_HOME=/dataset  # TUDataset キャッシュ先
 
 # -------- singularity + torchrun --------
-singularity exec --nv -B "$CODE":/w "$IMG" bash -c '
+# -------- singularity + torchrun --------
+singularity exec --nv -B "$CODE":/w -B "$RUNS":/workspace/runs "$IMG" bash -c "
   export PYTHONPATH=/w:$PYTHONPATH
   export MASTER_ADDR=127.0.0.1
   export MASTER_PORT=29500
   export PYTHONUNBUFFERED=1
 
-  CUDA_VISIBLE_DEVICES=0 python -u -m graphvae.train.train_ddp --dataset enzymes --epochs 200 --feature_type deg --max_nodes 40 --lr 1e-4 --debug
-'
+  # 親ディレクトリを作成
+  mkdir -p /workspace/runs/$EXP
+
+  CUDA_VISIBLE_DEVICES=0 python -u -m graphvae.train.train_ddp --dataset enzymes --config /w/configs/enzymes_deg.yaml --debug --log_dir /workspace/runs/$EXP
+"

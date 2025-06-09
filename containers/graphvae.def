@@ -18,7 +18,7 @@ From: pytorch/pytorch:2.2.2-cuda12.1-cudnn8-runtime   # Python 3.11 + CUDA 12.1 
     ##  * PyG 系は CUDA121 / Torch 2.2.2 wheel を pin
     PYG_WHL="https://data.pyg.org/whl/torch-2.2.2+cu121.html"
     python -m pip install --no-cache-dir \
-        networkx scipy \
+        networkx scipy matplotlib\
         tensorboard==2.16.* \
         wandb==0.17.* \
         torch_geometric torch_scatter -f ${PYG_WHL}
