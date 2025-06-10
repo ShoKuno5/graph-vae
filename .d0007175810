@@ -19,10 +19,10 @@ RUNS=$CODE/runs
 
 
 # -------- experiment tag ---------
-#EXP=$(date +%Y%m%d_%H%M%S)          # ex.) 20250607_231045
-#EXP_DIR=$RUNS/$EXP
-#mkdir -p "$DATA" "$EXP_DIR"
-#echo "Directory created: $EXP_DIR $DATA"
+EXP=$(date +%Y%m%d_%H%M%S)          # ex.) 20250607_231045
+EXP_DIR=$RUNS/$EXP
+mkdir -p "$DATA" "$EXP_DIR"
+echo "Directory created: $EXP_DIR $DATA"
 
 # -------- env / NCCL / PyTorch --------
 export MASTER_ADDR=127.0.0.1
@@ -50,7 +50,10 @@ singularity exec --nv \
     export PYTHONUNBUFFERED=1;
     # Create experiment directory
     mkdir -p /workspace/runs/$EXP;
+
+    # Run training
+    CUDA_VISIBLE_DEVICES=0 python -u -m graphvae.train.train_ddp --dataset enzymes --config /w/configs/enzymes_deg.yaml --debug --log_dir /workspace/runs/$EXP;
     
     # Run sampling (adjusted path from /workspace/graph-vae to /w)
-    python /w/experiments/sample.py /workspace/runs/20250610_172009 --num 8 --th 0.6
+    python /w/experiments/sample.py /workspace/runs/$EXP --num 8 --th 0.45
   "

@@ -90,7 +90,9 @@ class GraphDataset(torch.utils.data.Dataset):
         data = from_networkx(g)
         data.edge_index = to_undirected(data.edge_index, num_nodes=g.number_of_nodes())
         data.x = x
-        data.num_nodes = x.size(0)  # pad virtual nodes implicitly
+        # data.num_nodes = x.size(0)  # pad virtual nodes implicitly
+        # 「本当に存在するノード数」だけ知らせる
+        data.num_nodes = g.number_of_nodes()
 
         # dense adjacency for loss
         adj = torch.zeros(self.max_nodes, self.max_nodes)
@@ -221,6 +223,21 @@ def _ddp_worker(rank: int, world: int, args):
         max_nodes = max_nodes,
         pool      = args.pool,          # ρ は forward 内で都度算出
     ).to(rank)
+    # ---------- ★ ここを追加 ----------------------------------------------------
+    # DataLoader *全体* を使って rank0 だけ ρ を測る
+    if rank == 0:
+        full_loader = DataLoader(
+            GraphDataset(g_train, max_nodes=max_nodes,
+                        feature_type=args.feature_type),
+            batch_size=args.batch_size, shuffle=False
+        )
+        model.precompute_dataset_rho(full_loader)   # ← 必須呼び出し
+    # ほかの rank が来るのを待つ
+    if dist.is_initialized():
+        dist.barrier()
+    # ---------------------------------------------------------------------------
+
+    # その後で DDP ラップすれば OK
     model = DDP(model, device_ids=[rank], find_unused_parameters=False)
     opt   = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 

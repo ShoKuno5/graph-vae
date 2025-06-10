@@ -61,8 +61,7 @@ def deg_sim(d1, d2):
 # -----------------------------------------------------------------------------
 
 class GraphVAE(nn.Module):
-    def __init__(self, in_dim: int, hid_dim: int, z_dim: int, max_nodes: int,
-                    *, pool: str = "sum") -> None:
+    def __init__(self, in_dim: int, hid_dim: int, z_dim: int, max_nodes: int, *, pool: str = "sum") -> None:
         super().__init__()
         self.max_nodes = max_nodes
         self.pool = pool
@@ -85,46 +84,6 @@ class GraphVAE(nn.Module):
         )
 
         self._init_weights()
-        
-        # self.register_buffer("pos_weight_global", torch.tensor(1.0))  # ← NEW
-        self.register_buffer("pos_weight_global", torch.tensor(1.0))  # scalar buffer
-        self.rho_global: float | None = None                          #  (ℹ)
-        
-    # ---------------------------------------------------------------------
-    # 1) call this **once** after you have your DataLoader / graph list
-    # ---------------------------------------------------------------------
-    @torch.no_grad()
-    def precompute_dataset_rho(self, loader) -> None:
-        """
-        Pass any iterable of `data` batches (the *training* split is typical).
-        Computes a single ρ over all real-node upper-triangles and caches the
-        corresponding `pos_weight_global` buffer for later use in `forward`.
-        """
-        device = next(self.parameters()).device
-
-        pos_edges, total_pairs = 0.0, 0.0
-        for data in loader:                           # works with DataLoader,
-            data = data.to(device)                   # a single Batch, or list
-            graphs = (data.to_data_list()
-                      if isinstance(data, Batch) else [data])
-
-            for g in graphs:
-                R = int(getattr(g, "num_real_nodes", g.num_nodes))
-                A_gt = g.adj_dense.squeeze(0)        # (N, N)
-
-                idx = torch.triu_indices(R, R, offset=1, device=device)
-                pos_edges   += A_gt[idx[0], idx[1]].sum().item()
-                total_pairs += R * (R - 1) / 2
-
-        rho  = pos_edges / (total_pairs + 1e-8)
-        w    = (1 - rho) / (rho + 1e-8)
-        w_clamped = float(np.clip(w, 1.0, 20.0))
-
-        # keep both a Python float (for logging) and a tensor buffer (for autograd)
-        self.rho_global          = rho
-        # self.pos_weight_global[:] = w_clamped        # buffer → same device
-        self.pos_weight_global.fill_(w_clamped)      # works for 0-dim tensor
-        print(f"[GraphVAE] ρ(dataset) = {rho:.4f}  →  pos_weight = {w_clamped:.3f}")
 
     # ---------------- utils ----------------
     def _init_weights(self):
@@ -182,12 +141,8 @@ class GraphVAE(nn.Module):
     def _edge_sim_tensor(self, A, B):
         # --- “MPM 用” は自己ループを 1 に補正 --------------------------
         A = A.clone(); B = B.clone()
-        #torch.diagonal(A).fill_(1.0)
-        #torch.diagonal(B).fill_(1.0)
-        
-        R = (A.sum(1) > 0).sum()            # 0 行＝dummy とみなす
-        torch.diagonal(A)[:R].fill_(1.0)
-        torch.diagonal(B)[:R].fill_(1.0)        
+        torch.diagonal(A).fill_(1.0)
+        torch.diagonal(B).fill_(1.0)
         
         degA = A.sum(1)
         degB = B.sum(1)
@@ -299,7 +254,7 @@ class GraphVAE(nn.Module):
 
     # ---------- canonical forward (training) ----------
     
-    """    def _forward_individual_rho(self, data):
+    def forward_individual_rho(self, data):
         # ❶ Data / Batch をリスト化 -------------------------------------------------
         graphs = data.to_data_list() if isinstance(data, Batch) else [data]
 
@@ -405,109 +360,7 @@ class GraphVAE(nn.Module):
         max_logit   = torch.stack(max_logit_all).max()       # ★ 追加
         loss     = loss_rec + loss_kl
 
-        return {"rec": loss_rec, "kl": loss_kl, "max_logit": max_logit, "logvar_max": logvar.max()}"""
-        
-    # ---------------------------------------------------------------------
-    # 2) new forward  — identical to your per-graph version except for ρ/weight
-    # ---------------------------------------------------------------------
-    def forward(self, data):
-        """
-        Forward pass **using the dataset-level pos_weight** pre-computed by
-        `precompute_dataset_rho`.  Call that once *before* training!
-        """
-        if self.rho_global is None:
-            raise RuntimeError("Call `model.precompute_dataset_rho(...)` first!")
-
-        graphs = data.to_data_list() if isinstance(data, Batch) else [data]
-        loss_rec_all, loss_kl_all, max_logit_all = [], [], []
-
-        for g in graphs:
-            # ------------ boiler-plate: batch handling -------------------
-            if getattr(g, "batch", None) is None:
-                g.batch = torch.zeros(g.num_nodes, dtype=torch.long,
-                                       device=g.x.device)
-
-            x, edge_index, batch = g.x, g.edge_index, g.batch
-            A_gt = g.adj_dense.squeeze(0)                     # (N,N)
-
-            # ------------ encoder ---------------------------------------
-            h  = F.relu(self.bn1(self.conv1(x, edge_index)))
-            h  = F.relu(self.bn2(self.conv2(h, edge_index)))
-            g_ = self._pool(h, batch)
-
-            mu, logvar = self.mu(g_), self.logvar(g_)
-            logvar     = logvar.clamp(min=-4.0, max=4.0)
-            self._latest_stats = (mu.detach(), logvar.detach())
-
-            z            = self._reparam(mu, logvar)
-
-            # ------------ decoder ---------------------------------------
-            vec_logits    = self.dec(z)
-            max_logit_i   = vec_logits.detach().abs().max()
-            A_hat_logits  = vec_to_adj(vec_logits, self.max_nodes, diag=False)
-            A_hat_logits.fill_diagonal_(-10.0)
-
-            # ------------ MPM + Hungarian -------------------------------
-            # S     = self._edge_sim_tensor(A_gt, A_hat_logits.sigmoid())
-            S_all = self._edge_sim_tensor(A_gt, A_hat_logits.sigmoid())
-
-            # ---- 実ノード R×R×R×R だけ残し、それ以外は -∞ コストに ----
-            R   = int(g.num_real_nodes)
-            mask = torch.zeros_like(S_all, dtype=torch.bool)
-            mask[:R, :R, :R, :R] = True
-            S = S_all.masked_fill(~mask, -1e6)            
-            
-            init  = torch.full((self.max_nodes, self.max_nodes),
-                               1 / self.max_nodes, device=x.device)
-            X     = self._mpm(init, S)
-
-            with torch.no_grad():
-                cost_np = (-X.detach().cpu()).numpy()
-                cost_np = np.nan_to_num(cost_np, nan=1e6, posinf=1e6, neginf=-1e6)
-                row, col = scipy.optimize.linear_sum_assignment(cost_np)
-            row = torch.as_tensor(row, device=X.device)
-            col = torch.as_tensor(col, device=X.device)
-            perm = torch.empty_like(col); perm[col] = row
-
-            # A_gt_perm        = A_gt[perm][:, perm]
-            # A_hat_perm_logits = A_hat_logits  # already aligned
-            
-            A_gt_perm         = A_gt[perm][:, perm][:R, :R]
-            A_hat_perm_logits = A_hat_logits[:R, :R]            
-
-            R   = int(g.num_real_nodes)
-            
-            #idx = torch.triu_indices(self.max_nodes, self.max_nodes,
-            #                         offset=1, device=x.device)
-            #valid      = (idx[0] < R) & (idx[1] < R)
-            #tri_truth  = A_gt_perm[idx[0][valid], idx[1][valid]]
-            #tri_pred   = A_hat_perm_logits[idx[0][valid], idx[1][valid]]
-            
-            idx = torch.triu_indices(R, R, offset=1, device=x.device)
-            tri_truth = A_gt_perm[idx[0], idx[1]]          # 正例=1, dummy=0
-            tri_pred  = A_hat_perm_logits[idx[0], idx[1]]            
-
-            # ------------ losses ----------------------------------------
-            loss_rec_i = F.binary_cross_entropy_with_logits(
-                tri_pred, tri_truth, pos_weight=self.pos_weight_global
-            )
-            loss_kl_i  = -0.5 * torch.mean(
-                1 + logvar - mu.pow(2) - logvar.exp()
-            )
-
-            loss_rec_all.append(loss_rec_i)
-            loss_kl_all.append(loss_kl_i)
-            max_logit_all.append(max_logit_i)
-
-        loss_rec = torch.stack(loss_rec_all).mean()
-        loss_kl  = torch.stack(loss_kl_all).mean()
-        max_logit = torch.stack(max_logit_all).max()
-        loss      = loss_rec + loss_kl
-
-        return {"rec": loss_rec,
-                "kl":  loss_kl,
-                "max_logit": max_logit,
-                "logvar_max": logvar.max()}        
+        return {"rec": loss_rec, "kl": loss_kl, "max_logit": max_logit, "logvar_max": logvar.max()}
     
 
     # ---------------------------------------------------------------------
