@@ -339,8 +339,14 @@ class GraphVAE(nn.Module):
             # ---------------- decoder -----------------------
             vec_logits   = self.dec(z)
             max_logit_i  = vec_logits.detach().abs().max()  # ←★これで定義済み
+            # R_int は実ノード数 (Python int)
             A_hat_logits = vec_to_adj(vec_logits, self.max_nodes, diag=False)
             A_hat_logits.fill_diagonal_(-10.0)
+
+            if R_int < self.max_nodes:                       # ← 余りがあるときだけ
+                A_hat_logits[R_int:, :] = -10.0              # dummy 行
+                A_hat_logits[:, R_int:] = -10.0              # dummy 列
+
 
             # ---------------- MPM + Hungarian --------------
             S_all = self._edge_sim_tensor(A_gt, A_hat_logits.sigmoid())
