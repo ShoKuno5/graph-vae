@@ -406,8 +406,9 @@ class GraphVAE(nn.Module):
             #w_g    = float(min(max(w_g, 1.0), 20.0))              # 1〜20 にクリップ
             #pos_w  = torch.tensor(w_g, device=device)             # tensor 化
             #pos_w = pos_w.to(tri_pred.device) 
+            pos_w = None
 
-            # ------------ losses ----------------------------------------
+            # ------------ losses ----------------------------------------          
             
             loss_rec_i = F.binary_cross_entropy_with_logits(
                 tri_pred, tri_truth,
