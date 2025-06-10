@@ -371,7 +371,7 @@ def train(cfg):
 
     # -------- 2. defaults を穴埋め --------
     defaults = dict(
-        dataset="grid", feature_type="id",
+        dataset="grid", feature_type="deg",
         lr=1e-4, epochs=200, max_nodes=None,
         log_dir="runs", use_wandb=True, run_name=None,
         batch_size=64, weight_decay=1e-4,
@@ -424,8 +424,8 @@ def train(cfg):
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
     pa = argparse.ArgumentParser()
-    pa.add_argument("--dataset", choices=["grid", "enzymes"], default="grid")
-    pa.add_argument("--feature_type", choices=["id", "deg"], default="id")
+    pa.add_argument("--dataset", choices=["grid", "enzymes"], default=None)
+    pa.add_argument("--feature_type", choices=["id", "deg"], default=None)
     #pa.add_argument("--lr", type=float, default=1e-4)
     #pa.add_argument("--epochs", type=int, default=200)
     pa.add_argument("--max_nodes", type=int, default=None)

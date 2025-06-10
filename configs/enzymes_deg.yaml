@@ -9,10 +9,10 @@ trainer:
   z_dim: 64
   pool: sum               # クォート不要
   lr: 1e-4
-  weight_decay: 1e-4
+  weight_decay: 1e-6
   beta0: 0.0
   beta_final: 0.5
-  warm_epochs: 40
+  warm_epochs: 80
   clip_max: 5.0
   debug: true
   use_wandb: true         

@@ -179,60 +179,51 @@ class GraphVAE(nn.Module):
         return S
     
     def _edge_sim_tensor(self, A, B):
-        # --- “MPM 用” は自己ループを 1 に補正 --------------------------
-        A = A.clone(); B = B.clone()
-        #torch.diagonal(A).fill_(1.0)
-        #torch.diagonal(B).fill_(1.0)
-        
-        R = (A.sum(1) > 0).sum()            # 0 行＝dummy とみなす
-        torch.diagonal(A)[:R].fill_(1.0)
-        torch.diagonal(B)[:R].fill_(1.0)        
-        
+        """
+        Return (R, R, R, R) tensor where R = #real nodes.
+        """
+        A = A.clone()
+        B = B.clone()
+
+        # 実ノード数 (pad が後ろに詰められている前提)
+        R = int((A.sum(1) > 0).sum())      # ← ① int 化
+        A = A[:R, :R].clone()              # ← ② スライス
+        B = B[:R, :R].clone()
+
+        # 自己ループ補正（R 範囲だけで十分）
+        torch.diagonal(A).fill_(1.0)
+        torch.diagonal(B).fill_(1.0)
+
         degA = A.sum(1)
         degB = B.sum(1)
-        
-        # ---- 型を float に統一 ---------------------------------------------
+
         A = A.float()
         B = B.float()
-        N = self.max_nodes
+        N = R                              # ← ③
 
-        # ---- ノード類似度 ---------------------------------------------------
-        node_sim = deg_sim(degA.view(-1, 1), degB.view(1, -1))   # (N,N)
+        # ---- ノード類似度 -----------------------------
+        node_sim = deg_sim(degA.view(-1, 1), degB.view(1, -1))  # (R,R)
 
-        # ---- エッジ類似度（ブロードキャストで N⁴ 要素を一気に計算） ----------
-        #AA = A.unsqueeze(1).unsqueeze(3)     # (N,1,N,1)
-        #BB = B.unsqueeze(0).unsqueeze(2)     # (1,N,1,N)
-        #S  = (AA * BB)                       # (N,N,N,N)  float32
-        
-        # ---- エッジ類似度（正しい i-j, a-b 対応 & 対角係数込み） ---------------
-        A_pair = A.unsqueeze(2).unsqueeze(3)      # (N,N,1,1) → A[i,j]
-        B_pair = B.unsqueeze(0).unsqueeze(1)      # (1,1,N,N) → B[a,b]
+        # ---- エッジ類似度（broadcast 版） -------------
+        A_pair = A.unsqueeze(2).unsqueeze(3)  # (R,R,1,1)
+        B_pair = B.unsqueeze(0).unsqueeze(1)  # (1,1,R,R)
+        Ai = A.diag().view(N, 1, 1, 1)
+        Aj = A.diag().view(1, N, 1, 1)
+        Ba = B.diag().view(1, 1, N, 1)
+        Bb = B.diag().view(1, 1, 1, N)
 
-        Ai = A.diag().view(N, 1, 1, 1)            # A[i,i]
-        Aj = A.diag().view(1, N, 1, 1)            # A[j,j]
-        Ba = B.diag().view(1, 1, N, 1)            # B[a,a]
-        Bb = B.diag().view(1, 1, 1, N)            # B[b,b]
+        S = A_pair * Aj * Ai * B_pair * Ba * Bb  # (R,R,R,R)
 
-        S = A_pair * Aj * Ai * B_pair * Ba * Bb   # (N,N,N,N)        
-
-        # ---- “片側だけ対角” の項目を 0 にする (i==j XOR a==b) ---------------
+        # 片側だけ対角を 0
         eye = torch.eye(N, dtype=torch.bool, device=A.device)
-        i_eq_j = eye.unsqueeze(2).unsqueeze(3)   # (N,N,1,1)
-        a_eq_b = eye.unsqueeze(0).unsqueeze(1)   # (1,1,N,N)
-        S[i_eq_j ^ a_eq_b] = 0                  # xor マスクで一括 0 埋め
+        S[eye.unsqueeze(2).unsqueeze(3) ^ eye.unsqueeze(0).unsqueeze(1)] = 0
 
-        # ---- 対角ブロック S[i,i,a,a] ← A[i,i]·B[a,a]·deg_sim --------------
-        Ai_diag = A.diag().view(N, 1)          # (N,1)
-        Ba_diag = B.diag().view(1, N)          # (1,N)
-        node_block = Ai_diag * Ba_diag * node_sim   # (N,N)
-
+        # ノードブロック
         idx = torch.arange(N, device=A.device)
-        ii  = idx[:, None]                     # broadcast → dims (i,i)
-        aa  = idx[None, :]                     # broadcast → dims (a,a)
-        S[ii, ii, aa, aa] = node_block        # S[i,i,a,a] に一括代入
-     
-        return S
-
+        S[idx[:, None], idx[:, None], idx[None, :], idx[None, :]] = (
+            A.diag().view(N, 1) * B.diag().view(1, N) * node_sim
+        )
+        return S            # shape (R,R,R,R)
 
     def _mpm_loop(self, X0, S, iters: int = 50):
         """Max-pool-matching (MPM) producing an (N, N) assignment matrix."""
@@ -314,10 +305,10 @@ class GraphVAE(nn.Module):
 
         for g in graphs:
             # ---------------- batch & device ----------------
-            if getattr(g, "batch", None) is None:
-                g.batch = torch.zeros(g.num_nodes,
-                                    dtype=torch.long,
-                                    device=g.x.device)
+            #if getattr(g, "batch", None) is None:
+            g.batch = torch.zeros(g.x.size(0),
+                                dtype=torch.long,
+                                device=g.x.device)
 
             x, edge_index, batch = g.x, g.edge_index, g.batch
             device = x.device
@@ -327,8 +318,8 @@ class GraphVAE(nn.Module):
             h  = F.relu(self.bn1(self.conv1(x, edge_index)))
             h  = F.relu(self.bn2(self.conv2(h, edge_index)))
 
-            g_ = self._pool(h, batch,
-                            torch.tensor([R_int], device=device))
+            #g_ = self._pool(h, batch, torch.tensor([R_int], device=device))
+            g_ = self._pool(h, batch, torch.tensor(R_int, device=device))
 
             mu, logvar = self.mu(g_), self.logvar(g_)
             logvar = logvar.clamp(min=-4.0, max=4.0)
@@ -339,28 +330,31 @@ class GraphVAE(nn.Module):
             # ---------------- decoder -----------------------
             vec_logits   = self.dec(z)
             max_logit_i  = vec_logits.detach().abs().max()  # ←★これで定義済み
-            # R_int は実ノード数 (Python int)
             A_hat_logits = vec_to_adj(vec_logits, self.max_nodes, diag=False)
             A_hat_logits.fill_diagonal_(-10.0)
-
-            if R_int < self.max_nodes:                       # ← 余りがあるときだけ
-                A_hat_logits[R_int:, :] = -10.0              # dummy 行
-                A_hat_logits[:, R_int:] = -10.0              # dummy 列
-
-
+            if R_int < self.max_nodes:           # ★ 追加
+                A_hat_logits[R_int:, :] = -10.0  # dummy 行
+                A_hat_logits[:, R_int:] = -10.0  # dummy 列
+                
             # ---------------- MPM + Hungarian --------------
-            S_all = self._edge_sim_tensor(A_gt, A_hat_logits.sigmoid())
+            #S_all = self._edge_sim_tensor(A_gt, A_hat_logits.sigmoid())
 
-            mask = torch.zeros_like(S_all, dtype=torch.bool)
-            mask[:R_int, :R_int, :R_int, :R_int] = True
-            S = S_all.masked_fill(~mask, -1e6)
+            #mask = torch.zeros_like(S_all, dtype=torch.bool)
+            #mask[:R_int, :R_int, :R_int, :R_int] = True
+            #S = S_all.masked_fill(~mask, -1e6)
+            #S = self._edge_sim_tensor(
+            #    A_gt[:R_int, :R_int],
+            #    A_hat_logits.sigmoid()[:R_int, :R_int],
+            #    R_int
+            #)
+            
+            S = self._edge_sim_tensor(A_gt[:R_int, :R_int], A_hat_logits.sigmoid()[:R_int, :R_int])
 
-            init = torch.full((self.max_nodes, self.max_nodes),
-                            1 / self.max_nodes,
-                            device=device)
-            X = self._mpm(init, S)
+            #init = torch.full((self.max_nodes, self.max_nodes), 1 / self.max_nodes, device=device)
+            init = torch.full((R_int, R_int), 1 / R_int, device=device)
+            X = self._mpm(init, S)          # ← _mpm は自動で R を解釈
 
-            # ---- Hungarian -------------------------------
+            # ---------------- permutation ------------------
             cost_np = (-X.detach().cpu()).numpy()
             row, col = scipy.optimize.linear_sum_assignment(
                 np.nan_to_num(cost_np, nan=1e6, posinf=1e6, neginf=-1e6)
@@ -368,23 +362,63 @@ class GraphVAE(nn.Module):
             row = torch.as_tensor(row, device=device)
             col = torch.as_tensor(col, device=device)
             perm = torch.empty_like(col); perm[col] = row
+            
+            # ──────────────────────────────────────────────────────
+            # ここからが **変更点**: dummy 辺も全部 BCE に入れる
+            # ──────────────────────────────────────────────────────            
 
-            A_gt_perm         = A_gt[perm][:, perm][:R_int, :R_int]
-            A_hat_perm_logits = A_hat_logits[:R_int, :R_int]
+            #A_gt_perm         = A_gt[perm][:, perm][:R_int, :R_int]
+            #A_hat_perm_logits = A_hat_logits[:R_int, :R_int]
 
+            #idx = torch.triu_indices(R_int, R_int, offset=1, device=device)
+            #tri_truth = A_gt_perm[idx[0], idx[1]]
+            #tri_pred  = A_hat_perm_logits[idx[0], idx[1]]           
+            
+            #A_gt_perm   = A_gt[perm][:, perm]                     # (N,N)─0/1
+            #A_pred_perm = A_hat_logits[perm][:, perm]             # (N,N)─logits
+            
+            A_gt_perm   = A_gt[perm][:, perm][:R_int, :R_int]
+            A_pred_perm = A_hat_logits[perm][:, perm][:R_int, :R_int]
+                       
+
+            #idx_full    = torch.triu_indices(self.max_nodes,
+            #                                self.max_nodes,
+            #                                offset=1,
+            #                                device=device)
+            #tri_truth   = A_gt_perm[idx_full[0], idx_full[1]]     # 0/1, dummy=0
+            #tri_pred    = A_pred_perm[idx_full[0], idx_full[1]]   # logits
+            
+            #idi_tri = torch.triu_indices(R_int, R_int, offset=1, device=device)
+            
+            #idx = torch.triu_indices(self.max_nodes,
+            #                  self.max_nodes,
+            #                  offset=1,
+            #                  device=device)
+            
             idx = torch.triu_indices(R_int, R_int, offset=1, device=device)
+
             tri_truth = A_gt_perm[idx[0], idx[1]]
-            tri_pred  = A_hat_perm_logits[idx[0], idx[1]]           
+            tri_pred  = A_pred_perm[idx[0], idx[1]]
+
+            # ----------- pos_weight をグラフごとに再計算 -------------
+            #rho_g  = tri_truth.float().mean().item()              # 正例率
+            #w_g    = (1 - rho_g) / max(rho_g, 1e-8)
+            #w_g    = float(min(max(w_g, 1.0), 20.0))              # 1〜20 にクリップ
+            #pos_w  = torch.tensor(w_g, device=device)             # tensor 化
+            #pos_w = pos_w.to(tri_pred.device) 
 
             # ------------ losses ----------------------------------------
+            
             loss_rec_i = F.binary_cross_entropy_with_logits(
-                tri_pred, tri_truth, pos_weight=self.pos_weight_global
+                tri_pred, tri_truth,
+                pos_weight = pos_w if pos_w is not None else self.pos_weight_global
             )
+            loss_rec_all.append(loss_rec_i)
+            
             loss_kl_i  = -0.5 * torch.mean(
                 1 + logvar - mu.pow(2) - logvar.exp()
             )
 
-            loss_rec_all.append(loss_rec_i)
             loss_kl_all.append(loss_kl_i)
             max_logit_all.append(max_logit_i)
 
