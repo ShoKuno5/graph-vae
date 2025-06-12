@@ -74,13 +74,30 @@ def main(run_dir: Path, num: int, th: float, device: str, seed: int):
         #adj_logits = vec_to_adj(vec[i], model.max_nodes, diag=False)
         #adj_logits.fill_diagonal_(-10.0)
         
-        adj_logits = vec_to_adj(vec_edge[i], model.max_nodes, diag=False)
+        #adj_logits = vec_to_adj(vec_edge[i], model.max_nodes, diag=False)
         #adj_logits.fill_diagonal_(vec_node[i])   # ← ノード対角を注入
         
-        diag_idx = torch.arange(model.max_nodes, device=adj_logits.device)
-        adj_logits[diag_idx, diag_idx] = vec_node[i]          # ← ベクトルを書き込む
+        #diag_idx = torch.arange(model.max_nodes, device=adj_logits.device)
+        #adj_logits[diag_idx, diag_idx] = vec_node[i]          # ← ベクトルを書き込む
+        
+        adj_logits = vec_to_adj(vec_edge[i], model.max_nodes, diag=False)
+        diag_idx   = torch.arange(model.max_nodes, device=adj_logits.device)
+        adj_logits[diag_idx, diag_idx] = vec_node[i]
+
+        # ========= 学習時と同じマスク =========
+        # 推定 R_int (# real nodes)
+        deg      = adj_logits.sigmoid().sum(1)          # ざっくり次数で判定
+        R_int    = int((deg > 0.05).sum())              # ←閾値はお好みで
+        if R_int < model.max_nodes:
+            adj_logits[R_int:, :] = -10.0
+            adj_logits[:, R_int:] = -10.0
+            adj_logits.diagonal()[R_int:] = -10.0
+
+        # 生成グラフに自己ループは要らないなら対角ゼロ化
+        adj_logits.fill_diagonal_(-10.0)
         
         adj_prob = adj_logits.sigmoid()
+        
         # ---------- quick dummy diagnostic -----------------
         deg     = adj_prob.sum(1)                # 各ノードの総確率
         R_int   = int((deg > 0.05).sum())        # “実ノード” 推定 (閾値は適宜)

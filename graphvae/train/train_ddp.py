@@ -100,10 +100,11 @@ class GraphDataset(torch.utils.data.Dataset):
         adj[ei[0], ei[1]] = 1
         #adj = torch.maximum(adj, adj.T)  # undirected
         adj = torch.maximum(adj, adj.T)
-        # N = g.number_of_nodes()                 # 実ノードだけ自己ループ=1
-        # idx = torch.arange(N)
-        # adj[idx, idx] = 1.0                     # ★ ここを追加
-        
+        # ---- ここを追加: 実ノードに自己ループを入れる ----
+        N = g.number_of_nodes()
+        idx = torch.arange(N, device=adj.device)
+        adj[idx, idx] = 1.0
+        # --------------------------------------------
         data.adj_dense = adj
         
         # 追加 : 実ノード数を保存（損失マスク用）
