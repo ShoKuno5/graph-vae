@@ -52,5 +52,5 @@ singularity exec --nv \
     mkdir -p /workspace/runs/$EXP;
     
     # Run sampling (adjusted path from /workspace/graph-vae to /w)
-    python /w/experiments/sample.py /workspace/runs/20250610_172009 --num 8 --th 0.6
+    python /w/experiments/sample.py /workspace/runs/20250612_172731 --num 8 --th 0.45
   "
