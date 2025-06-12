@@ -104,10 +104,12 @@ class GraphVAE(nn.Module):
             data = data.to(device)
             graphs = (data.to_data_list() if isinstance(data, Batch) else [data])
             for g in graphs:
-                A_gt = g.adj_dense.squeeze(0)  # (max_nodes, max_nodes)
-                idx = torch.triu_indices(self.max_nodes, self.max_nodes, offset=1, device=device)
-                pos_edges += A_gt[idx[0], idx[1]].sum().item()
-                total_pairs += self.max_nodes * (self.max_nodes - 1) / 2
+                R_int = int(g.num_real_nodes)          # ← DataLoader でセット済み
+                A_gt  = g.adj_dense.squeeze(0)[:R_int, :R_int]  # 実ノード部分だけ
+
+                idx          = torch.triu_indices(R_int, R_int, offset=1, device=device)
+                pos_edges   += A_gt[idx[0], idx[1]].sum().item()
+                total_pairs += R_int * (R_int - 1) / 2         # ペア数も R_int 基準                
         rho = pos_edges / (total_pairs + 1e-8)
         w   = (1 - rho) / (rho + 1e-8)
         w_clamped = float(np.clip(w, 1.0, 20.0))
@@ -304,13 +306,6 @@ class GraphVAE(nn.Module):
             diag_idx = torch.arange(self.max_nodes, device=device)
             A_hat_logits[diag_idx, diag_idx] = node_logits  # inject node logits
 
-            # Suppress dummy rows/cols incl. their diagonal
-            if R_int < self.max_nodes:
-                A_hat_logits[R_int:, :] = -10.0
-                A_hat_logits[:, R_int:] = -10.0
-                A_hat_logits.diagonal()[R_int:] = -10.0
-                node_logits[R_int:] = -10.0
-
             max_logit_i = torch.abs(torch.cat([vec_logits, node_logits])).max().detach()
 
             # -- matching -------------------------------------------------
@@ -341,8 +336,24 @@ class GraphVAE(nn.Module):
             # -- node BCE -------------------------------------------------
             node_truth = torch.zeros(self.max_nodes, device=device)
             node_truth[:R_int] = 1.0
-            pos_w_node = torch.tensor(((self.max_nodes - R_int) / (R_int + 1e-8)), device=device).clamp(1.0, 5.0)
+            # 陽性（実ノード）が少なければ pos_weight > 1
+            neg, pos = self.max_nodes - R_int, R_int
+            pos_w_node = torch.tensor(neg / (pos + 1e-8), device=device).clamp(1.0, 5.0)
+
             loss_nodes = F.binary_cross_entropy_with_logits(node_logits, node_truth, pos_weight=pos_w_node)
+
+            # ---------- ここで初めて dummy を抑制 ----------
+            # *clone()* してから in-place すれば元の計算グラフは壊れない
+            A_hat_masked = A_hat_logits.clone()
+            node_masked  = node_logits.clone()
+            if R_int < self.max_nodes:
+                A_hat_masked[R_int:, :] = -10.0
+                A_hat_masked[:, R_int:] = -10.0
+                A_hat_masked.diagonal()[R_int:] = -10.0
+            node_masked[R_int:]     = -10.0
+
+            # ↓ 以降（logging やデバッグ用）では *masked* 版を使う
+            max_logit_i = torch.abs(torch.cat([vec_logits, node_masked])).max().detach()
 
             loss_rec_i = loss_edges + loss_nodes  # simple sum; tune if needed
 

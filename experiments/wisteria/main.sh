@@ -55,5 +55,5 @@ singularity exec --nv \
     CUDA_VISIBLE_DEVICES=0 python -u -m graphvae.train.train_ddp --dataset enzymes --config /w/configs/enzymes_deg.yaml --debug --log_dir /workspace/runs/$EXP;
     
     # Run sampling (adjusted path from /workspace/graph-vae to /w)
-    python /w/experiments/sample.py /workspace/runs/$EXP --num 8 --th 0.45
+    python /w/experiments/sample.py /workspace/runs/$EXP --num 8 
   "
